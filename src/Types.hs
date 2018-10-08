@@ -15,6 +15,12 @@ newtype CommitString = CommitString
 
 --------------------------------------------------------------------------------
 
+data Change
+  = Fix
+  | Feature
+  | Breaking
+  | NoChange
+
 data Commit = Commit
   { cTag     :: Maybe Tag
   , cSubject :: Subject
