@@ -5,6 +5,7 @@ module Main where
 import           Fetch
 import           Parse
 import           Process
+import           Version
 
 import           Data.Semigroup      ((<>))
 import           Options.Applicative
@@ -48,4 +49,6 @@ main = do
       putStrLn "processing..."
       let changesNewToOld = process raw ---TODO explicit types for order?
           changes         = reverse changesNewToOld
-      putStrLn . show $ changes
+      --putStrLn . show $ changes
+      let v = version changes
+      putStrLn . show $ v

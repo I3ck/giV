@@ -16,10 +16,10 @@ newtype CommitString = CommitString
 --------------------------------------------------------------------------------
 
 data Change
-  = Fix
+  = NoChange
+  | Fix
   | Feature
   | Breaking
-  | NoChange
   deriving (Show)
 
 data Commit = Commit
@@ -31,3 +31,9 @@ data Raw = Raw
   { rCommits :: [Commit]
   } deriving (Show)
 
+data Version = Version
+  { major :: Int
+  , minor :: Int
+  , patch :: Int
+  }
+  deriving (Show)

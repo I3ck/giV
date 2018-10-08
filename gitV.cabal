@@ -19,6 +19,7 @@ executable gitV
                      , Fetch
                      , Process
                      , Parse
+                     , Version
   -- other-extensions:
   build-depends:       base >=4.11 && <4.12
                      , process
