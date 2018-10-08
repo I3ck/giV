@@ -1,0 +1,34 @@
+name:                gitV
+version:             0.1.0.0
+-- synopsis:
+-- description:
+license:             AllRightsReserved
+--license-file:        LICENSE
+author:              Martin Buck
+maintainer:          buckmartin@buckmartin.de
+-- copyright:
+category:            Development
+build-type:          Simple
+extra-source-files:  ChangeLog.md
+cabal-version:       >=1.10
+
+executable gitHanalytics
+  main-is:             Main.hs
+  other-modules:       Types
+                     , Utils
+                     , Fetch
+                     , Process
+                     , Parse
+  -- other-extensions:
+  build-depends:       base >=4.11 && <4.12
+                     , process
+                     , directory
+                     , optparse-applicative
+                     , string-conversions
+                     , attoparsec
+                     , bytestring
+                     , containers
+  hs-source-dirs:      src
+  default-language:    Haskell2010
+  ghc-options:         -O2 -W -fwarn-incomplete-patterns
+  -- ghc-options:         -O2 -W -fwarn-incomplete-patterns -Werror

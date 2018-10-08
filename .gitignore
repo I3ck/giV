@@ -1,0 +1,6 @@
+.idea/
+.stack-work/
+cabal.config
+report/
+tmp/
+report.html
