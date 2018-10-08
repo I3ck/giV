@@ -7,8 +7,9 @@ module Parse
 import           Types
 
 import           Data.Attoparsec.ByteString.Char8
---import qualified Data.ByteString.Char8            as DText
+import qualified Data.ByteString.Char8            as DText
 import           Data.String.Conversions          (cs)
+import           Control.Applicative              (optional)
 
 --------------------------------------------------------------------------------
 
@@ -26,23 +27,29 @@ parseRaw = do
 
 parseCommit :: Parser Commit ---TODO currently incorrect
 parseCommit = do
-  tag      <- parseTag
+  mtag     <- optional parseTag
+  char '|'
   subject  <- parseSubject
   skipSpace
-  pure Commit {cTag = tag, cSubject = subject}
+  pure Commit {cTag = mtag, cSubject = subject}
 
 --------------------------------------------------------------------------------
 
-parseTag :: Parser (Maybe Tag)
-parseTag = undefined --TODO
+parseTag :: Parser Tag
+parseTag = do
+  string "(tag:"
+  skipSpace
+  tag <- takeWhile1 (/= ')')
+  char ')'
+  skipSpace
+  pure . cs $ tag
 
 --------------------------------------------------------------------------------
 
 parseSubject :: Parser Subject
-parseSubject = undefined --TODO
+parseSubject = cs <$> restOfLine 
 
 --------------------------------------------------------------------------------
-{- TODO remove if stays unused
+
 restOfLine :: Parser DText.ByteString
 restOfLine = option "" $ takeTill (== '\n')
--}
