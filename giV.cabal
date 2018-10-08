@@ -1,4 +1,4 @@
-name:                gitV
+name:                giV
 version:             0.1.0.0
 -- synopsis:
 -- description:
@@ -12,7 +12,7 @@ build-type:          Simple
 extra-source-files:  ChangeLog.md
 cabal-version:       >=1.10
 
-executable gitV
+executable giV
   main-is:             Main.hs
   other-modules:       Types
                      , Utils
