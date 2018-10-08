@@ -4,6 +4,7 @@ module Main where
 
 import           Fetch
 import           Parse
+import           Process
 
 import           Data.Semigroup      ((<>))
 import           Options.Applicative
@@ -43,7 +44,8 @@ main = do
   putStrLn "parsing commit data..."
   case parseCommitString cs of
     Left e    -> putStrLn $ "Error parsing commit data: " ++ e
-    Right _ -> do
-      putStrLn "analysing..."
-
-      --let processed = process now (aName args) raw
+    Right raw -> do
+      putStrLn "processing..."
+      let changesNewToOld = process raw ---TODO explicit types for order?
+          changes         = reverse changesNewToOld
+      putStrLn . show $ changes

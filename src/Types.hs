@@ -20,6 +20,7 @@ data Change
   | Feature
   | Breaking
   | NoChange
+  deriving (Show)
 
 data Commit = Commit
   { cTag     :: Maybe Tag
