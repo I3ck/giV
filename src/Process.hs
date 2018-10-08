@@ -4,13 +4,6 @@ module Process
   ( --process
   ) where
 
-import           Types
-import           Utils
-
-import           Data.List (filter, nub, sortBy)
-import qualified Data.Map  as Map
-import           Data.Ord  (comparing)
-
 --------------------------------------------------------------------------------
 
 {-

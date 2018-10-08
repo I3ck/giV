@@ -2,16 +2,12 @@
 
 module Main where
 
-import           Types
 import           Fetch
 import           Parse
-import           Process
-import           Utils
 
 import           Data.Semigroup      ((<>))
 import           Options.Applicative
-import           System.Directory    (createDirectoryIfMissing,
-                                      withCurrentDirectory)
+import           System.Directory    (withCurrentDirectory)
 
 --------------------------------------------------------------------------------
 
@@ -47,7 +43,7 @@ main = do
   putStrLn "parsing commit data..."
   case parseCommitString cs of
     Left e    -> putStrLn $ "Error parsing commit data: " ++ e
-    Right raw -> do
+    Right _ -> do
       putStrLn "analysing..."
 
       --let processed = process now (aName args) raw

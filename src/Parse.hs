@@ -7,7 +7,7 @@ module Parse
 import           Types
 
 import           Data.Attoparsec.ByteString.Char8
-import qualified Data.ByteString.Char8            as DText
+--import qualified Data.ByteString.Char8            as DText
 import           Data.String.Conversions          (cs)
 
 --------------------------------------------------------------------------------
