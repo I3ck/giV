@@ -23,8 +23,7 @@ main = do
     Left e    -> putStrLn $ "Error parsing commit data: " ++ e
     Right raw -> do
       putStrLn "processing..."
-      let changesNewToOld = process raw ---TODO explicit types for order?
-          changes         = reverse changesNewToOld
+      let changes = process raw
       --putStrLn . show $ changes
       let v = version changes
       putStrLn . show $ v
