@@ -24,9 +24,8 @@ main = do
     Right raw -> do
       putStrLn "processing..."
       let changes = process raw
-      --putStrLn . show $ changes
       let v = version changes
-      putStrLn . show $ v
+      print v
 
 --------------------------------------------------------------------------------
 

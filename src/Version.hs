@@ -12,7 +12,7 @@ startVersion = Version { major = 0, minor = 0, patch = 1}
 --------------------------------------------------------------------------------
 
 version :: [Change] -> Version
-version = foldl (\version change -> applyChange change version) startVersion
+version = foldl (flip applyChange) startVersion
 
 --------------------------------------------------------------------------------
 

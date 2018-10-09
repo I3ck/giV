@@ -63,10 +63,10 @@ isBreaking Commit{..} = isBreakingSubject cSubject || tagBreaking
     tagBreaking = maybe False isBreakingTag cTag
 
 isBreakingTag :: Tag -> Bool
-isBreakingTag s = any (\x -> x `isInfixOf` s) breakingTags
+isBreakingTag s = any (`isInfixOf` s) breakingTags
 
 isBreakingSubject :: Subject -> Bool
-isBreakingSubject s = any (\x -> x `isInfixOf` s) breakingSubjects
+isBreakingSubject s = any (`isInfixOf` s) breakingSubjects
 
 --------------------------------------------------------------------------------
 
@@ -76,10 +76,10 @@ isFeature Commit{..} = isFeatureSubject cSubject || tagFeature
     tagFeature = maybe False isFeatureTag cTag
 
 isFeatureTag :: Tag -> Bool
-isFeatureTag s = any (\x -> x `isInfixOf` s) featureTags
+isFeatureTag s = any (`isInfixOf` s) featureTags
 
 isFeatureSubject :: Subject -> Bool
-isFeatureSubject s = any (\x -> x `isInfixOf` s) featureSubjects
+isFeatureSubject s = any (`isInfixOf` s) featureSubjects
 
 --------------------------------------------------------------------------------
 
@@ -89,9 +89,9 @@ isNoChange Commit{..} = isNoChangeSubject cSubject || tagNoChange
     tagNoChange = maybe False isNoChangeTag cTag
 
 isNoChangeTag :: Tag -> Bool
-isNoChangeTag s = any (\x -> x `isInfixOf` s) noChangeTags
+isNoChangeTag s = any (`isInfixOf` s) noChangeTags
 
 isNoChangeSubject :: Subject -> Bool
-isNoChangeSubject s = any (\x -> x `isInfixOf` s) noChangeSubjects
+isNoChangeSubject s = any (`isInfixOf` s) noChangeSubjects
 
 

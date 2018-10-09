@@ -6,4 +6,6 @@ individual tracking / rules of branches (via patterns?)
 
 configuration file / args to control behaviour  
 
+debugging mode that shows every commit and its effect on the version  
+
 
