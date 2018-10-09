@@ -1,15 +1,10 @@
 name:                giV
 version:             0.1.0.0
--- synopsis:
--- description:
-license:             AllRightsReserved
---license-file:        LICENSE
+license-file:        LICENSE
 author:              Martin Buck
 maintainer:          buckmartin@buckmartin.de
--- copyright:
 category:            Development
 build-type:          Simple
-extra-source-files:  ChangeLog.md
 cabal-version:       >=1.10
 
 executable giV
@@ -20,7 +15,7 @@ executable giV
                      , Process
                      , Parse
                      , Version
-  -- other-extensions:
+
   build-depends:       base >=4.11 && <4.12
                      , process
                      , directory
