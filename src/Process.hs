@@ -1,5 +1,3 @@
-{-# LANGUAGE RecordWildCards #-}
-
 module Process
   ( process
   ) where
