@@ -1,9 +1,9 @@
 module Main where
 
-import           Types
 import           Fetch
 import           Parse
 import           Process
+import           Types
 import           Version
 
 import           Data.Semigroup      ((<>))

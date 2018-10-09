@@ -1,6 +1,6 @@
 module Utils where
 
-import           Data.List    (group, sort)
+import           Data.List (group, sort)
 
 --------------------------------------------------------------------------------
 

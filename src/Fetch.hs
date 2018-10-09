@@ -2,8 +2,8 @@ module Fetch
   ( fetchCommitString
   ) where
 
-import           Types
 import           System.Process
+import           Types
 
 --------------------------------------------------------------------------------
 

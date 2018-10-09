@@ -4,10 +4,10 @@ module Parse
 
 import           Types
 
+import           Control.Applicative              (optional)
 import           Data.Attoparsec.ByteString.Char8
 import qualified Data.ByteString.Char8            as DText
 import           Data.String.Conversions          (cs)
-import           Control.Applicative              (optional)
 
 --------------------------------------------------------------------------------
 
@@ -49,7 +49,7 @@ parseTag = do
 --------------------------------------------------------------------------------
 
 parseSubject :: Parser Subject
-parseSubject = cs <$> restOfLine 
+parseSubject = cs <$> restOfLine
 
 --------------------------------------------------------------------------------
 

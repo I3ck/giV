@@ -2,9 +2,10 @@ module Process
   ( process
   ) where
 
-import Types
+import           Types
+import           Data.List                        (isInfixOf)
 
-import Data.List (isInfixOf)
+--------------------------------------------------------------------------------
 
 breakingTags :: [String] --TODO cfg or cmdlinearg
 breakingTags =

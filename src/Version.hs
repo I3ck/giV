@@ -2,7 +2,7 @@ module Version
   ( version
   ) where
 
-import Types
+import           Types
 
 --------------------------------------------------------------------------------
 
