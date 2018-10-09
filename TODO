@@ -1,1 +1,9 @@
-reading subject via %s might return newlines, resolve this issue
+reading subject via %s might return newlines, resolve this issue  
+
+default mode for commits (increment major/minor/patch)  
+
+individual tracking / rules of branches (via patterns?)  
+
+configuration file / args to control behaviour  
+
+
