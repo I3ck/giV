@@ -33,6 +33,7 @@ $ stack install
 
 Run
 ---
+`giV` expects `git` in your path.  
 If you built `giV` via `stack build`, you can run it via  
 ```
 $ stack exec -- giV
