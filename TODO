@@ -8,4 +8,6 @@ configuration file / args to control behaviour
 
 debugging mode that shows every commit and its effect on the version  
 
+most/all types should be defined via newtype
+
 

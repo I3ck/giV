@@ -16,8 +16,10 @@ newtype CommitString = CommitString
 --------------------------------------------------------------------------------
 
 data CliArgs = CliArgs
-    { aGitDir    :: String
-    }
+  { repo :: String
+  }
+
+--------------------------------------------------------------------------------
 
 data Change
   = NoChange
@@ -26,14 +28,20 @@ data Change
   | Breaking
   deriving (Show)
 
+--------------------------------------------------------------------------------
+
 data Commit = Commit
-  { cTag     :: Maybe Tag
-  , cSubject :: Subject
+  { tag     :: Maybe Tag
+  , subject :: Subject
   } deriving (Show)
 
+--------------------------------------------------------------------------------
+
 data Raw = Raw
-  { rCommits :: [Commit]
+  { commits :: [Commit]
   } deriving (Show)
+
+--------------------------------------------------------------------------------
 
 data Version = Version
   { major :: Int

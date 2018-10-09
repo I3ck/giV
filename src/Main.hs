@@ -15,7 +15,7 @@ import           System.Directory    (withCurrentDirectory)
 main :: IO ()
 main = do
   args <- execParser opts
-  let gitdir = aGitDir args
+  let gitdir = repo args
   putStrLn "Fetching..."
   cs <- withCurrentDirectory gitdir fetchCommitString
   putStrLn "Parsing..."

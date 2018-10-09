@@ -46,7 +46,7 @@ noChangeSubjects =
 --------------------------------------------------------------------------------
 
 process :: Raw -> [Change]
-process raw = processCommit <$> rCommits raw
+process raw = processCommit <$> commits raw
 
 --------------------------------------------------------------------------------
 
@@ -59,9 +59,9 @@ processCommit c | isBreaking c = Breaking
 --------------------------------------------------------------------------------
 
 isBreaking :: Commit -> Bool
-isBreaking Commit{..} = isBreakingSubject cSubject || tagBreaking
+isBreaking Commit{..} = isBreakingSubject subject || tagBreaking
   where
-    tagBreaking = maybe False isBreakingTag cTag
+    tagBreaking = maybe False isBreakingTag tag
 
 isBreakingTag :: Tag -> Bool
 isBreakingTag s = any (`isInfixOf` s) breakingTags
@@ -72,9 +72,9 @@ isBreakingSubject s = any (`isInfixOf` s) breakingSubjects
 --------------------------------------------------------------------------------
 
 isFeature :: Commit -> Bool
-isFeature Commit{..} = isFeatureSubject cSubject || tagFeature
+isFeature Commit{..} = isFeatureSubject subject || tagFeature
   where
-    tagFeature = maybe False isFeatureTag cTag
+    tagFeature = maybe False isFeatureTag tag
 
 isFeatureTag :: Tag -> Bool
 isFeatureTag s = any (`isInfixOf` s) featureTags
@@ -85,14 +85,12 @@ isFeatureSubject s = any (`isInfixOf` s) featureSubjects
 --------------------------------------------------------------------------------
 
 isNoChange :: Commit -> Bool
-isNoChange Commit{..} = isNoChangeSubject cSubject || tagNoChange
+isNoChange Commit{..} = isNoChangeSubject subject || tagNoChange
   where
-    tagNoChange = maybe False isNoChangeTag cTag
+    tagNoChange = maybe False isNoChangeTag tag
 
 isNoChangeTag :: Tag -> Bool
 isNoChangeTag s = any (`isInfixOf` s) noChangeTags
 
 isNoChangeSubject :: Subject -> Bool
 isNoChangeSubject s = any (`isInfixOf` s) noChangeSubjects
-
-

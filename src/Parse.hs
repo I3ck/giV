@@ -19,18 +19,18 @@ parseCommitString = parseOnly (parseRaw <* endOfInput) . cs . unCommitString
 parseRaw :: Parser Raw
 parseRaw = do
   commits <- many1 parseCommit
-  pure Raw {rCommits = commits}
+  pure Raw{commits = commits}
 
 --------------------------------------------------------------------------------
 
 parseCommit :: Parser Commit ---TODO currently incorrect
 parseCommit = do
   skipSpace
-  mtag     <- optional parseTag
+  tag     <- optional parseTag
   char '|'
   subject  <- parseSubject
   skipSpace
-  pure Commit {cTag = mtag, cSubject = subject}
+  pure Commit{tag = tag, subject = subject}
 
 --------------------------------------------------------------------------------
 
