@@ -30,8 +30,8 @@ args = CliArgs
 opts :: ParserInfo CliArgs
 opts = info (helper <*> args)
     (  fullDesc
-    <> progDesc "gitV" --TODO more info
-    <> header "gitV" --TODO more info
+    <> progDesc "giV" --TODO more info
+    <> header "giV" --TODO more info
     )
 
 --------------------------------------------------------------------------------
