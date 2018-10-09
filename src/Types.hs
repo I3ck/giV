@@ -15,6 +15,10 @@ newtype CommitString = CommitString
 
 --------------------------------------------------------------------------------
 
+data CliArgs = CliArgs
+    { aGitDir    :: String
+    }
+
 data Change
   = NoChange
   | Fix
