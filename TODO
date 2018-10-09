@@ -8,6 +8,12 @@ configuration file / args to control behaviour
 
 debugging mode that shows every commit and its effect on the version  
 
-most/all types should be defined via newtype
+most/all types should be defined via newtype  
+
+parseTag currently allows all sorts of non-user tags  
+
+methods in Process can be generalized (pass ruleset)  
+
+startVersion must be set via args / cfg  
 
 

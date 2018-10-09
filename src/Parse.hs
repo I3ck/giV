@@ -23,24 +23,20 @@ parseRaw = do
 
 --------------------------------------------------------------------------------
 
-parseCommit :: Parser Commit ---TODO currently incorrect
+parseCommit :: Parser Commit
 parseCommit = do
   skipSpace
-  tag     <- optional parseTag
+  tag <- optional parseTag
   char '|'
-  subject  <- parseSubject
+  subject <- parseSubject
   skipSpace
   pure Commit{tag = tag, subject = subject}
 
 --------------------------------------------------------------------------------
 
---TODO this version currently reads all tags and not just (tag: foo)
---TODO consider changing Parser or filtering afterwards
 parseTag :: Parser Tag
 parseTag = do
-  --string "(tag:"
   char '('
-  --skipSpace
   tag <- takeWhile1 (/= ')')
   char ')'
   skipSpace

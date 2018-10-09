@@ -6,7 +6,7 @@ import           Types
 
 --------------------------------------------------------------------------------
 
-startVersion :: Version --TODO pass via args?
+startVersion :: Version
 startVersion = Version { major = 0, minor = 0, patch = 1}
 
 --------------------------------------------------------------------------------
