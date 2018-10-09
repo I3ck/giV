@@ -16,13 +16,13 @@ main :: IO ()
 main = do
   args <- execParser opts
   let gitdir = aGitDir args
-  putStrLn "fetching commit data..."
+  putStrLn "Fetching..."
   cs <- withCurrentDirectory gitdir fetchCommitString
-  putStrLn "parsing commit data..."
+  putStrLn "Parsing..."
   case parseCommitString cs of
     Left e    -> putStrLn $ "Error parsing commit data: " ++ e
     Right raw -> do
-      putStrLn "processing..."
+      putStrLn "Processing..."
       let changes = process raw
       let v = version changes
       print v
@@ -32,15 +32,15 @@ main = do
 args :: Parser CliArgs
 args = CliArgs
   <$> strOption
-      (  long "gitdir"
-      <> short 'g'
-      <> help "Path to the git directory that shall be used"
+      (  long "repo"
+      <> short 'r'
+      <> help "Path to the git repository that should be analyzed"
       <> metavar "STRING"
       )
 
 opts :: ParserInfo CliArgs
 opts = info (helper <*> args)
     (  fullDesc
-    <> progDesc "giV" --TODO more info
-    <> header "giV" --TODO more info
+    <> progDesc "giV - Semantic versioning for Git repositories"
+    <> header "giV"
     )

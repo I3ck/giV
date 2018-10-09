@@ -1,7 +1,7 @@
 giV
 ===
 
-Git repo SemVer versioning tool
+giV - Semantic versioning for Git repositories
 
 
 State
