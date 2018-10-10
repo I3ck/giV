@@ -16,4 +16,6 @@ methods in Process can be generalized (pass ruleset)
 
 startVersion must be set via args / cfg  
 
+print version of program in cli help / desc text  
+
 
