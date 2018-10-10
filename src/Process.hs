@@ -3,7 +3,9 @@ module Process
   ) where
 
 import           Types
+import           Utils
 import           Data.List                        (isInfixOf)
+import           Data.List.Split                  (splitOn)
 
 --------------------------------------------------------------------------------
 
@@ -36,14 +38,21 @@ processCommit :: Commit -> Change
 processCommit c | isBreaking c = Breaking
                 | isFeature c  = Feature
                 | isNoChange c = NoChange
-                | otherwise    = case setToOf c of
+                | otherwise    = case tryReadVersion =<< tag c of
                                    Nothing -> Fix
                                    Just to -> SetTo to
 
 --------------------------------------------------------------------------------
 
-setToOf :: Commit -> Maybe Version
-setToOf _ = undefined ---TODO
+tryReadVersion :: Tag -> Maybe Version
+tryReadVersion t = do
+  let splits = splitOn "v" t --TODO pass "v" via cfg / cmdline 
+  vSplits <- if length splits == 2
+             then pure $ splitOn "." $ splits !! 1
+             else Nothing
+  if length vSplits == 3
+  then Version <$> (maybeRead $ vSplits !! 0) <*> (maybeRead $ vSplits !! 1) <*> (maybeRead $ vSplits !! 2)
+  else Nothing
 
 --------------------------------------------------------------------------------
 

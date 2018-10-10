@@ -25,10 +25,14 @@ executable giV
                      , attoparsec
                      , bytestring
                      , containers
+                     , split
   hs-source-dirs:      src
   default-language:    Haskell2010
   ghc-options:         -O2 -W -fwarn-incomplete-patterns -Werror
   extensions:          DuplicateRecordFields
                      , RecordWildCards
                      , OverloadedStrings
+                     , StandaloneDeriving
+                     , FlexibleContexts
+                     , UndecidableInstances
 

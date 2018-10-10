@@ -4,6 +4,9 @@ import           Types
 
 --------------------------------------------------------------------------------
 
+instance Show Version where
+  show Version{..} = show major ++ "." ++ show minor ++ "." ++ show patch
+
 instance Semigroup Version where
   v1 <> v2 = if v1 > v2 
              then v1

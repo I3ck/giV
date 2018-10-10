@@ -5,6 +5,7 @@ import           Parse
 import           Process
 import           Types
 import           Version
+import           Instances ()
 
 import           Data.Semigroup      ((<>))
 import           Options.Applicative

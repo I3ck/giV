@@ -27,7 +27,8 @@ data Change
   | Feature
   | Breaking
   | SetTo Version
-  deriving (Show)
+
+deriving instance Show Version => Show Change
 
 --------------------------------------------------------------------------------
 
@@ -49,4 +50,4 @@ data Version = Version
   , minor :: Int
   , patch :: Int
   }
-  deriving (Show, Eq, Ord)
+  deriving (Eq, Ord)
