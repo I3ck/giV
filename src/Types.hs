@@ -2,8 +2,6 @@ module Types where
 
 --------------------------------------------------------------------------------
 
-type Params   = [String]
-type UnixTime = Int
 type Subject  = String
 type Tag      = String
 
