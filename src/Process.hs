@@ -34,13 +34,13 @@ process raw = processCommit <$> commits raw
 
 --------------------------------------------------------------------------------
 
-processCommit :: Commit -> Change
-processCommit c | isBreaking c = Breaking
-                | isFeature c  = Feature
-                | isNoChange c = NoChange
-                | otherwise    = case tryReadVersion =<< tag c of
-                                   Nothing -> Fix
-                                   Just to -> SetTo to
+processCommit :: Commit -> Change --TODO otherwise must return the user defined default
+processCommit c = case tryReadVersion =<< tag c of
+                    Just to -> SetTo to
+                    Nothing | isBreaking c -> Breaking
+                            | isFeature c  -> Feature
+                            | isNoChange c -> NoChange
+                            | otherwise    -> Fix
 
 --------------------------------------------------------------------------------
 
