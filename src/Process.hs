@@ -21,6 +21,12 @@ featureSubjects =
   , "minor"
   ]
 
+fixSubjects :: [String] --TODO cfg or cmdlinearg
+fixSubjects =
+  [ "patch"
+  , "fix"
+  ]
+
 noChangeSubjects :: [String] --TODO cfg or cmdlinearg
 noChangeSubjects =
   [ "nochange"
@@ -29,18 +35,20 @@ noChangeSubjects =
 
 --------------------------------------------------------------------------------
 
-process :: Raw -> [Change]
-process raw = processCommit <$> commits raw
+process :: Change -> Raw -> [Change]
+process fallback raw = processCommit fallback <$> commits raw
 
 --------------------------------------------------------------------------------
 
-processCommit :: Commit -> Change --TODO otherwise must return the user defined default
-processCommit c = case tryReadVersion =<< tag c of
-                    Just to -> SetTo to
-                    Nothing | isBreaking c -> Breaking
-                            | isFeature c  -> Feature
-                            | isNoChange c -> NoChange
-                            | otherwise    -> Fix
+processCommit :: Change -> Commit -> Change --TODO otherwise must return the user defined default
+processCommit fallback c = case tryReadVersion =<< tag c of
+  Just to -> SetTo to
+  Nothing 
+    | isBreaking c -> Breaking
+    | isFeature c  -> Feature
+    | isFix c      -> Fix
+    | isNoChange c -> NoChange
+    | otherwise    -> fallback
 
 --------------------------------------------------------------------------------
 
@@ -69,6 +77,14 @@ isFeature Commit{..} = isFeatureSubject subject
 
 isFeatureSubject :: Subject -> Bool
 isFeatureSubject s = any (`isInfixOf` s) featureSubjects
+
+--------------------------------------------------------------------------------
+
+isFix :: Commit -> Bool
+isFix Commit{..} = isFixSubject subject
+
+isFixSubject :: Subject -> Bool
+isFixSubject s = any (`isInfixOf` s) fixSubjects
 
 --------------------------------------------------------------------------------
 

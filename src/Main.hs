@@ -16,7 +16,8 @@ import           System.Directory    (withCurrentDirectory)
 main :: IO ()
 main = do
   args <- execParser opts
-  let gitdir = repo args
+  let gitdir   = repo args
+      fallback = read $ defaultchange args
   putStrLn "Fetching..."
   cs <- withCurrentDirectory gitdir fetchCommitString
   putStrLn "Parsing..."
@@ -24,7 +25,7 @@ main = do
     Left e    -> putStrLn $ "Error parsing commit data: " ++ e
     Right raw -> do
       putStrLn "Processing..."
-      let changes = process raw
+      let changes = process fallback raw
       let v = version changes
       print v
 
@@ -33,11 +34,17 @@ main = do
 args :: Parser CliArgs
 args = CliArgs
   <$> strOption
-      (  long "repo"
-      <> short 'r'
-      <> help "Path to the git repository that should be analyzed"
-      <> metavar "STRING"
-      )
+    (  long "repo"
+    <> short 'r'
+    <> help "Path to the git repository that should be analyzed"
+    <> metavar "STRING"
+    )
+  <*> strOption
+    ( long "defaultchange"
+    <> short 'd'
+    <> help "As what type of change a default commit shall be considered [NoChange, Fix, Feature, Breaking]"
+    <> metavar "STRING"
+    )
 
 opts :: ParserInfo CliArgs
 opts = info (helper <*> args)

@@ -16,7 +16,8 @@ newtype CommitString = CommitString
 --------------------------------------------------------------------------------
 
 data CliArgs = CliArgs
-  { repo :: String
+  { repo          :: String
+  , defaultchange :: String
   }
 
 --------------------------------------------------------------------------------
@@ -27,6 +28,7 @@ data Change
   | Feature
   | Breaking
   | SetTo Version
+  deriving (Read)
 
 deriving instance Show Version => Show Change
 
@@ -50,4 +52,4 @@ data Version = Version
   , minor :: Int
   , patch :: Int
   }
-  deriving (Eq, Ord)
+  deriving (Read, Eq, Ord)
