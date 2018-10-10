@@ -44,7 +44,7 @@ If you installed it via `stack install`, just type
 $ giV
 ```
   
-`giV` will notify you about necessary parameters
+`giV --help` will notify you about the usage
 
 
 Contribute

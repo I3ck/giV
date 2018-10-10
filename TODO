@@ -1,7 +1,5 @@
 reading subject via %s might return newlines, resolve this issue  
 
-default mode for commits (increment major/minor/patch)  
-
 individual tracking / rules of branches (via patterns?)  
 
 configuration file / args to control behaviour  
@@ -18,6 +16,6 @@ startVersion must be set via args / cfg
 
 print version of program in cli help / desc text  
 
-possibility to change default version bump  
+current parsing of version might result in false positives (some long tag text and thenv1.3.2this)  
 
 
