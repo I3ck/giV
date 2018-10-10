@@ -49,12 +49,3 @@ data Version = Version
   , patch :: Int
   }
   deriving (Show, Eq, Ord)
-
---------------------------------------------------------------------------------
-
-data VersionBump
-  = NoBump
-  | BumpPatch Int
-  | BumpMinor Int
-  | BumpMajor Int
-  | BumpTo Version
