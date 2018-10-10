@@ -16,8 +16,9 @@ import           System.Directory    (withCurrentDirectory)
 main :: IO ()
 main = do
   args <- execParser opts
-  let gitdir   = repo args
-      fallback = read $ defaultchange args
+  let gitdir      = repo args
+      fallback    = read $ defaultchange args
+      changewords = ChangeWords (majorword args) (minorword args) (patchword args) (nochangeword args)
   putStrLn "Fetching..."
   cs <- withCurrentDirectory gitdir fetchCommitString
   putStrLn "Parsing..."
@@ -25,7 +26,7 @@ main = do
     Left e    -> putStrLn $ "Error parsing commit data: " ++ e
     Right raw -> do
       putStrLn "Processing..."
-      let changes = process fallback raw
+      let changes = process changewords fallback raw
       let v = version changes
       print v
 
@@ -44,6 +45,30 @@ args = CliArgs
     <> short 'd'
     <> help "As what type of change a default commit shall be considered [NoChange, Fix, Feature, Breaking]"
     <> metavar "STRING"
+    )
+  <*> strOption
+    ( long "majorword"
+    <> help "Identifier that should be used for considering commits as breaking/changing major version"
+    <> metavar "STRING"
+    <> value "major"
+    )
+  <*> strOption
+    ( long "minorword"
+    <> help "Identifier that should be used for considering commits as feature/changing minor version"
+    <> metavar "STRING"
+    <> value "minor"
+    )
+  <*> strOption
+    ( long "patchword"
+    <> help "Identifier that should be used for considering commits as bug/changing patch version"
+    <> metavar "STRING"
+    <> value "patch"
+    )
+  <*> strOption
+    ( long "nochangeword"
+    <> help "Identifier that should be used for considering commits as no changes to version"
+    <> metavar "STRING"
+    <> value "nochange"
     )
 
 opts :: ParserInfo CliArgs

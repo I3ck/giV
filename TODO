@@ -10,12 +10,10 @@ most/all types should be defined via newtype
 
 parseTag currently allows all sorts of non-user tags  
 
-methods in Process can be generalized (pass ruleset)  
-
 startVersion must be set via args / cfg  
 
 print version of program in cli help / desc text  
 
 current parsing of version might result in false positives (some long tag text and thenv1.3.2this)  
 
-
+currently code base and args? mix e.g. Major and Breaking, avoid this  

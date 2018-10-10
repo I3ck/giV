@@ -16,6 +16,19 @@ newtype CommitString = CommitString
 data CliArgs = CliArgs
   { repo          :: String
   , defaultchange :: String
+  , majorword     :: String
+  , minorword     :: String
+  , patchword     :: String
+  , nochangeword  :: String
+  }
+
+--------------------------------------------------------------------------------
+
+data ChangeWords = ChangeWords
+  { majorw    :: String
+  , minorw    :: String
+  , patchw    :: String
+  , nochangew :: String
   }
 
 --------------------------------------------------------------------------------
