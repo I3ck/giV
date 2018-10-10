@@ -54,7 +54,14 @@ processCommit :: Commit -> Change
 processCommit c | isBreaking c = Breaking
                 | isFeature c  = Feature
                 | isNoChange c = NoChange
-                | otherwise    = Fix
+                | otherwise    = case setToOf c of
+                                   Nothing -> Fix
+                                   Just to -> SetTo to
+
+--------------------------------------------------------------------------------
+
+setToOf :: Commit -> Maybe Version
+setToOf _ = undefined ---TODO
 
 --------------------------------------------------------------------------------
 

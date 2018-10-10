@@ -26,6 +26,7 @@ data Change
   | Fix
   | Feature
   | Breaking
+  | SetTo Version
   deriving (Show)
 
 --------------------------------------------------------------------------------
