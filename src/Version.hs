@@ -7,7 +7,7 @@ import           Types
 --------------------------------------------------------------------------------
 
 startVersion :: Version
-startVersion = Version { major = 0, minor = 0, patch = 1}
+startVersion = Version { major = 0, minor = 0, patch = 0}
 
 --------------------------------------------------------------------------------
 
