@@ -44,7 +44,91 @@ If you installed it via `stack install`, just type
 $ giV
 ```
   
-`giV --help` will notify you about the usage
+`giV --help` will notify you about the usage  
+
+
+Example
+-------
+
+Calculating the version of `master` with `BREAKING` defined as keyword for major increments, `FIX` as keyword for patch increments
+
+```
+*Commit / Merge
+
+<Tag]
+
+"Commit Subject"
+
+&calculated version
+
+
+
+
+State of Branch
+---------------
+
+
+        feature/A  --- * ---  ---
+                  /               \
+                 /                 \
+master --- * --- * --- * --- * --- * --- * --- HEAD
+           ^                             ^
+           |                             +-- "all changed BREAKING"
+           |
+           |
+           +-- <v1.4.0]
+
+
+
+
+Default: Minor
+----------------
+
+        feature/A  --- * ---  ---
+                  /               \
+                 /                 \
+master --- * --- * --- * --- * --- * --- * --- HEAD calculated version 2.0.0
+           ^     &1.5.0                  ^
+           |           &1.6.0            +-- "all changed BREAKING"
+           |                 &1.7.0
+           |                       &1.8.0
+           |                             &2.0.0
+           +-- <v1.4.0]
+
+
+
+
+Default: Patch
+----------------
+
+        feature/A  --- * ---  ---
+                  /               \
+                 /                 \
+master --- * --- * --- * --- * --- * --- * --- HEAD calculated version 2.0.0
+           ^     &1.4.1                  ^
+           |           &1.4.2            +-- "all changed BREAKING"
+           |                 &1.4.3
+           |                       &1.4.4
+           |                             &2.0.0
+           +-- <v1.4.0]
+
+
+
+
+Default: Major
+----------------
+
+        feature/A  --- * ---  ---
+                  /               \
+                 /                 \
+master --- * --- * --- * --- * --- * --- * --- HEAD calculated version 5.0.1
+           ^     &2.0.0                  ^
+           |           &3.0.0            +-- "some text FIX"
+           |                 &4.0.0
+           |                       &5.0.0
+           |                             &5.0.1
+           +-- <v1.4.0]
+```
 
 
 Contribute
