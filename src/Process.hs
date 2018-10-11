@@ -14,11 +14,11 @@ process changewords fallback raw = processCommit changewords fallback <$> commit
 
 --------------------------------------------------------------------------------
 
-processCommit :: ChangeWords -> Change -> Commit -> Change --TODO otherwise must return the user defined default
-processCommit ChangeWords{..} fallback c 
+processCommit :: ChangeWords -> Change -> Commit -> Change
+processCommit ChangeWords{..} fallback c
   = case tryReadVersion =<< tag c of
     Just to -> SetTo to
-    Nothing 
+    Nothing
       | containsWord majorw c    -> Breaking
       | containsWord minorw c    -> Feature
       | containsWord patchw c    -> Fix
@@ -29,7 +29,7 @@ processCommit ChangeWords{..} fallback c
 
 tryReadVersion :: Tag -> Maybe Version
 tryReadVersion t = do
-  let splits = splitOn "v" t --TODO pass "v" via cfg / cmdline 
+  let splits = splitOn "v" t --TODO pass "v" via cfg / cmdline
   vSplits <- if length splits == 2
              then pure $ splitOn "." $ splits !! 1
              else Nothing
