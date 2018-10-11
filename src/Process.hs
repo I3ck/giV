@@ -29,12 +29,12 @@ processCommit ChangeWords{..} fallback c
 
 tryReadVersion :: Tag -> Maybe Version
 tryReadVersion t = do
-  let splits = splitOn "v" t --TODO pass "v" via cfg / cmdline
-  vSplits <- if length splits == 2
-             then pure $ splitOn "." $ splits !! 1
-             else Nothing
-  if length vSplits == 3
-  then Version <$> (maybeRead $ vSplits !! 0) <*> (maybeRead $ vSplits !! 1) <*> (maybeRead $ vSplits !! 2)
+  let vSplits = splitOn "v" t --TODO pass "v" via cfg / cmdline
+  dotSplits <- if length vSplits == 2
+               then pure $ splitOn "." $ vSplits !! 1
+               else Nothing
+  if length dotSplits == 3
+  then Version <$> (maybeRead $ dotSplits !! 0) <*> (maybeRead $ dotSplits !! 1) <*> (maybeRead $ dotSplits !! 2)
   else Nothing
 
 --------------------------------------------------------------------------------
