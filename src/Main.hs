@@ -7,6 +7,7 @@ import           Types
 import           Version
 import           Instances ()
 
+import           Control.Monad       (when)
 import qualified Data.Yaml           as Y
 import           Data.Semigroup      ((<>))
 import           Options.Applicative
@@ -24,13 +25,14 @@ main = do
       let gitdir      = repo args
           fallback    = read $ defaultchange cfg
           changewords = ChangeWords (majorword cfg) (minorword cfg) (patchword cfg) (nochangeword cfg)
-      putStrLn "Fetching..."
+          dbg         = verbose args
+      when dbg $ putStrLn "Fetching..."
       cs <- withCurrentDirectory gitdir fetchCommitString
-      putStrLn "Parsing..."
+      when dbg $ putStrLn "Parsing..."
       case parseCommitString cs of
         Left e    -> putStrLn $ "Error parsing commit data: " ++ e
         Right raw -> do
-          putStrLn "Processing..."
+          when dbg $ putStrLn "Processing..."
           let changes = process changewords fallback raw
           let v = version changes
           print v
@@ -56,6 +58,12 @@ args = CliArgs
     <> help "Path to the configuration file"
     <> metavar "STRING"
     <> value "giVcfg.yaml"
+    )
+  <*> switch
+    (  long "verbose"
+    <> short 'v'
+    <> help "Display debugging information"
+    <> showDefault
     )
 
 opts :: ParserInfo CliArgs

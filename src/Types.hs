@@ -23,8 +23,9 @@ newtype CommitString = CommitString
 --------------------------------------------------------------------------------
 
 data CliArgs = CliArgs
-  { repo :: String
-  , cfg  :: String
+  { repo    :: String
+  , cfg     :: String
+  , verbose :: Bool
   }
 
 --------------------------------------------------------------------------------
