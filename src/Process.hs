@@ -28,7 +28,7 @@ processCommit ChangeWords{..} fallback c
 --------------------------------------------------------------------------------
 
 tryReadVersion :: Tag -> Maybe Version
-tryReadVersion t = do
+tryReadVersion (Tag t) = do
   let vSplits = splitOn "v" t --TODO pass "v" via cfg / cmdline
   dotSplits <- if length vSplits == 2
                then pure $ splitOn "." $ vSplits !! 1
@@ -43,5 +43,5 @@ containsWord :: String -> Commit -> Bool
 containsWord str Commit{..} = subjectContainsWord str subject
 
 subjectContainsWord :: String -> Subject -> Bool
-subjectContainsWord = isInfixOf
+subjectContainsWord str (Subject subj) = str `isInfixOf` subj
 

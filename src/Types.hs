@@ -2,8 +2,15 @@ module Types where
 
 --------------------------------------------------------------------------------
 
-type Subject  = String
-type Tag      = String
+newtype Subject = Subject
+  { unSubject :: String
+  } deriving (Show)
+
+--------------------------------------------------------------------------------
+
+newtype Tag = Tag
+  { unTag :: String
+  } deriving (Show)
 
 --------------------------------------------------------------------------------
 

@@ -6,8 +6,6 @@ configuration file / args to control behaviour
 
 debugging mode that shows every commit and its effect on the version  
 
-most/all types should be defined via newtype  
-
 parseTag currently allows all sorts of non-user tags  
 
 startVersion must be set via args / cfg (Could be assumed at 0.0.0 for now due to tagging option)  
@@ -21,3 +19,5 @@ currently code base and args? mix e.g. Major and Breaking, avoid this
 consider git log <branch> --not master    for fetching history of certain branches  
 
 tests  
+
+usage of Text instead of String?  

@@ -40,12 +40,12 @@ parseTag = do
   tag <- takeWhile1 (/= ')')
   char ')'
   skipSpace
-  pure . cs $ tag
+  pure . Tag . cs $ tag
 
 --------------------------------------------------------------------------------
 
 parseSubject :: Parser Subject
-parseSubject = cs <$> restOfLine
+parseSubject = Subject . cs <$> restOfLine
 
 --------------------------------------------------------------------------------
 
