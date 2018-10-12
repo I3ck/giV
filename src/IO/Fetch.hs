@@ -1,4 +1,4 @@
-module Fetch
+module IO.Fetch
   ( fetchCommitString
   ) where
 

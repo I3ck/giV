@@ -1,6 +1,6 @@
 module Main where
 
-import           Fetch
+import           IO.Fetch
 import           Parse
 import           Process
 import           Types
