@@ -40,6 +40,25 @@ data Cfg = Cfg
 
 --------------------------------------------------------------------------------
 
+data DebugInfo = DebugInfo
+  { dDefault  :: Change
+  , dMajor    :: String
+  , dMinor    :: String
+  , dPatch    :: String
+  , dNoChange :: String
+  , dLines    :: [DebugLine]
+  }
+
+--------------------------------------------------------------------------------
+
+data DebugLine = DebugLine
+  { dVersion :: Version
+  , dChange  :: Change
+  , dCommit  :: Commit
+  }
+
+--------------------------------------------------------------------------------
+
 data ChangeWords = ChangeWords
   { majorw    :: String
   , minorw    :: String

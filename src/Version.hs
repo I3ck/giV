@@ -1,18 +1,15 @@
 module Version
   ( version
+  , applyChange
   ) where
 
 import           Types
-
---------------------------------------------------------------------------------
-
-startVersion :: Version
-startVersion = Version { major = 0, minor = 0, patch = 0}
+import           Instances ()
 
 --------------------------------------------------------------------------------
 
 version :: [Change] -> Version
-version = foldl (flip applyChange) startVersion
+version = foldl (flip applyChange) mempty
 
 --------------------------------------------------------------------------------
 

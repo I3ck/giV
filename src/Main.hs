@@ -3,6 +3,7 @@ module Main where
 import           IO.Fetch
 import           Parse
 import           Process
+import           Debugging
 import           Types
 import           Version
 import           Instances ()
@@ -34,7 +35,8 @@ main = do
         Right raw -> do
           when dbg $ putStrLn "Processing..."
           let changes = process changewords fallback raw
-          let v = version changes
+              v       = version changes
+          when dbg $ print $ makeDebug cfg fallback (commits raw) changes
           print v
 
 --------------------------------------------------------------------------------

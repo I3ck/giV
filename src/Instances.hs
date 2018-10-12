@@ -19,3 +19,33 @@ instance Monoid Version where
 --------------------------------------------------------------------------------
 
 instance FromJSON Cfg where
+
+--------------------------------------------------------------------------------
+
+instance Show DebugInfo where
+  show DebugInfo{..} = unlines
+    [ "Default change: " ++ show dDefault
+    , "Major change word: " ++ dMajor
+    , "Minor change word: " ++ dMinor
+    , "Patch change word: " ++ dPatch
+    , "No change word: "    ++ dNoChange
+    ]
+    ++ '\n' : (unlines . fmap show $ dLines)
+
+
+--------------------------------------------------------------------------------
+
+instance Show DebugLine where
+  show DebugLine{..} = show dVersion ++ " -> " ++ showCh dChange ++ " " ++ showCo dCommit 
+    where
+      showCh NoChange  = "[  N  ]"
+      showCh Fix       = "[ FIX ]"
+      showCh Feature   = "[FEAT ]"
+      showCh Breaking  = "[BREAK]"
+      showCh (SetTo _) = "[ SET ]"
+
+      showCo c = showCo' (tag c) (subject c)
+
+      showCo' Nothing s  = unSubject s
+      showCo' (Just t) s = unSubject s ++ " [" ++ (show . unTag $ t) ++ "]"
+

@@ -2,13 +2,7 @@ reading subject via %s might return newlines, resolve this issue
 
 individual tracking / rules of branches (via patterns?)  
 
-configuration file / args to control behaviour  
-
-debugging mode that shows every commit and its effect on the version  
-
 parseTag currently allows all sorts of non-user tags  
-
-startVersion must be set via args / cfg (Could be assumed at 0.0.0 for now due to tagging option)  
 
 print version of program in cli help / desc text  
 
@@ -23,3 +17,5 @@ tests
 usage of Text instead of String?  
 
 config parse issues not really helpful  
+
+remove Raw type  
