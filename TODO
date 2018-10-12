@@ -21,3 +21,5 @@ consider git log <branch> --not master    for fetching history of certain branch
 tests  
 
 usage of Text instead of String?  
+
+config parse issues not really helpful  

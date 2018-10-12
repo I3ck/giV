@@ -1,6 +1,7 @@
 module Instances where
 
 import           Types
+import           Data.Yaml
 
 --------------------------------------------------------------------------------
 
@@ -15,3 +16,6 @@ instance Semigroup Version where
 instance Monoid Version where
   mempty = Version { major = 0, minor = 0, patch = 0}
 
+--------------------------------------------------------------------------------
+
+instance FromJSON Cfg where

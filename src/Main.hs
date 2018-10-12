@@ -7,6 +7,7 @@ import           Types
 import           Version
 import           Instances ()
 
+import qualified Data.Yaml           as Y
 import           Data.Semigroup      ((<>))
 import           Options.Applicative
 import           System.Directory    (withCurrentDirectory)
@@ -16,19 +17,28 @@ import           System.Directory    (withCurrentDirectory)
 main :: IO ()
 main = do
   args <- execParser opts
-  let gitdir      = repo args
-      fallback    = read $ defaultchange args
-      changewords = ChangeWords (majorword args) (minorword args) (patchword args) (nochangeword args)
-  putStrLn "Fetching..."
-  cs <- withCurrentDirectory gitdir fetchCommitString
-  putStrLn "Parsing..."
-  case parseCommitString cs of
-    Left e    -> putStrLn $ "Error parsing commit data: " ++ e
-    Right raw -> do
-      putStrLn "Processing..."
-      let changes = process changewords fallback raw
-      let v = version changes
-      print v
+  eCfg <- loadCfg args
+  case eCfg of
+    Left e -> print e
+    Right cfg -> do
+      let gitdir      = repo args
+          fallback    = read $ defaultchange cfg
+          changewords = ChangeWords (majorword cfg) (minorword cfg) (patchword cfg) (nochangeword cfg)
+      putStrLn "Fetching..."
+      cs <- withCurrentDirectory gitdir fetchCommitString
+      putStrLn "Parsing..."
+      case parseCommitString cs of
+        Left e    -> putStrLn $ "Error parsing commit data: " ++ e
+        Right raw -> do
+          putStrLn "Processing..."
+          let changes = process changewords fallback raw
+          let v = version changes
+          print v
+
+--------------------------------------------------------------------------------
+
+loadCfg :: CliArgs -> IO (Either Y.ParseException Cfg)
+loadCfg CliArgs{..} = Y.decodeFileEither cfg
 
 --------------------------------------------------------------------------------
 
@@ -41,34 +51,11 @@ args = CliArgs
     <> metavar "STRING"
     )
   <*> strOption
-    ( long "defaultchange"
-    <> short 'd'
-    <> help "As what type of change a default commit shall be considered [NoChange, Fix, Feature, Breaking]"
+    (  long "cfg"
+    <> short 'c'
+    <> help "Path to the configuration file"
     <> metavar "STRING"
-    )
-  <*> strOption
-    ( long "majorword"
-    <> help "Identifier that should be used for considering commits as breaking/changing major version"
-    <> metavar "STRING"
-    <> value "major"
-    )
-  <*> strOption
-    ( long "minorword"
-    <> help "Identifier that should be used for considering commits as feature/changing minor version"
-    <> metavar "STRING"
-    <> value "minor"
-    )
-  <*> strOption
-    ( long "patchword"
-    <> help "Identifier that should be used for considering commits as bug/changing patch version"
-    <> metavar "STRING"
-    <> value "patch"
-    )
-  <*> strOption
-    ( long "nochangeword"
-    <> help "Identifier that should be used for considering commits as no changes to version"
-    <> metavar "STRING"
-    <> value "nochange"
+    <> value "giVcfg.yaml"
     )
 
 opts :: ParserInfo CliArgs

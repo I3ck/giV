@@ -1,0 +1,22 @@
+# Change type to be used on commits that don't contain a specific keyword
+# NoChange | Fix | Feature | Breaking
+defaultchange: Feature
+
+
+# Word to be used to flag a commit as breaking / major change
+majorword: Major
+
+
+
+# Word to be used to flag a commit as feature / minor change
+minorword: Minor
+
+
+
+# Word to be used to flag a commit as bugfix / patch change
+patchword: Patch
+
+
+
+# Word to be used to flag a commit to not increment the version
+nochangeword: NoChange

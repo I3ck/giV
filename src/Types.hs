@@ -1,5 +1,7 @@
 module Types where
 
+import GHC.Generics
+
 --------------------------------------------------------------------------------
 
 newtype Subject = Subject
@@ -21,13 +23,19 @@ newtype CommitString = CommitString
 --------------------------------------------------------------------------------
 
 data CliArgs = CliArgs
-  { repo          :: String
-  , defaultchange :: String
+  { repo :: String
+  , cfg  :: String
+  }
+
+--------------------------------------------------------------------------------
+
+data Cfg = Cfg
+  { defaultchange :: String
   , majorword     :: String
   , minorword     :: String
   , patchword     :: String
   , nochangeword  :: String
-  }
+  } deriving (Generic)
 
 --------------------------------------------------------------------------------
 
