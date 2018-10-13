@@ -37,11 +37,11 @@ data CliArgs = CliArgs
 --------------------------------------------------------------------------------
 
 data Cfg = Cfg
-  { defaultchange :: String
-  , majorword     :: String
-  , minorword     :: String
-  , patchword     :: String
-  , nochangeword  :: String
+  { defaultchange  :: String
+  , majorregexp    :: String
+  , minorregexp    :: String
+  , patchregexp    :: String
+  , nochangeregexp :: String
   } deriving (Generic)
 
 --------------------------------------------------------------------------------
@@ -65,11 +65,11 @@ data DebugLine = DebugLine
 
 --------------------------------------------------------------------------------
 
-data ChangeWords = ChangeWords
-  { majorw    :: String
-  , minorw    :: String
-  , patchw    :: String
-  , nochangew :: String
+data ChangeRgxs = ChangeRgxs
+  { majorrgx    :: Regexp
+  , minorrgx    :: Regexp
+  , patchrgx    :: Regexp
+  , nochangergx :: Regexp
   }
 
 --------------------------------------------------------------------------------

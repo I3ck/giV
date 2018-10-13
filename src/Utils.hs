@@ -22,6 +22,6 @@ nchars = length . show
 
 --------------------------------------------------------------------------------
 
-doesMatch :: Regexp -> String -> Bool
-doesMatch (Regexp r) x = x =~ r
+matches :: Regexp -> String -> Bool
+matches (Regexp r) x = x =~ r
 

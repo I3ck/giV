@@ -10,10 +10,10 @@ import           Version
 makeDebug :: Cfg -> Change -> [Commit] -> [Change] -> DebugInfo
 makeDebug Cfg{..} cdefault commits changes = DebugInfo
   { dDefault  = cdefault
-  , dMajor    = majorword
-  , dMinor    = minorword
-  , dPatch    = patchword
-  , dNoChange = nochangeword
+  , dMajor    = majorregexp
+  , dMinor    = minorregexp
+  , dPatch    = patchregexp
+  , dNoChange = nochangeregexp
   , dLines    = reverse $ makeLine <$> zip3 versions changes commits
   }
   where

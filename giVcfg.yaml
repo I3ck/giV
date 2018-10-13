@@ -3,20 +3,20 @@
 defaultchange: Feature
 
 
-# Word to be used to flag a commit as breaking / major change
-majorword: Major
+# Regular expression to match commits for marking as breaking / major change
+majorregexp: "[mM]ajor"
 
 
 
-# Word to be used to flag a commit as feature / minor change
-minorword: Minor
+# Regular expression to match commits for marking as feature / minor change
+minorregexp: "[mM]inor"
 
 
 
-# Word to be used to flag a commit as bugfix / patch change
-patchword: Patch
+# Regular expression to match commits for marking as bugfix / patch change
+patchregexp: "[pP]atch"
 
 
 
-# Word to be used to flag a commit to not increment the version
-nochangeword: NoChange
+# Regular expression to match commits for marking as not incrementing the version
+nochangeregexp: "[nN]o[cC]hange"

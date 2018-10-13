@@ -4,25 +4,24 @@ module Process
 
 import           Types
 import           Utils
-import           Data.List                        (isInfixOf)
 import           Data.List.Split                  (splitOn)
 
 --------------------------------------------------------------------------------
 
-process :: ChangeWords -> Change -> Raw -> [Change]
-process changewords fallback raw = processCommit changewords fallback <$> commits raw
+process :: ChangeRgxs -> Change -> Raw -> [Change]
+process changergxs fallback raw = processCommit changergxs fallback <$> commits raw
 
 --------------------------------------------------------------------------------
 
-processCommit :: ChangeWords -> Change -> Commit -> Change
-processCommit ChangeWords{..} fallback c
+processCommit :: ChangeRgxs -> Change -> Commit -> Change
+processCommit ChangeRgxs{..} fallback c
   = case tryReadVersion =<< tag c of
     Just to -> SetTo to
     Nothing
-      | containsWord majorw c    -> Breaking
-      | containsWord minorw c    -> Feature
-      | containsWord patchw c    -> Fix
-      | containsWord nochangew c -> NoChange
+      | cMatches majorrgx c    -> Breaking
+      | cMatches minorrgx c    -> Feature
+      | cMatches patchrgx c    -> Fix
+      | cMatches nochangergx c -> NoChange
       | otherwise                -> fallback
 
 --------------------------------------------------------------------------------
@@ -39,9 +38,9 @@ tryReadVersion (Tag t) = do
 
 --------------------------------------------------------------------------------
 
-containsWord :: String -> Commit -> Bool
-containsWord str Commit{..} = subjectContainsWord str subject
+cMatches :: Regexp -> Commit -> Bool
+cMatches rgx Commit{..} = subjectMatches rgx subject
 
-subjectContainsWord :: String -> Subject -> Bool
-subjectContainsWord str (Subject subj) = str `isInfixOf` subj
+subjectMatches :: Regexp -> Subject -> Bool
+subjectMatches rgx (Subject subj) = matches rgx subj
 

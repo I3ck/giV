@@ -25,8 +25,12 @@ main = do
     Right cfg -> do
       let gitdir      = repo args
           fallback    = read $ defaultchange cfg
-          changewords = ChangeWords (majorword cfg) (minorword cfg) (patchword cfg) (nochangeword cfg)
           dbg         = verbose args
+          changergxs  = ChangeRgxs 
+                          (Regexp $ majorregexp cfg) 
+                          (Regexp $ minorregexp cfg) 
+                          (Regexp $ patchregexp cfg) 
+                          (Regexp $ nochangeregexp cfg)
       when dbg $ putStrLn "Fetching..."
       cs <- withCurrentDirectory gitdir fetchCommitString
       when dbg $ putStrLn "Parsing..."
@@ -34,7 +38,7 @@ main = do
         Left e    -> putStrLn $ "Error parsing commit data: " ++ e
         Right raw -> do
           when dbg $ putStrLn "Processing..."
-          let changes = process changewords fallback raw
+          let changes = process changergxs fallback raw
               v       = version changes
           when dbg $ print $ makeDebug cfg fallback (commits raw) changes
           print v
