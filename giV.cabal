@@ -28,6 +28,7 @@ executable giV
                      , containers
                      , split
                      , yaml
+                     , regex-tdfa
   hs-source-dirs:      src
   default-language:    Haskell2010
   ghc-options:         -O2 -W -fwarn-incomplete-patterns -Werror

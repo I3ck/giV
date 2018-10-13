@@ -18,4 +18,6 @@ usage of Text instead of String?
 
 config parse issues not really helpful  
 
-remove Raw type  
+remove Raw type 
+
+regexp instead of just keywords  

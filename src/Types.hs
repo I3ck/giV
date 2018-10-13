@@ -22,6 +22,12 @@ newtype CommitString = CommitString
 
 --------------------------------------------------------------------------------
 
+newtype Regexp = Regexp
+ { unRegexp :: String
+ }
+
+--------------------------------------------------------------------------------
+
 data CliArgs = CliArgs
   { repo    :: String
   , cfg     :: String
