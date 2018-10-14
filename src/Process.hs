@@ -8,8 +8,8 @@ import           Data.List.Split                  (splitOn)
 
 --------------------------------------------------------------------------------
 
-process :: ChangeRgxs -> Change -> Raw -> [Change]
-process changergxs fallback raw = processCommit changergxs fallback <$> commits raw
+process :: ChangeRgxs -> Change -> [Commit] -> [Change]
+process changergxs fallback cs = processCommit changergxs fallback <$> cs
 
 --------------------------------------------------------------------------------
 

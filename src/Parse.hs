@@ -11,15 +11,14 @@ import           Data.String.Conversions          (cs)
 
 --------------------------------------------------------------------------------
 
-parseCommitString :: CommitString -> Either String Raw
-parseCommitString = parseOnly (parseRaw <* endOfInput) . cs . unCommitString
+parseCommitString :: CommitString -> Either String [Commit]
+parseCommitString = parseOnly (parseCommits <* endOfInput) . cs . unCommitString
 
 --------------------------------------------------------------------------------
 
-parseRaw :: Parser Raw
-parseRaw = do
-  commits <- many1 parseCommit
-  pure Raw{commits = commits}
+parseCommits :: Parser [Commit]
+parseCommits = do
+  many1 parseCommit
 
 --------------------------------------------------------------------------------
 

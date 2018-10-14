@@ -37,11 +37,11 @@ main = do
       when dbg $ putStrLn "Parsing..."
       case parseCommitString cs of
         Left e    -> putStrLn $ "Error parsing commit data: " ++ e
-        Right raw -> do
+        Right commits -> do
           when dbg $ putStrLn "Processing..."
-          let changes = process changergxs fallback raw
+          let changes = process changergxs fallback commits
               v       = version changes
-          when dbg $ print $ makeDebug cfg fallback (commits raw) changes
+          when dbg $ print $ makeDebug cfg fallback commits changes
           print v
 
 --------------------------------------------------------------------------------
