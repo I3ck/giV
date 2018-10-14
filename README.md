@@ -22,6 +22,7 @@ $ cd giV
   
 Either just build `giV`  
 ```
+$ stack upgrade  
 $ stack build  
 ```  
   
