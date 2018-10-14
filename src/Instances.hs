@@ -24,13 +24,17 @@ instance FromJSON Cfg where
 
 instance Show DebugInfo where
   show DebugInfo{..} = unlines
-    [ "Default change: " ++ show dDefault
+    [ "Default change branch: " ++ (show . bBranch $ dDefault)
+    , "Default change master: " ++ (show . bMaster $ dDefault)
     , "Major change word: " ++ mShow dMajor
     , "Minor change word: " ++ mShow dMinor
     , "Patch change word: " ++ mShow dPatch
     , "No change word: "    ++ mShow dNoChange
+    , "BRANCH CHANGES"
     ]
-    ++ '\n' : (unlines . fmap show $ dLines)
+    ++ '\n' : (unlines . fmap show . bBranch $ dLines)
+    ++ "\nMASTER CHANGES"
+    ++ '\n' : (unlines . fmap show . bMaster $ dLines)
     where
       mShow Nothing  = "NOT SET"
       mShow (Just x) = x

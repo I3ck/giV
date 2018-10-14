@@ -17,3 +17,7 @@ tests
 usage of Text instead of String?  
 
 config parse issues not really helpful  
+
+cfg is now both all-lower and camel case, decide for one  
+
+way to define multiple feature branches with regex to match on name  

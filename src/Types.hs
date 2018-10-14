@@ -16,6 +16,12 @@ newtype Tag = Tag
 
 --------------------------------------------------------------------------------
 
+newtype Branch = Branch
+  { unBranch :: String
+  } deriving (Show)
+
+--------------------------------------------------------------------------------
+
 newtype CommitString = CommitString
   { unCommitString :: String
   } deriving (Show)
@@ -28,32 +34,41 @@ newtype Regexp = Regexp
 
 --------------------------------------------------------------------------------
 
+data BranchMaster a = BranchMaster
+  { bBranch :: a
+  , bMaster :: a
+  } deriving (Show)
+
+--------------------------------------------------------------------------------
+
 data CliArgs = CliArgs
   { repo    :: String
   , cfg     :: String
+  , branch  :: String
   , verbose :: Bool
   }
 
 --------------------------------------------------------------------------------
 
 data Cfg = Cfg
-  { defaultchange  :: String
-  , majorregexp    :: Maybe String
-  , minorregexp    :: Maybe String
-  , patchregexp    :: Maybe String
-  , nochangeregexp :: Maybe String
-  , tagversioning  :: Bool
+  { defaultchangeMaster  :: String
+  , defaultchangeBranch  :: String
+  , majorregexp          :: Maybe String
+  , minorregexp          :: Maybe String
+  , patchregexp          :: Maybe String
+  , nochangeregexp       :: Maybe String
+  , tagversioning        :: Bool
   } deriving (Generic)
 
 --------------------------------------------------------------------------------
 
 data DebugInfo = DebugInfo
-  { dDefault  :: Change
+  { dDefault  :: BranchMaster Change
   , dMajor    :: Maybe String
   , dMinor    :: Maybe String
   , dPatch    :: Maybe String
   , dNoChange :: Maybe String
-  , dLines    :: [DebugLine]
+  , dLines    :: BranchMaster [DebugLine]
   }
 
 --------------------------------------------------------------------------------

@@ -22,7 +22,7 @@ processCommit ChangeRgxs{..} fallback c
       | cMatches minorrgx c    -> Feature
       | cMatches patchrgx c    -> Fix
       | cMatches nochangergx c -> NoChange
-      | otherwise                -> fallback
+      | otherwise              -> fallback
     where
       sTo | tagvs == False = Nothing
           | otherwise      = tryReadVersion =<< tag c

@@ -18,7 +18,7 @@ parseCommitString = parseOnly (parseCommits <* endOfInput) . cs . unCommitString
 
 parseCommits :: Parser [Commit]
 parseCommits = do
-  many1 parseCommit
+  many' parseCommit
 
 --------------------------------------------------------------------------------
 

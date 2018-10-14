@@ -1,6 +1,8 @@
 # Change type to be used on commits that don't contain a specific keyword
 # NoChange | Fix | Feature | Breaking
-defaultchange: Feature
+# For master branch changes and for changes in addition to those of the specified branch
+defaultchangeMaster: Feature
+defaultchangeBranch: Fix
 
 
 # Regular expression to match commits for marking as breaking / major change

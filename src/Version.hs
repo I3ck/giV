@@ -8,8 +8,10 @@ import           Instances ()
 
 --------------------------------------------------------------------------------
 
-version :: [Change] -> Version
-version = foldl (flip applyChange) mempty
+version :: BranchMaster [Change] -> Version
+version (BranchMaster csB csM) = foldl (flip applyChange) vM csB
+  where
+    vM = foldl (flip applyChange) mempty csM
 
 --------------------------------------------------------------------------------
 

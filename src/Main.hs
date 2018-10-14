@@ -24,7 +24,8 @@ main = do
     Left e -> print e
     Right cfg -> do
       let gitdir      = repo args
-          fallback    = read $ defaultchange cfg
+          fallbackB   = read $ defaultchangeBranch cfg
+          fallbackM   = read $ defaultchangeMaster cfg
           dbg         = verbose args
           changergxs  = ChangeRgxs 
                           (Regexp <$> majorregexp    cfg) 
@@ -33,16 +34,18 @@ main = do
                           (Regexp <$> nochangeregexp cfg)
                           (           tagversioning  cfg)
       when dbg $ putStrLn "Fetching..."
-      cs <- withCurrentDirectory gitdir fetchCommitString
+      cs <- withCurrentDirectory gitdir $ fetchCommitString $ Branch $ branch args
       when dbg $ putStrLn "Parsing..."
-      case parseCommitString cs of
-        Left e    -> putStrLn $ "Error parsing commit data: " ++ e
-        Right commits -> do
+      case (parseCommitString $ bBranch cs, parseCommitString $ bMaster cs) of
+        (Right commitsB, Right commitsM) -> do
           when dbg $ putStrLn "Processing..."
-          let changes = process changergxs fallback commits
-              v       = version changes
-          when dbg $ print $ makeDebug cfg fallback commits changes
+          let changesB = process changergxs fallbackB commitsB --TODO use specific fallback here
+              changesM = process changergxs fallbackM commitsM --TODO use specific fallback here
+              v        = version $ BranchMaster changesB changesM
+          when dbg $ print $ makeDebug cfg (BranchMaster fallbackB fallbackM) (BranchMaster commitsB commitsM) (BranchMaster changesB changesM)
           print v
+        (Left e, _) -> putStrLn $ "Error parsing commit data of branch: " ++ e
+        (_, Left e) -> putStrLn $ "Error parsing commit data of master: "  ++ e
 
 --------------------------------------------------------------------------------
 
@@ -65,6 +68,13 @@ args = CliArgs
     <> help "Path to the configuration file"
     <> metavar "STRING"
     <> value "giVcfg.yaml"
+    )
+  <*> strOption
+    (  long "branch"
+    <> short 'b'
+    <> help "The branch to analyze"
+    <> metavar "STRING"
+    <> value "master"
     )
   <*> switch
     (  long "verbose"
