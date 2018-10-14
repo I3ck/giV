@@ -19,3 +19,5 @@ usage of Text instead of String?
 config parse issues not really helpful  
 
 way to define multiple feature branches with regex to match on name  
+
+some of the code duplication caused by BranchMaster resolvable?

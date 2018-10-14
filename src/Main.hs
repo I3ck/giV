@@ -39,8 +39,8 @@ main = do
       case (parseCommitString $ bBranch cs, parseCommitString $ bMaster cs) of
         (Right commitsB, Right commitsM) -> do
           when dbg $ putStrLn "Processing..."
-          let changesB = process changergxs fallbackB commitsB --TODO use specific fallback here
-              changesM = process changergxs fallbackM commitsM --TODO use specific fallback here
+          let changesB = process changergxs fallbackB commitsB
+              changesM = process changergxs fallbackM commitsM
               v        = version $ BranchMaster changesB changesM
           when dbg $ print $ makeDebug cfg (BranchMaster fallbackB fallbackM) (BranchMaster commitsB commitsM) (BranchMaster changesB changesM)
           print v
