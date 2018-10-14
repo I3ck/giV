@@ -4,10 +4,10 @@ module Debugging
 
 import           Types
 import           Version
+import           Utils
 
 --------------------------------------------------------------------------------
 
----TODO simplify
 makeDebug :: Cfg -> BranchMaster Change -> BranchMaster [Commit] -> BranchMaster [Change] -> DebugInfo
 makeDebug Cfg{..} cdefault (BranchMaster commitsB commitsM) (BranchMaster changesB changesM) = DebugInfo
   { dDefault  = cdefault
@@ -15,19 +15,15 @@ makeDebug Cfg{..} cdefault (BranchMaster commitsB commitsM) (BranchMaster change
   , dMinor    = minorregexp
   , dPatch    = patchregexp
   , dNoChange = nochangeregexp
-  , dLines    = BranchMaster{bBranch = reverse $ makeLine <$> zip3 versionsB changesB commitsB, bMaster = reverse $ makeLine <$> zip3 versionsM changesM commitsM}
+  , dLines    = BranchMaster{bBranch = linesB, bMaster = linesM}
   }
   where
-    versionsB = if length scannedB >= 1
-                then tail scannedB
-                else []
+    linesM    = reverse $ makeLine <$> zip3 versionsM changesM commitsM
+    linesB    = reverse $ makeLine <$> zip3 versionsB changesB commitsB
+    versionsB = ifNotEmpty tail [] scannedB
     scannedB  = scanl (flip applyChange) versionM changesB
-    versionM  = if length versionsM >= 1
-                then last versionsM
-                else mempty
-    versionsM = if length scannedM >= 1 --TODO not null
-                then tail scannedM
-                else []
+    versionM  = ifNotEmpty last mempty versionsM
+    versionsM = ifNotEmpty tail [] scannedM
     scannedM  = scanl (flip applyChange) mempty changesM
 
 --------------------------------------------------------------------------------
