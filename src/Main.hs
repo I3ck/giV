@@ -27,10 +27,10 @@ main = do
           fallback    = read $ defaultchange cfg
           dbg         = verbose args
           changergxs  = ChangeRgxs 
-                          (Regexp $ majorregexp cfg) 
-                          (Regexp $ minorregexp cfg) 
-                          (Regexp $ patchregexp cfg) 
-                          (Regexp $ nochangeregexp cfg)
+                          (Regexp <$> majorregexp cfg) 
+                          (Regexp <$> minorregexp cfg) 
+                          (Regexp <$> patchregexp cfg) 
+                          (Regexp <$> nochangeregexp cfg)
       when dbg $ putStrLn "Fetching..."
       cs <- withCurrentDirectory gitdir fetchCommitString
       when dbg $ putStrLn "Parsing..."

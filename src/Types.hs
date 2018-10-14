@@ -38,20 +38,20 @@ data CliArgs = CliArgs
 
 data Cfg = Cfg
   { defaultchange  :: String
-  , majorregexp    :: String
-  , minorregexp    :: String
-  , patchregexp    :: String
-  , nochangeregexp :: String
+  , majorregexp    :: Maybe String
+  , minorregexp    :: Maybe String
+  , patchregexp    :: Maybe String
+  , nochangeregexp :: Maybe String
   } deriving (Generic)
 
 --------------------------------------------------------------------------------
 
 data DebugInfo = DebugInfo
   { dDefault  :: Change
-  , dMajor    :: String
-  , dMinor    :: String
-  , dPatch    :: String
-  , dNoChange :: String
+  , dMajor    :: Maybe String
+  , dMinor    :: Maybe String
+  , dPatch    :: Maybe String
+  , dNoChange :: Maybe String
   , dLines    :: [DebugLine]
   }
 
@@ -66,10 +66,10 @@ data DebugLine = DebugLine
 --------------------------------------------------------------------------------
 
 data ChangeRgxs = ChangeRgxs
-  { majorrgx    :: Regexp
-  , minorrgx    :: Regexp
-  , patchrgx    :: Regexp
-  , nochangergx :: Regexp
+  { majorrgx    :: Maybe Regexp
+  , minorrgx    :: Maybe Regexp
+  , patchrgx    :: Maybe Regexp
+  , nochangergx :: Maybe Regexp
   }
 
 --------------------------------------------------------------------------------

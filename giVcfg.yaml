@@ -4,19 +4,23 @@ defaultchange: Feature
 
 
 # Regular expression to match commits for marking as breaking / major change
+# Optional, comment out / remove to disable
 majorregexp: "([mM]ajor|[bB]reaking)"
 
 
 
 # Regular expression to match commits for marking as feature / minor change
+# Optional, comment out / remove to disable
 minorregexp: "([mM]inor|[fF]eature)"
 
 
 
 # Regular expression to match commits for marking as bugfix / patch change
+# Optional, comment out / remove to disable
 patchregexp: "([pP]atch|[fF]ix)"
 
 
 
 # Regular expression to match commits for marking as not incrementing the version
+# Optional, comment out / remove to disable
 nochangeregexp: "([nN]o[cC]hange|[nN]one)"

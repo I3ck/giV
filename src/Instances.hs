@@ -25,12 +25,15 @@ instance FromJSON Cfg where
 instance Show DebugInfo where
   show DebugInfo{..} = unlines
     [ "Default change: " ++ show dDefault
-    , "Major change word: " ++ dMajor
-    , "Minor change word: " ++ dMinor
-    , "Patch change word: " ++ dPatch
-    , "No change word: "    ++ dNoChange
+    , "Major change word: " ++ mShow dMajor
+    , "Minor change word: " ++ mShow dMinor
+    , "Patch change word: " ++ mShow dPatch
+    , "No change word: "    ++ mShow dNoChange
     ]
     ++ '\n' : (unlines . fmap show $ dLines)
+    where
+      mShow Nothing  = "NOT SET"
+      mShow (Just x) = x
 
 
 --------------------------------------------------------------------------------
