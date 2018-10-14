@@ -28,6 +28,7 @@ $ stack build
   
 Or install it to your path
 ```
+$ stack upgrade  
 $ stack install  
 ```  
 
