@@ -24,8 +24,8 @@ main = do
     Left e -> print e
     Right cfg -> do
       let gitdir      = repo args
-          fallbackB   = read $ defaultchangeBranch cfg
-          fallbackM   = read $ defaultchangeMaster cfg
+          fallbackB   = read $ defaultchangebranch cfg
+          fallbackM   = read $ defaultchangemaster cfg
           dbg         = verbose args
           changergxs  = ChangeRgxs 
                           (Regexp <$> majorregexp    cfg) 
@@ -45,7 +45,7 @@ main = do
           when dbg $ print $ makeDebug cfg (BranchMaster fallbackB fallbackM) (BranchMaster commitsB commitsM) (BranchMaster changesB changesM)
           print v
         (Left e, _) -> putStrLn $ "Error parsing commit data of branch: " ++ e
-        (_, Left e) -> putStrLn $ "Error parsing commit data of master: "  ++ e
+        (_, Left e) -> putStrLn $ "Error parsing commit data of master: " ++ e
 
 --------------------------------------------------------------------------------
 

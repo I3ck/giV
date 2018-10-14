@@ -51,8 +51,8 @@ data CliArgs = CliArgs
 --------------------------------------------------------------------------------
 
 data Cfg = Cfg
-  { defaultchangeMaster  :: String
-  , defaultchangeBranch  :: String
+  { defaultchangemaster  :: String
+  , defaultchangebranch  :: String
   , majorregexp          :: Maybe String
   , minorregexp          :: Maybe String
   , patchregexp          :: Maybe String
