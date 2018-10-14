@@ -42,6 +42,7 @@ data Cfg = Cfg
   , minorregexp    :: Maybe String
   , patchregexp    :: Maybe String
   , nochangeregexp :: Maybe String
+  , tagversioning  :: Bool
   } deriving (Generic)
 
 --------------------------------------------------------------------------------
@@ -65,11 +66,12 @@ data DebugLine = DebugLine
 
 --------------------------------------------------------------------------------
 
-data ChangeRgxs = ChangeRgxs
+data ChangeRgxs = ChangeRgxs ---TODO rename or split
   { majorrgx    :: Maybe Regexp
   , minorrgx    :: Maybe Regexp
   , patchrgx    :: Maybe Regexp
   , nochangergx :: Maybe Regexp
+  , tagvs       :: Bool
   }
 
 --------------------------------------------------------------------------------

@@ -15,7 +15,7 @@ process changergxs fallback raw = processCommit changergxs fallback <$> commits 
 
 processCommit :: ChangeRgxs -> Change -> Commit -> Change
 processCommit ChangeRgxs{..} fallback c
-  = case tryReadVersion =<< tag c of
+  = case sTo of
     Just to -> SetTo to
     Nothing
       | cMatches majorrgx c    -> Breaking
@@ -23,6 +23,9 @@ processCommit ChangeRgxs{..} fallback c
       | cMatches patchrgx c    -> Fix
       | cMatches nochangergx c -> NoChange
       | otherwise                -> fallback
+    where
+      sTo | tagvs == False = Nothing
+          | otherwise      = tryReadVersion =<< tag c
 
 --------------------------------------------------------------------------------
 

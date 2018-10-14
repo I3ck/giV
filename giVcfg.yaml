@@ -24,3 +24,8 @@ patchregexp: "([pP]atch|[fF]ix)"
 # Regular expression to match commits for marking as not incrementing the version
 # Optional, comment out / remove to disable
 nochangeregexp: "([nN]o[cC]hange|[nN]one)"
+
+
+
+# Whether commits tagged with versions shall be considered for versioning (e.g. "v1.3.2")
+tagversioning: True
