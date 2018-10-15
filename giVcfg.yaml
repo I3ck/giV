@@ -30,8 +30,11 @@ tagversioning: True
 
 # Change type to be used on commits that don't contain a specific keyword
 # NoChange | Fix | Feature | Breaking
-# For master branch changes and for changes in addition to those of the specified branch
-# It's also possible to define rules which apply only to the specified branch if it has a specific name
+# defaultchangemaster defines the default change to be used for commits of the master branch
+# defaultchangebranch defines the default change to be used for commits of the specified branch (excluding master commits)
+#                     only applied of none of the defaultchangerules were matched
+# defaultchangerules  define which rules to be used for branch commits of branches with specific names
+#                     first matched rule counts, defaultchangebranch is used if none matches
 defaultchangemaster: Feature
 defaultchangebranch: Fix
 defaultchangerules:

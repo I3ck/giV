@@ -91,6 +91,6 @@ args = CliArgs
 opts :: ParserInfo CliArgs
 opts = info (helper <*> args)
     (  fullDesc
-    <> progDesc "giV - Semantic versioning for Git repositories"
-    <> header "giV"
+    <> progDesc "giV - Semantic versioning for Git repositories © Martin Buck"
+    <> header "giV © Martin Buck"
     )

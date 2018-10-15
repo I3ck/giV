@@ -19,3 +19,5 @@ parse all regexp for validity (only create Regexp if valid)
 there's a lot of logic within main now, move to helper functions / files  
 
 display matched change rule in debug?  
+
+show branch versioning as well in README (with name matching)
