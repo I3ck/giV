@@ -50,20 +50,34 @@ data CliArgs = CliArgs
 
 --------------------------------------------------------------------------------
 
+data ChangeRule = ChangeRule
+  { nregexp :: Regexp
+  , dchange :: Change
+  } deriving (Generic)
+
+data CfgChangeRule = CfgChangeRule
+  { nameregexp    :: String
+  , defaultchange :: String
+  } deriving (Generic)
+
+--------------------------------------------------------------------------------
+
 data Cfg = Cfg
-  { defaultchangemaster  :: String
-  , defaultchangebranch  :: String
-  , majorregexp          :: Maybe String
+  { majorregexp          :: Maybe String
   , minorregexp          :: Maybe String
   , patchregexp          :: Maybe String
   , nochangeregexp       :: Maybe String
   , tagversioning        :: Bool
+  , defaultchangemaster  :: String
+  , defaultchangebranch  :: String
+  , defaultchangerules   :: [CfgChangeRule]
   } deriving (Generic)
 
 --------------------------------------------------------------------------------
 
 data DebugInfo = DebugInfo
   { dDefault  :: BranchMaster Change
+  , dRules    :: [ChangeRule]
   , dMajor    :: Maybe String
   , dMinor    :: Maybe String
   , dPatch    :: Maybe String

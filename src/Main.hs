@@ -6,9 +6,11 @@ import           Process
 import           Debugging
 import           Types
 import           Version
+import           Utils
 import           Instances ()
 
 import           Control.Monad       (when)
+import           Data.List           (find)
 import qualified Data.Yaml           as Y
 import           Data.Semigroup      ((<>))
 import           Options.Applicative
@@ -24,8 +26,11 @@ main = do
     Left e -> print e
     Right cfg -> do
       let gitdir      = repo args
-          fallbackB   = read $ defaultchangebranch cfg
-          fallbackM   = read $ defaultchangemaster cfg
+          changerules = fmap (\x -> ChangeRule (Regexp $ nameregexp x) (read $ defaultchange x)) . defaultchangerules $ cfg --TODO dont use read
+          fallbackM   = read $ defaultchangemaster cfg --TODO dont use read
+          fallbackB   = case find (\rule -> matches (nregexp rule) (branch args)) changerules of
+                          Just r  -> dchange r
+                          Nothing -> read $ defaultchangebranch cfg --TODO dont use read
           dbg         = verbose args
           changergxs  = ChangeRgxs 
                           (Regexp <$> majorregexp    cfg) 
@@ -42,7 +47,7 @@ main = do
           let changesB = process changergxs fallbackB commitsB
               changesM = process changergxs fallbackM commitsM
               v        = version $ BranchMaster changesB changesM
-          when dbg $ print $ makeDebug cfg (BranchMaster fallbackB fallbackM) (BranchMaster commitsB commitsM) (BranchMaster changesB changesM)
+          when dbg $ print $ makeDebug cfg (BranchMaster fallbackB fallbackM) (BranchMaster commitsB commitsM) (BranchMaster changesB changesM) changerules
           print v
         (Left e, _) -> putStrLn $ "Error parsing commit data of branch: " ++ e
         (_, Left e) -> putStrLn $ "Error parsing commit data of master: " ++ e

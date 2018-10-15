@@ -1,10 +1,3 @@
-# Change type to be used on commits that don't contain a specific keyword
-# NoChange | Fix | Feature | Breaking
-# For master branch changes and for changes in addition to those of the specified branch
-defaultchangemaster: Feature
-defaultchangebranch: Fix
-
-
 # Regular expression to match commits for marking as breaking / major change
 # Optional, comment out / remove to disable
 majorregexp: "([mM]ajor|[bB]reaking)"
@@ -31,3 +24,19 @@ nochangeregexp: "([nN]o[cC]hange|[nN]one)"
 
 # Whether commits tagged with versions shall be considered for versioning (e.g. "v1.3.2")
 tagversioning: True
+
+
+
+
+# Change type to be used on commits that don't contain a specific keyword
+# NoChange | Fix | Feature | Breaking
+# For master branch changes and for changes in addition to those of the specified branch
+# It's also possible to define rules which apply only to the specified branch if it has a specific name
+defaultchangemaster: Feature
+defaultchangebranch: Fix
+defaultchangerules:
+  - nameregexp: "^[fF]eature"
+    defaultchange: Feature
+  
+  - nameregexp: "^[rR]elease"
+    defaultchange: Fix

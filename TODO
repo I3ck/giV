@@ -1,7 +1,5 @@
 reading subject via %s might return newlines, resolve this issue  
 
-individual tracking / rules of branches (via patterns?)  
-
 parseTag currently allows all sorts of non-user tags  
 
 print version of program in cli help / desc text  
@@ -10,14 +8,14 @@ current parsing of version might result in false positives (some long tag text a
 
 currently code base and args? mix e.g. Major and Breaking, avoid this  
 
-consider git log <branch> --not master    for fetching history of certain branches  
-
 tests  
 
 usage of Text instead of String?  
 
 config parse issues not really helpful  
 
-way to define multiple feature branches with regex to match on name  
+parse all regexp for validity (only create Regexp if valid)  
 
-some of the code duplication caused by BranchMaster resolvable?
+there's a lot of logic within main now, move to helper functions / files  
+
+display matched change rule in debug?  

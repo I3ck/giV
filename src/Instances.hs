@@ -18,7 +18,16 @@ instance Monoid Version where
 
 --------------------------------------------------------------------------------
 
+instance FromJSON CfgChangeRule where
+
+--------------------------------------------------------------------------------
+
 instance FromJSON Cfg where
+
+--------------------------------------------------------------------------------
+
+instance Show ChangeRule where
+  show ChangeRule{..} = show dchange ++ " <- " ++ unRegexp nregexp
 
 --------------------------------------------------------------------------------
 
@@ -30,15 +39,16 @@ instance Show DebugInfo where
     , "Minor change word: " ++ mShow dMinor
     , "Patch change word: " ++ mShow dPatch
     , "No change word: "    ++ mShow dNoChange
-    , "BRANCH CHANGES"
+    , "Default change rules: "
     ]
+    ++ '\n' : (unlines . fmap show $ dRules)
+    ++ "\nBRANCH CHANGES"
     ++ '\n' : (unlines . fmap show . bBranch $ dLines)
     ++ "\nMASTER CHANGES"
     ++ '\n' : (unlines . fmap show . bMaster $ dLines)
     where
       mShow Nothing  = "NOT SET"
       mShow (Just x) = x
-
 
 --------------------------------------------------------------------------------
 
