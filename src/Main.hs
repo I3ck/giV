@@ -64,7 +64,7 @@ args = CliArgs
   <$> strOption
     (  long "repo"
     <> short 'r'
-    <> help "Path to the git repository that should be analyzed"
+    <> help "Path to the git repository that should be versioned"
     <> metavar "STRING"
     )
   <*> strOption
@@ -77,14 +77,14 @@ args = CliArgs
   <*> strOption
     (  long "branch"
     <> short 'b'
-    <> help "The branch to analyze"
+    <> help "The branch that should be versioned"
     <> metavar "STRING"
     <> value "master"
     )
   <*> switch
     (  long "verbose"
     <> short 'v'
-    <> help "Display debugging information"
+    <> help "Output debugging information"
     <> showDefault
     )
 

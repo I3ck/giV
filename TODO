@@ -20,4 +20,6 @@ there's a lot of logic within main now, move to helper functions / files
 
 display matched change rule in debug?  
 
-show branch versioning as well in README (with name matching)
+show branch versioning as well in README (with name matching)  
+
+"BRANCH CHANGES" in debug should only be displayed if there are any (same for master)  
