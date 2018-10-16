@@ -104,22 +104,23 @@ Fix <- ^[rR]elease
 Examples
 --------
 
-Calculating the version of `master` with `BREAKING` defined as keyword for major increments, `FIX` as keyword for patch increments
-
 ```
+Legend
+------
 *Commit / Merge
-
 <Tag]
-
 "Commit Subject"
+&calculated version here
 
-&calculated version
+Configuration
+-------------
+majorregexp: BREAKING
+patchregexp: FIX
+tagversioning: True
 
 
-
-
-State of Branch
----------------
+State of Repo
+-------------
 
 
         feature/A  --- * ---  ---
@@ -135,8 +136,8 @@ master --- * --- * --- * --- * --- * --- * --- HEAD
 
 
 
-Default: Minor
-----------------
+defaultchangemaster: Feature
+----------------------------
 
         feature/A  --- * ---  ---
                   /               \
@@ -152,8 +153,8 @@ master --- * --- * --- * --- * --- * --- * --- HEAD calculated version 2.0.0
 
 
 
-Default: Patch
-----------------
+defaultchangemaster: Fix
+------------------------
 
         feature/A  --- * ---  ---
                   /               \
@@ -169,8 +170,8 @@ master --- * --- * --- * --- * --- * --- * --- HEAD calculated version 2.0.0
 
 
 
-Default: Major
-----------------
+defaultchangemaster: Breaking
+-----------------------------
 
         feature/A  --- * ---  ---
                   /               \
@@ -178,6 +179,27 @@ Default: Major
 master --- * --- * --- * --- * --- * --- * --- HEAD calculated version 5.0.1
            ^     &2.0.0                  ^
            |           &3.0.0            +-- "some text FIX"
+           |                 &4.0.0
+           |                       &5.0.0
+           |                             &5.0.1
+           +-- <v1.4.0]
+
+
+
+
+defaultchangemaster: Breaking
+defaultchangebranch: Fix
+--branch=feature/A
+-----------------------------
+                                  &2.0.3
+                             &2.0.2
+                       &2.0.1
+        feature/A  --- * --- * -- *
+                  /                \
+                 /                  \
+master --- * --- * --- * --- * ---  * --- * --- HEAD calculated version 5.0.1
+           ^     &2.0.0                   ^
+           |           &3.0.0             +-- "some text FIX"
            |                 &4.0.0
            |                       &5.0.0
            |                             &5.0.1
