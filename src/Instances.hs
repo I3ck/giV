@@ -42,10 +42,10 @@ instance Show DebugInfo where
     , "Default change rules: "
     ]
     ++ '\n' : (unlines . fmap show $ dRules)
-    ++ "\nBRANCH CHANGES"
-    ++ '\n' : (unlines . fmap show . bBranch $ dLines)
-    ++ "\nMASTER CHANGES"
-    ++ '\n' : (unlines . fmap show . bMaster $ dLines)
+    ++ (if not . null . bBranch $ dLines then "\nBRANCH CHANGES\n" else "")
+    ++ (unlines . fmap show . bBranch $ dLines)
+    ++ (if not . null . bMaster $ dLines then "\nMASTER CHANGES\n" else "")
+    ++ (unlines . fmap show . bMaster $ dLines)
     where
       mShow Nothing  = "NOT SET"
       mShow (Just x) = x
