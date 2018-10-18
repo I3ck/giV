@@ -26,6 +26,15 @@ instance FromJSON Cfg where
 
 --------------------------------------------------------------------------------
 
+instance Functor BranchMaster where
+  fmap f (BranchMaster x y) = BranchMaster (f x) (f y)
+
+instance Applicative BranchMaster where
+  pure x                                      = BranchMaster x x
+  (BranchMaster fx fy) <*> (BranchMaster x y) = BranchMaster (fx x) (fy y)
+
+--------------------------------------------------------------------------------
+
 instance Show ChangeRule where
   show ChangeRule{..} = show dchange ++ " <- " ++ unRegexp nregexp
 

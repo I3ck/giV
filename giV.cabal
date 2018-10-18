@@ -39,4 +39,3 @@ executable giV
                      , FlexibleContexts
                      , UndecidableInstances
                      , DeriveGeneric
-

@@ -22,32 +22,28 @@ main :: IO ()
 main = do
   args <- execParser opts
   eCfg <- loadCfg args
+
   case eCfg of
-    Left e -> print e
+    Left e    -> print e
     Right cfg -> do
+
       let gitdir      = repo args
-          changerules = fmap (\x -> ChangeRule (Regexp $ nameregexp x) (read $ defaultchange x)) . defaultchangerules $ cfg --TODO dont use read
-          fallbackM   = read $ defaultchangemaster cfg --TODO dont use read
-          fallbackB   = case find (\rule -> matches (nregexp rule) (branch args)) changerules of
-                          Just r  -> dchange r
-                          Nothing -> read $ defaultchangebranch cfg --TODO dont use read
+          changerules = makeChangeRules cfg
+          fallbacks   = makeFallbacks cfg args changerules
           dbg         = verbose args
-          changergxs  = ChangeRgxs 
-                          (Regexp <$> majorregexp    cfg) 
-                          (Regexp <$> minorregexp    cfg) 
-                          (Regexp <$> patchregexp    cfg) 
-                          (Regexp <$> nochangeregexp cfg)
-                          (           tagversioning  cfg)
+          changergxs  = makeChangeRgxs cfg
+
       when dbg $ putStrLn "Fetching..."
       cs <- withCurrentDirectory gitdir $ fetchCommitString $ Branch $ branch args
+
       when dbg $ putStrLn "Parsing..."
       case (parseCommitString $ bBranch cs, parseCommitString $ bMaster cs) of
         (Right commitsB, Right commitsM) -> do
           when dbg $ putStrLn "Processing..."
-          let changesB = process changergxs fallbackB commitsB
-              changesM = process changergxs fallbackM commitsM
-              v        = version $ BranchMaster changesB changesM
-          when dbg $ print $ makeDebug cfg (BranchMaster fallbackB fallbackM) (BranchMaster commitsB commitsM) (BranchMaster changesB changesM) changerules
+          let commits  = BranchMaster commitsB commitsM
+              changes  = process changergxs <$> fallbacks <*> commits
+              v        = version changes
+          when dbg $ print $ makeDebug cfg fallbacks commits changes changerules
           print v
         (Left e, _) -> putStrLn $ "Error parsing commit data of branch: " ++ e
         (_, Left e) -> putStrLn $ "Error parsing commit data of master: " ++ e
@@ -56,6 +52,31 @@ main = do
 
 loadCfg :: CliArgs -> IO (Either Y.ParseException Cfg)
 loadCfg CliArgs{..} = Y.decodeFileEither cfg
+
+--------------------------------------------------------------------------------
+
+makeChangeRgxs :: Cfg -> ChangeRgxs
+makeChangeRgxs cfg = ChangeRgxs
+  (Regexp <$> majorregexp    cfg)
+  (Regexp <$> minorregexp    cfg)
+  (Regexp <$> patchregexp    cfg)
+  (Regexp <$> nochangeregexp cfg)
+  (           tagversioning  cfg)
+
+--------------------------------------------------------------------------------
+
+makeChangeRules :: Cfg -> [ChangeRule]
+makeChangeRules = fmap (\x -> ChangeRule (Regexp $ nameregexp x) (read $ defaultchange x)) . defaultchangerules --TODO dont use read
+
+--------------------------------------------------------------------------------
+
+makeFallbacks :: Cfg -> CliArgs -> [ChangeRule] -> BranchMaster Change
+makeFallbacks cfg args changerules = BranchMaster fallbackB fallbackM
+  where
+    fallbackM   = read $ defaultchangemaster cfg --TODO dont use read
+    fallbackB   = case find (\rule -> matches (nregexp rule) (branch args)) changerules of
+                  Just r  -> dchange r
+                  Nothing -> read $ defaultchangebranch cfg --TODO dont use read
 
 --------------------------------------------------------------------------------
 
