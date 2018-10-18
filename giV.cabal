@@ -11,12 +11,15 @@ executable giV
   main-is:             Main.hs
   other-modules:       Types
                      , Utils
+                     , Args
                      , IO.Fetch
+                     , IO.Cfg
                      , Process
                      , Parse
                      , Version
                      , Instances
                      , Debugging
+                     , Create
 
   build-depends:       base >=4.11 && <4.12
                      , process

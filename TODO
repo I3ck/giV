@@ -15,5 +15,3 @@ usage of Text instead of String?
 config parse issues not really helpful  
 
 parse all regexp for validity (only create Regexp if valid)  
-
-there's a lot of logic within main now, move to helper functions / files  
