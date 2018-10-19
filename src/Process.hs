@@ -24,8 +24,8 @@ processCommit ChangeRgxs{..} fallback c
       | cMatches nochangergx c -> NoChange
       | otherwise              -> fallback
     where
-      sTo | tagvs == False = Nothing
-          | otherwise      = tryReadVersion =<< tag c
+      sTo | not tagvs = Nothing
+          | otherwise = tryReadVersion =<< tag c
 
 --------------------------------------------------------------------------------
 
@@ -36,13 +36,13 @@ tryReadVersion (Tag t) = do
                then pure $ splitOn "." $ vSplits !! 1
                else Nothing
   if length dotSplits == 3
-  then Version <$> (maybeRead $ dotSplits !! 0) <*> (maybeRead $ dotSplits !! 1) <*> (maybeRead $ dotSplits !! 2)
+  then Version <$> maybeRead (dotSplits !! 0) <*> maybeRead (dotSplits !! 1) <*> maybeRead (dotSplits !! 2)
   else Nothing
 
 --------------------------------------------------------------------------------
 
 cMatches :: Maybe Regexp -> Commit -> Bool
-cMatches mrgx Commit{..} = maybe False (\rgx -> subjectMatches rgx subject) mrgx
+cMatches mrgx Commit{..} = maybe False (`subjectMatches` subject) mrgx
 
 subjectMatches :: Regexp -> Subject -> Bool
 subjectMatches rgx (Subject subj) = matches rgx subj
