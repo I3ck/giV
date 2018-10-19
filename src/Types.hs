@@ -55,14 +55,14 @@ data ChangeRule = ChangeRule
   , dchange :: Change
   } deriving (Generic)
 
-data CfgChangeRule = CfgChangeRule
+data ChangeRuleRaw = ChangeRuleRaw
   { nameregexp    :: String
   , defaultchange :: String
   } deriving (Generic)
 
 --------------------------------------------------------------------------------
 
-data Cfg = Cfg
+data CfgRaw = CfgRaw
   { majorregexp          :: Maybe String
   , minorregexp          :: Maybe String
   , patchregexp          :: Maybe String
@@ -70,18 +70,28 @@ data Cfg = Cfg
   , tagversioning        :: Bool
   , defaultchangemaster  :: String
   , defaultchangebranch  :: String
-  , defaultchangerules   :: [CfgChangeRule]
+  , defaultchangerules   :: [ChangeRuleRaw]
   } deriving (Generic)
+
+data Cfg = Cfg
+  { majorr           :: Maybe Regexp
+  , minorr           :: Maybe Regexp
+  , patchr           :: Maybe Regexp
+  , nochanger        :: Maybe Regexp
+  , tagver           :: Bool
+  , defaultChanges   :: BranchMaster Change
+  , defaultchangerls :: [ChangeRule]
+  }
 
 --------------------------------------------------------------------------------
 
 data DebugInfo = DebugInfo
   { dDefault  :: BranchMaster Change
   , dRules    :: [ChangeRule]
-  , dMajor    :: Maybe String
-  , dMinor    :: Maybe String
-  , dPatch    :: Maybe String
-  , dNoChange :: Maybe String
+  , dMajor    :: Maybe Regexp
+  , dMinor    :: Maybe Regexp
+  , dPatch    :: Maybe Regexp
+  , dNoChange :: Maybe Regexp
   , dLines    :: BranchMaster [DebugLine]
   }
 
@@ -91,16 +101,6 @@ data DebugLine = DebugLine
   { dVersion :: Version
   , dChange  :: Change
   , dCommit  :: Commit
-  }
-
---------------------------------------------------------------------------------
-
-data ChangeRgxs = ChangeRgxs ---TODO rename or split
-  { majorrgx    :: Maybe Regexp
-  , minorrgx    :: Maybe Regexp
-  , patchrgx    :: Maybe Regexp
-  , nochangergx :: Maybe Regexp
-  , tagvs       :: Bool
   }
 
 --------------------------------------------------------------------------------

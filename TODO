@@ -15,3 +15,5 @@ usage of Text instead of String?
 config parse issues not really helpful  
 
 parse all regexp for validity (only create Regexp if valid)  
+
+option to output more info than just version  

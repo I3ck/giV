@@ -8,24 +8,24 @@ import           Data.List.Split                  (splitOn)
 
 --------------------------------------------------------------------------------
 
-process :: ChangeRgxs -> Change -> [Commit] -> [Change]
-process changergxs fallback cs = processCommit changergxs fallback <$> cs
+process :: Cfg -> Change -> [Commit] -> [Change]
+process cfg fallback cs = processCommit cfg fallback <$> cs
 
 --------------------------------------------------------------------------------
 
-processCommit :: ChangeRgxs -> Change -> Commit -> Change
-processCommit ChangeRgxs{..} fallback c
+processCommit :: Cfg -> Change -> Commit -> Change
+processCommit Cfg{..} fallback c
   = case sTo of
     Just to -> SetTo to
     Nothing
-      | cMatches majorrgx c    -> Breaking
-      | cMatches minorrgx c    -> Feature
-      | cMatches patchrgx c    -> Fix
-      | cMatches nochangergx c -> NoChange
-      | otherwise              -> fallback
+      | cMatches majorr c    -> Breaking
+      | cMatches minorr c    -> Feature
+      | cMatches patchr c    -> Fix
+      | cMatches nochanger c -> NoChange
+      | otherwise            -> fallback
     where
-      sTo | not tagvs = Nothing
-          | otherwise = tryReadVersion =<< tag c
+      sTo | not tagver = Nothing
+          | otherwise  = tryReadVersion =<< tag c
 
 --------------------------------------------------------------------------------
 

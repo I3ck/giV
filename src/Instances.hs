@@ -18,11 +18,11 @@ instance Monoid Version where
 
 --------------------------------------------------------------------------------
 
-instance FromJSON CfgChangeRule where
+instance FromJSON ChangeRuleRaw where
 
 --------------------------------------------------------------------------------
 
-instance FromJSON Cfg where
+instance FromJSON CfgRaw where
 
 --------------------------------------------------------------------------------
 
@@ -57,7 +57,7 @@ instance Show DebugInfo where
     ++ (unlines . fmap show . bMaster $ dLines)
     where
       mShow Nothing  = "NOT SET"
-      mShow (Just x) = x
+      mShow (Just x) = unRegexp x
 
 --------------------------------------------------------------------------------
 

@@ -20,17 +20,16 @@ import           System.Directory    (withCurrentDirectory)
 main :: IO ()
 main = do
   args <- execParser opts
-  eCfg <- loadCfg args
+  erCfg <- loadCfg args
 
-  case eCfg of
+  case erCfg of
     Left e    -> print e
-    Right cfg -> do
+    Right rcfg -> do
 
-      let gitdir      = repo args
-          changerules = createChangeRules cfg
-          fallbacks   = createFallbacks cfg args changerules
+      let cfg         = createCfg rcfg
+          gitdir      = repo args
+          fallbacks   = createFallbacks cfg args (defaultchangerls cfg)
           dbg         = verbose args
-          changergxs  = createChangeRgxs cfg
 
       when dbg $ putStrLn "Fetching..."
       cs <- withCurrentDirectory gitdir $ fetchCommitString $ Branch $ branch args
@@ -40,9 +39,9 @@ main = do
         (Right commitsB, Right commitsM) -> do
           when dbg $ putStrLn "Processing..."
           let commits  = BranchMaster commitsB commitsM
-              changes  = process changergxs <$> fallbacks <*> commits
+              changes  = process cfg <$> fallbacks <*> commits
               v        = version changes
-          when dbg $ print $ makeDebug cfg fallbacks commits changes changerules
+          when dbg $ print $ makeDebug cfg fallbacks commits changes
           print v
         (Left e, _) -> putStrLn $ "Error parsing commit data of branch: " ++ e
         (_, Left e) -> putStrLn $ "Error parsing commit data of master: " ++ e

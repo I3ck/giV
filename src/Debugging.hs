@@ -8,14 +8,14 @@ import           Utils
 
 --------------------------------------------------------------------------------
 
-makeDebug :: Cfg -> BranchMaster Change -> BranchMaster [Commit] -> BranchMaster [Change] -> [ChangeRule] -> DebugInfo
-makeDebug Cfg{..} cdefault (BranchMaster commitsB commitsM) (BranchMaster changesB changesM) crules = DebugInfo
+makeDebug :: Cfg -> BranchMaster Change -> BranchMaster [Commit] -> BranchMaster [Change] -> DebugInfo
+makeDebug Cfg{..} cdefault (BranchMaster commitsB commitsM) (BranchMaster changesB changesM) = DebugInfo
   { dDefault  = cdefault
-  , dMajor    = majorregexp
-  , dMinor    = minorregexp
-  , dPatch    = patchregexp
-  , dNoChange = nochangeregexp
-  , dRules    = crules
+  , dMajor    = majorr
+  , dMinor    = minorr
+  , dPatch    = patchr
+  , dNoChange = nochanger
+  , dRules    = defaultchangerls
   , dLines    = BranchMaster{bBranch = linesB, bMaster = linesM}
   }
   where
