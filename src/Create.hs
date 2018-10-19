@@ -1,4 +1,4 @@
-module Create 
+module Create
   ( createChangeRgxs
   , createChangeRules
   , createFallbacks
@@ -7,7 +7,7 @@ module Create
 import           Types
 import           Utils
 
-import           Data.List           (find)
+import           Data.List (find)
 
 --------------------------------------------------------------------------------
 
