@@ -11,25 +11,25 @@ type GiV = ExceptT GiVError IO
 
 newtype Subject = Subject
   { unSubject :: String
-  } deriving (Show)
+  }
 
 --------------------------------------------------------------------------------
 
 newtype Tag = Tag
   { unTag :: String
-  } deriving (Show)
+  }
 
 --------------------------------------------------------------------------------
 
 newtype Branch = Branch
   { unBranch :: String
-  } deriving (Show)
+  }
 
 --------------------------------------------------------------------------------
 
 newtype CommitString = CommitString
   { unCommitString :: String
-  } deriving (Show)
+  }
 
 --------------------------------------------------------------------------------
 
@@ -57,7 +57,7 @@ data GiVError
 data BranchMaster a = BranchMaster
   { branch :: a
   , master :: a
-  } deriving (Show)
+  }
 
 --------------------------------------------------------------------------------
 
@@ -73,7 +73,7 @@ data CliArgs = CliArgs
 data ChangeRule = ChangeRule
   { change :: Change
   , rule   :: Regexp
-  } deriving (Generic)
+  }
 
 data ChangeRuleRaw = ChangeRuleRaw
   { nameregexp    :: String
@@ -140,7 +140,7 @@ deriving instance Show Version => Show Change
 data Commit = Commit
   { tag     :: Maybe Tag
   , subject :: Subject
-  } deriving (Show)
+  }
 
 --------------------------------------------------------------------------------
 
@@ -148,5 +148,4 @@ data Version = Version
   { major :: Int
   , minor :: Int
   , patch :: Int
-  }
-  deriving (Read, Eq, Ord)
+  } deriving (Read, Eq, Ord)
