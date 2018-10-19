@@ -13,8 +13,8 @@ import           Control.Monad.Trans  (liftIO)
 
 loadCfg :: CliArgs -> GiV CfgRaw
 loadCfg CliArgs{..} = do
-  decode <- liftIO . Y.decodeFileEither $ cfg
+  decode <- liftIO . Y.decodeFileEither $ aCfg
   case decode of
-    Left e  -> throwError . YamlDecodeError . show $ e 
+    Left e  -> throwError . YamlDecodeError . show $ e
     Right x -> pure x
 

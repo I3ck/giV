@@ -11,12 +11,12 @@ import           Utils
 makeDebug :: Cfg -> BranchMaster Change -> BranchMaster [Commit] -> BranchMaster [Change] -> DebugInfo
 makeDebug Cfg{..} cdefault (BranchMaster commitsB commitsM) (BranchMaster changesB changesM) = DebugInfo
   { dDefault  = cdefault
-  , dMajor    = majorr
-  , dMinor    = minorr
-  , dPatch    = patchr
-  , dNoChange = nochanger
-  , dRules    = defaultchangerls
-  , dLines    = BranchMaster{bBranch = linesB, bMaster = linesM}
+  , dMajor    = cMajor
+  , dMinor    = cMinor
+  , dPatch    = cPatch
+  , dNoChange = cNoChange
+  , dRules    = cDefaultChangerls
+  , dLines    = BranchMaster{branch = linesB, master = linesM}
   }
   where
     linesM    = reverse $ makeLine <$> zip3 versionsM changesM commitsM

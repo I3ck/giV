@@ -1,3 +1,5 @@
+parse whole commit instead of just subject
+
 reading subject via %s might return newlines, resolve this issue  
 
 parseTag currently allows all sorts of non-user tags  
@@ -12,10 +14,6 @@ tests
 
 usage of Text instead of String?  
 
-config parse issues not really helpful  
-
 parse all regexp for validity (only create Regexp if valid)  
 
 option to output more info than just version  
-
-improve error handling by not returning Maybe  

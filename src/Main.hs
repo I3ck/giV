@@ -37,16 +37,16 @@ giV = do
   rcfg <- loadCfg args
 
   cfg <- liftEither . createCfg $ rcfg
-  let gitdir      = repo args
-      fallbacks   = createFallbacks cfg args (defaultchangerls cfg)
-      dbg         = verbose args
+  let gitdir      = aRepo args
+      fallbacks   = createFallbacks cfg args (cDefaultChangerls cfg)
+      dbg         = aVerbose args
 
   when dbg . liftIO $ putStrLn "Fetching..."
-  cs <- liftIO . withCurrentDirectory gitdir . fetchCommitString . Branch $ branch args
+  cs <- liftIO . withCurrentDirectory gitdir . fetchCommitString . Branch $ aBranch args
 
   when dbg . liftIO $ putStrLn "Parsing..."
-  commitsB <- liftEither . parseCommitString $ bBranch cs
-  commitsM <- liftEither . parseCommitString $ bMaster cs
+  commitsB <- liftEither . parseCommitString $ branch cs
+  commitsM <- liftEither . parseCommitString $ master cs
   when dbg . liftIO $ putStrLn "Processing..."
   let commits  = BranchMaster commitsB commitsM
       changes  = process cfg <$> fallbacks <*> commits

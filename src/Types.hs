@@ -45,7 +45,7 @@ newtype ErrorSource = ErrorSource
 
 --------------------------------------------------------------------------------
 
-data GiVError 
+data GiVError
   = YamlDecodeError            String
   | InvalidDefaultChangeBranch ErrorSource
   | InvalidDefaultChangeMaster ErrorSource
@@ -55,24 +55,24 @@ data GiVError
 --------------------------------------------------------------------------------
 
 data BranchMaster a = BranchMaster
-  { bBranch :: a
-  , bMaster :: a
+  { branch :: a
+  , master :: a
   } deriving (Show)
 
 --------------------------------------------------------------------------------
 
 data CliArgs = CliArgs
-  { repo    :: String
-  , cfg     :: String
-  , branch  :: String
-  , verbose :: Bool
+  { aRepo    :: String
+  , aCfg     :: String
+  , aBranch  :: String
+  , aVerbose :: Bool
   }
 
 --------------------------------------------------------------------------------
 
 data ChangeRule = ChangeRule
-  { nregexp :: Regexp
-  , dchange :: Change
+  { change :: Change
+  , rule   :: Regexp
   } deriving (Generic)
 
 data ChangeRuleRaw = ChangeRuleRaw
@@ -94,13 +94,13 @@ data CfgRaw = CfgRaw
   } deriving (Generic)
 
 data Cfg = Cfg
-  { majorr           :: Maybe Regexp
-  , minorr           :: Maybe Regexp
-  , patchr           :: Maybe Regexp
-  , nochanger        :: Maybe Regexp
-  , tagver           :: Bool
-  , defaultChanges   :: BranchMaster Change
-  , defaultchangerls :: [ChangeRule]
+  { cMajor            :: Maybe Regexp
+  , cMinor            :: Maybe Regexp
+  , cPatch            :: Maybe Regexp
+  , cNoChange         :: Maybe Regexp
+  , cTagVer           :: Bool
+  , cDefaultChanges   :: BranchMaster Change
+  , cDefaultChangerls :: [ChangeRule]
   }
 
 --------------------------------------------------------------------------------

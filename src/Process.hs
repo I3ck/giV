@@ -18,14 +18,14 @@ processCommit Cfg{..} fallback c
   = case sTo of
     Just to -> SetTo to
     Nothing
-      | cMatches majorr c    -> Breaking
-      | cMatches minorr c    -> Feature
-      | cMatches patchr c    -> Fix
-      | cMatches nochanger c -> NoChange
+      | cMatches cMajor c    -> Breaking
+      | cMatches cMinor c    -> Feature
+      | cMatches cPatch c    -> Fix
+      | cMatches cNoChange c -> NoChange
       | otherwise            -> fallback
     where
-      sTo | not tagver = Nothing
-          | otherwise  = tryReadVersion =<< tag c
+      sTo | not cTagVer = Nothing
+          | otherwise   = tryReadVersion =<< tag c
 
 --------------------------------------------------------------------------------
 

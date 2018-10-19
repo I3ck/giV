@@ -36,14 +36,14 @@ instance Applicative BranchMaster where
 --------------------------------------------------------------------------------
 
 instance Show ChangeRule where
-  show ChangeRule{..} = show dchange ++ " <- " ++ unRegexp nregexp
+  show ChangeRule{..} = show change ++ " <- " ++ unRegexp rule
 
 --------------------------------------------------------------------------------
 
 instance Show DebugInfo where
   show DebugInfo{..} = unlines
-    [ "Default change branch: " ++ (show . bBranch $ dDefault)
-    , "Default change master: " ++ (show . bMaster $ dDefault)
+    [ "Default change branch: " ++ (show . branch $ dDefault)
+    , "Default change master: " ++ (show . master $ dDefault)
     , "Major change word: " ++ mShow dMajor
     , "Minor change word: " ++ mShow dMinor
     , "Patch change word: " ++ mShow dPatch
@@ -51,10 +51,10 @@ instance Show DebugInfo where
     , "Default change rules: "
     ]
     ++ '\n' : (unlines . fmap show $ dRules)
-    ++ (if not . null . bBranch $ dLines then "\nBRANCH CHANGES\n" else "")
-    ++ (unlines . fmap show . bBranch $ dLines)
-    ++ (if not . null . bMaster $ dLines then "\nMASTER CHANGES\n" else "")
-    ++ (unlines . fmap show . bMaster $ dLines)
+    ++ (if not . null . branch $ dLines then "\nBRANCH CHANGES\n" else "")
+    ++ (unlines . fmap show . branch $ dLines)
+    ++ (if not . null . master $ dLines then "\nMASTER CHANGES\n" else "")
+    ++ (unlines . fmap show . master $ dLines)
     where
       mShow Nothing  = "NOT SET"
       mShow (Just x) = unRegexp x

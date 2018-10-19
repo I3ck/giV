@@ -16,25 +16,25 @@ createCfg CfgRaw{..} = do
    dcm <- maybeToEither (InvalidDefaultChangeMaster $ ErrorSource defaultchangemaster) . maybeRead $ defaultchangemaster
    crs <- changeRules
    pure Cfg
-     { majorr           = Regexp <$> majorregexp
-     , minorr           = Regexp <$> minorregexp
-     , patchr           = Regexp <$> patchregexp
-     , nochanger        = Regexp <$> nochangeregexp
-     , tagver           = tagversioning
-     , defaultChanges   = BranchMaster dcb dcm
-     , defaultchangerls = crs
+     { cMajor           = Regexp <$> majorregexp
+     , cMinor           = Regexp <$> minorregexp
+     , cPatch           = Regexp <$> patchregexp
+     , cNoChange        = Regexp <$> nochangeregexp
+     , cTagVer          = tagversioning
+     , cDefaultChanges   = BranchMaster dcb dcm
+     , cDefaultChangerls = crs
      }
   where
     changeRules = mapM fRules defaultchangerules
-    fRules x    = ChangeRule <$> (pure . Regexp . nameregexp $ x) <*> (maybeToEither (InvalidDefaultChange . ErrorSource . defaultchange $ x) . maybeRead $ defaultchange x)
+    fRules x    = ChangeRule <$> (maybeToEither (InvalidDefaultChange . ErrorSource . defaultchange $ x) . maybeRead $ defaultchange x) <*> (pure . Regexp . nameregexp $ x)
 
 --------------------------------------------------------------------------------
 
 createFallbacks :: Cfg -> CliArgs -> [ChangeRule] -> BranchMaster Change
 createFallbacks cfg args changerules = BranchMaster fallbackB fallbackM
   where
-    fallbackM   = bMaster . defaultChanges $ cfg
-    fallbackB   = case find (\rule -> matches (nregexp rule) (branch args)) changerules of
-                  Just r  -> dchange r
-                  Nothing -> bBranch . defaultChanges $ cfg
+    fallbackM   = master . cDefaultChanges $ cfg
+    fallbackB   = case find (\cr -> matches (rule cr) (aBranch args)) changerules of
+                  Just r  -> change r
+                  Nothing -> branch . cDefaultChanges $ cfg
 
