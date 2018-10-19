@@ -11,40 +11,46 @@ import           Types
 import           Version
 import           Instances ()
 
-import           Control.Monad       (when)
+import           Control.Monad        (when)
+import           Control.Monad.Except (runExceptT, liftEither)
+import           Control.Monad.Trans  (liftIO)
 import           Options.Applicative
-import           System.Directory    (withCurrentDirectory)
+import           System.Directory     (withCurrentDirectory)
+import           System.Exit          (exitFailure)
 
 --------------------------------------------------------------------------------
 
 main :: IO ()
 main = do
-  args  <- execParser opts
-  erCfg <- loadCfg args
+  result <- runExceptT giV
+  case result of
+    Right () -> pure ()
+    Left e -> do
+      print e
+      exitFailure
 
-  case erCfg of
-    Left e    -> print e
-    Right rcfg -> do
+--------------------------------------------------------------------------------
 
-      case createCfg rcfg of
-        Nothing  -> putStrLn "Failed parsing config values"
-        Just cfg -> do
-          let gitdir      = repo args
-              fallbacks   = createFallbacks cfg args (defaultchangerls cfg)
-              dbg         = verbose args
+giV :: GiV ()
+giV = do
+  args  <- liftIO . execParser $ opts
+  rcfg <- loadCfg args
 
-          when dbg $ putStrLn "Fetching..."
-          cs <- withCurrentDirectory gitdir $ fetchCommitString $ Branch $ branch args
+  cfg <- liftEither . createCfg $ rcfg
+  let gitdir      = repo args
+      fallbacks   = createFallbacks cfg args (defaultchangerls cfg)
+      dbg         = verbose args
 
-          when dbg $ putStrLn "Parsing..."
-          case (parseCommitString $ bBranch cs, parseCommitString $ bMaster cs) of
-            (Right commitsB, Right commitsM) -> do
-              when dbg $ putStrLn "Processing..."
-              let commits  = BranchMaster commitsB commitsM
-                  changes  = process cfg <$> fallbacks <*> commits
-                  v        = version changes
-              when dbg $ print $ makeDebug cfg fallbacks commits changes
-              print v
-            (Left e, _) -> putStrLn $ "Error parsing commit data of branch: " ++ e
-            (_, Left e) -> putStrLn $ "Error parsing commit data of master: " ++ e
+  when dbg . liftIO $ putStrLn "Fetching..."
+  cs <- liftIO . withCurrentDirectory gitdir . fetchCommitString . Branch $ branch args
+
+  when dbg . liftIO $ putStrLn "Parsing..."
+  commitsB <- liftEither . parseCommitString $ bBranch cs
+  commitsM <- liftEither . parseCommitString $ bMaster cs
+  when dbg . liftIO $ putStrLn "Processing..."
+  let commits  = BranchMaster commitsB commitsM
+      changes  = process cfg <$> fallbacks <*> commits
+      v        = version changes
+  when dbg . liftIO $ print . makeDebug cfg fallbacks commits $ changes
+  liftIO . print $ v
 

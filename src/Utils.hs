@@ -17,6 +17,12 @@ maybeRead = fmap fst . listToMaybe . reads
 
 --------------------------------------------------------------------------------
 
+maybeToEither :: e -> Maybe a -> Either e a
+maybeToEither _   (Just x) = Right x
+maybeToEither err Nothing  = Left err
+
+--------------------------------------------------------------------------------
+
 nchars :: (Show a) => a -> Int
 nchars = length . show
 

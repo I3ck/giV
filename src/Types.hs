@@ -1,6 +1,11 @@
 module Types where
 
 import GHC.Generics
+import Control.Monad.Except
+
+--------------------------------------------------------------------------------
+
+type GiV = ExceptT GiVError IO
 
 --------------------------------------------------------------------------------
 
@@ -31,6 +36,21 @@ newtype CommitString = CommitString
 newtype Regexp = Regexp
  { unRegexp :: String
  }
+
+--------------------------------------------------------------------------------
+
+newtype ErrorSource = ErrorSource
+  { unErrorSource :: String
+  }
+
+--------------------------------------------------------------------------------
+
+data GiVError 
+  = YamlDecodeError            String
+  | InvalidDefaultChangeBranch ErrorSource
+  | InvalidDefaultChangeMaster ErrorSource
+  | InvalidDefaultChange       ErrorSource
+  | UnableToParseCommitString  String
 
 --------------------------------------------------------------------------------
 

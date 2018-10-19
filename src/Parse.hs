@@ -5,14 +5,22 @@ module Parse
 import           Types
 
 import           Control.Applicative              (optional)
+import           Control.Monad.Except (throwError)
 import           Data.Attoparsec.ByteString.Char8
 import qualified Data.ByteString.Char8            as DText
 import           Data.String.Conversions          (cs)
 
 --------------------------------------------------------------------------------
 
-parseCommitString :: CommitString -> Either String [Commit]
-parseCommitString = parseOnly (parseCommits <* endOfInput) . cs . unCommitString
+parseCommitString :: CommitString -> Either GiVError [Commit]
+parseCommitString cs = case parseCommitString' cs of
+                         Left e  -> throwError . UnableToParseCommitString $ e
+                         Right x -> pure x
+
+--------------------------------------------------------------------------------
+
+parseCommitString' :: CommitString -> Either String [Commit]
+parseCommitString' = parseOnly (parseCommits <* endOfInput) . cs . unCommitString
 
 --------------------------------------------------------------------------------
 

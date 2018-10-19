@@ -10,10 +10,10 @@ import           Data.List (find)
 
 --------------------------------------------------------------------------------
 
-createCfg :: CfgRaw -> Maybe Cfg
+createCfg :: CfgRaw -> Either GiVError Cfg
 createCfg CfgRaw{..} = do
-   dcb <- maybeRead defaultchangebranch
-   dcm <- maybeRead defaultchangemaster
+   dcb <- maybeToEither (InvalidDefaultChangeBranch $ ErrorSource defaultchangebranch) . maybeRead $ defaultchangebranch
+   dcm <- maybeToEither (InvalidDefaultChangeMaster $ ErrorSource defaultchangemaster) . maybeRead $ defaultchangemaster
    crs <- changeRules
    pure Cfg
      { majorr           = Regexp <$> majorregexp
@@ -25,7 +25,8 @@ createCfg CfgRaw{..} = do
      , defaultchangerls = crs
      }
   where
-    changeRules = mapM (\x -> ChangeRule <$> (pure . Regexp . nameregexp $ x) <*> (maybeRead $ defaultchange x)) $ defaultchangerules
+    changeRules = mapM fRules defaultchangerules
+    fRules x    = ChangeRule <$> (pure . Regexp . nameregexp $ x) <*> (maybeToEither (InvalidDefaultChange . ErrorSource . defaultchange $ x) . maybeRead $ defaultchange x)
 
 --------------------------------------------------------------------------------
 

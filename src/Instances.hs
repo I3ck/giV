@@ -75,3 +75,12 @@ instance Show DebugLine where
       showCo' Nothing s  = unSubject s
       showCo' (Just t) s = unSubject s ++ " [" ++ (show . unTag $ t) ++ "]"
 
+--------------------------------------------------------------------------------
+
+instance Show GiVError where
+  show (YamlDecodeError s)             = "Unable to decode .yaml file: " ++ s
+  show (InvalidDefaultChangeBranch es) = "The default change given for a branch '" ++ unErrorSource es ++ "' is invalid"
+  show (InvalidDefaultChangeMaster es) = "The default change given for master '" ++ unErrorSource es ++ "' is invalid"
+  show (InvalidDefaultChange es)       = "The default change '" ++ unErrorSource es ++ "' is invalid"
+  show (UnableToParseCommitString s)   = "Unable to parse commit string: " ++ s
+
