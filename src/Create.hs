@@ -10,18 +10,22 @@ import           Data.List (find)
 
 --------------------------------------------------------------------------------
 
-createCfg :: CfgRaw -> Cfg
-createCfg CfgRaw{..} = Cfg
-  { majorr           = Regexp <$> majorregexp
-  , minorr           = Regexp <$> minorregexp
-  , patchr           = Regexp <$> patchregexp
-  , nochanger        = Regexp <$> nochangeregexp
-  , tagver           = tagversioning
-  , defaultChanges   = BranchMaster (read defaultchangebranch) (read defaultchangemaster) ---TODO don't use read
-  , defaultchangerls = changeRules
-  }
+createCfg :: CfgRaw -> Maybe Cfg
+createCfg CfgRaw{..} = do
+   dcb <- maybeRead defaultchangebranch
+   dcm <- maybeRead defaultchangemaster
+   crs <- changeRules
+   pure Cfg
+     { majorr           = Regexp <$> majorregexp
+     , minorr           = Regexp <$> minorregexp
+     , patchr           = Regexp <$> patchregexp
+     , nochanger        = Regexp <$> nochangeregexp
+     , tagver           = tagversioning
+     , defaultChanges   = BranchMaster dcb dcm
+     , defaultchangerls = crs
+     }
   where
-    changeRules = fmap (\x -> ChangeRule (Regexp $ nameregexp x) (read $ defaultchange x)) $ defaultchangerules --TODO dont use read
+    changeRules = mapM (\x -> ChangeRule <$> (pure . Regexp . nameregexp $ x) <*> (maybeRead $ defaultchange x)) $ defaultchangerules
 
 --------------------------------------------------------------------------------
 
