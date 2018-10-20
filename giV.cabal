@@ -32,6 +32,7 @@ executable giV
                      , containers
                      , split
                      , yaml
+                     , aeson
                      , regex-tdfa
                      , regex-tdfa-text
                      , mtl

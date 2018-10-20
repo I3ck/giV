@@ -66,6 +66,7 @@ data BranchMaster a = BranchMaster
 data OutputMode
   = OutputVersion
   | OutputYAML
+  | OutputJSON
   deriving (Read)
 
 --------------------------------------------------------------------------------

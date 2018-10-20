@@ -16,7 +16,8 @@ import           Control.Monad        (when)
 import           Control.Monad.Except (runExceptT, liftEither)
 import           Control.Monad.Trans  (liftIO)
 import           Data.Text            (unpack)
-import           Data.Yaml            (encode)
+import qualified Data.Yaml  as Y
+import qualified Data.Aeson as J
 import           Options.Applicative
 import           System.Directory     (withCurrentDirectory)
 import           System.Exit          (exitFailure)
@@ -60,5 +61,6 @@ giV = do
   when dbg . liftIO $ print . makeDebug cfg fallbacks commits $ changes
   case aOutput args of
     OutputVersion -> liftIO . putStrLn . asVersion $ result
-    OutputYAML    -> liftIO . putStrLn . CV.cs . encode $ result
+    OutputYAML    -> liftIO . putStrLn . CV.cs . Y.encode $ result
+    OutputJSON    -> liftIO . putStrLn . CV.cs . J.encode $ result
 

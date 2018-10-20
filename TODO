@@ -12,6 +12,3 @@ tests
 
 parse all regexp for validity (only create Regexp if valid)  
 precompile regular expressions (currently compiled on every use?)  
-
-option to output more info than just version  
-
