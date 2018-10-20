@@ -65,6 +65,7 @@ data BranchMaster a = BranchMaster
 
 data OutputMode
   = OutputVersion
+  | OutputYAML
   deriving (Read)
 
 --------------------------------------------------------------------------------
@@ -162,7 +163,15 @@ data Commit = Commit
 --------------------------------------------------------------------------------
 
 data Version = Version
+  { vmajor :: Int
+  , vminor :: Int
+  , vpatch :: Int
+  } deriving (Read, Eq, Ord)
+
+--------------------------------------------------------------------------------
+
+data Result = Result
   { major :: Int
   , minor :: Int
   , patch :: Int
-  } deriving (Read, Eq, Ord)
+  } deriving (Generic)

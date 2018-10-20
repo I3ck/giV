@@ -52,4 +52,3 @@ createFallbacks cfg args changerules = BranchMaster fallbackB fallbackM
     fallbackB   = case find (\cr -> matches (rule cr) (aBranch args)) changerules of
                   Just r  -> change r
                   Nothing -> branch . cDefaultChanges $ cfg
-

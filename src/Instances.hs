@@ -7,7 +7,7 @@ import           Data.Text (unpack)
 --------------------------------------------------------------------------------
 
 instance Show Version where
-  show Version{..} = show major ++ "." ++ show minor ++ "." ++ show patch
+  show Version{..} = show vmajor ++ "." ++ show vminor ++ "." ++ show vpatch
 
 instance Semigroup Version where
   v1 <> v2 = if v1 > v2
@@ -15,7 +15,7 @@ instance Semigroup Version where
              else v2
 
 instance Monoid Version where
-  mempty = Version { major = 0, minor = 0, patch = 0}
+  mempty = Version { vmajor = 0, vminor = 0, vpatch = 0}
 
 --------------------------------------------------------------------------------
 
@@ -24,6 +24,10 @@ instance FromJSON ChangeRuleRaw where
 --------------------------------------------------------------------------------
 
 instance FromJSON CfgRaw where
+
+--------------------------------------------------------------------------------
+
+instance ToJSON Result where
 
 --------------------------------------------------------------------------------
 

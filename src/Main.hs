@@ -9,15 +9,18 @@ import           Process
 import           Debugging
 import           Types
 import           Version
+import           Result
 import           Instances ()
 
 import           Control.Monad        (when)
 import           Control.Monad.Except (runExceptT, liftEither)
 import           Control.Monad.Trans  (liftIO)
 import           Data.Text            (unpack)
+import           Data.Yaml            (encode)
 import           Options.Applicative
 import           System.Directory     (withCurrentDirectory)
 import           System.Exit          (exitFailure)
+import qualified Data.String.Conversions as CV
 
 --------------------------------------------------------------------------------
 
@@ -53,7 +56,9 @@ giV = do
   let commits  = BranchMaster commitsB commitsM
       changes  = process cfg <$> fallbacks <*> commits
       v        = version changes
+      result   = createResult v
   when dbg . liftIO $ print . makeDebug cfg fallbacks commits $ changes
   case aOutput args of
-    OutputVersion -> liftIO . print $ v
+    OutputVersion -> liftIO . putStrLn . asVersion $ result
+    OutputYAML    -> liftIO . putStrLn . CV.cs . encode $ result
 
