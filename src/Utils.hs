@@ -3,7 +3,9 @@ module Utils where
 import           Types
 import           Data.Maybe (listToMaybe)
 import           Data.List (group, sort)
+import           Data.Text (Text)
 import           Text.Regex.TDFA ((=~))
+import           Text.Regex.TDFA.Text ()
 
 --------------------------------------------------------------------------------
 
@@ -28,7 +30,7 @@ nchars = length . show
 
 --------------------------------------------------------------------------------
 
-matches :: Regexp -> String -> Bool
+matches :: Regexp -> Text -> Bool
 matches (Regexp r) x = x =~ r
 
 --------------------------------------------------------------------------------

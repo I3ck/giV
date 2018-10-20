@@ -7,13 +7,14 @@ import           Types
 import           Utils
 
 import           Data.List (find)
+import           Data.Text (unpack)
 
 --------------------------------------------------------------------------------
 
 createCfg :: CfgRaw -> Either GiVError Cfg
 createCfg CfgRaw{..} = do
-   dcb <- maybeToEither (InvalidDefaultChangeBranch $ ErrorSource defaultchangebranch) . maybeRead $ defaultchangebranch
-   dcm <- maybeToEither (InvalidDefaultChangeMaster $ ErrorSource defaultchangemaster) . maybeRead $ defaultchangemaster
+   dcb <- maybeToEither (InvalidDefaultChangeBranch $ ErrorSource defaultchangebranch) . maybeRead . unpack $ defaultchangebranch
+   dcm <- maybeToEither (InvalidDefaultChangeMaster $ ErrorSource defaultchangemaster) . maybeRead . unpack $ defaultchangemaster
    crs <- changeRules
    pure Cfg
      { cMajor           = Regexp <$> majorregexp
@@ -26,7 +27,7 @@ createCfg CfgRaw{..} = do
      }
   where
     changeRules = mapM fRules defaultchangerules
-    fRules x    = ChangeRule <$> (maybeToEither (InvalidDefaultChange . ErrorSource . defaultchange $ x) . maybeRead $ defaultchange x) <*> (pure . Regexp . nameregexp $ x)
+    fRules x    = ChangeRule <$> (maybeToEither (InvalidDefaultChange . ErrorSource . defaultchange $ x) . maybeRead . unpack $ defaultchange x) <*> (pure . Regexp . nameregexp $ x)
 
 --------------------------------------------------------------------------------
 

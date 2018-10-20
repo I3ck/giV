@@ -14,6 +14,7 @@ import           Instances ()
 import           Control.Monad        (when)
 import           Control.Monad.Except (runExceptT, liftEither)
 import           Control.Monad.Trans  (liftIO)
+import           Data.Text            (unpack)
 import           Options.Applicative
 import           System.Directory     (withCurrentDirectory)
 import           System.Exit          (exitFailure)
@@ -42,7 +43,7 @@ giV = do
       dbg         = aVerbose args
 
   when dbg . liftIO $ putStrLn "Fetching..."
-  cs <- liftIO . withCurrentDirectory gitdir . fetchCommitString . Branch $ aBranch args
+  cs <- liftIO . withCurrentDirectory (unpack gitdir) . fetchCommitString . Branch $ aBranch args
 
   when dbg . liftIO $ putStrLn "Parsing..."
   commitsB <- liftEither . parseCommitString $ branch cs

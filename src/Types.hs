@@ -1,5 +1,6 @@
 module Types where
 
+import Data.Text
 import GHC.Generics
 import Control.Monad.Except
 
@@ -10,47 +11,47 @@ type GiV = ExceptT GiVError IO
 --------------------------------------------------------------------------------
 
 newtype Subject = Subject
-  { unSubject :: String
+  { unSubject :: Text
   }
 
 --------------------------------------------------------------------------------
 
 newtype Tag = Tag
-  { unTag :: String
+  { unTag :: Text
   }
 
 --------------------------------------------------------------------------------
 
 newtype Branch = Branch
-  { unBranch :: String
+  { unBranch :: Text
   }
 
 --------------------------------------------------------------------------------
 
 newtype CommitString = CommitString
-  { unCommitString :: String
+  { unCommitString :: Text
   }
 
 --------------------------------------------------------------------------------
 
 newtype Regexp = Regexp
- { unRegexp :: String
+ { unRegexp :: Text
  }
 
 --------------------------------------------------------------------------------
 
 newtype ErrorSource = ErrorSource
-  { unErrorSource :: String
+  { unErrorSource :: Text
   }
 
 --------------------------------------------------------------------------------
 
 data GiVError
-  = YamlDecodeError            String
+  = YamlDecodeError            Text
   | InvalidDefaultChangeBranch ErrorSource
   | InvalidDefaultChangeMaster ErrorSource
   | InvalidDefaultChange       ErrorSource
-  | UnableToParseCommitString  String
+  | UnableToParseCommitString  Text
 
 --------------------------------------------------------------------------------
 
@@ -62,9 +63,9 @@ data BranchMaster a = BranchMaster
 --------------------------------------------------------------------------------
 
 data CliArgs = CliArgs
-  { aRepo    :: String
-  , aCfg     :: String
-  , aBranch  :: String
+  { aRepo    :: Text
+  , aCfg     :: Text
+  , aBranch  :: Text
   , aVerbose :: Bool
   }
 
@@ -76,20 +77,20 @@ data ChangeRule = ChangeRule
   }
 
 data ChangeRuleRaw = ChangeRuleRaw
-  { nameregexp    :: String
-  , defaultchange :: String
+  { nameregexp    :: Text
+  , defaultchange :: Text
   } deriving (Generic)
 
 --------------------------------------------------------------------------------
 
 data CfgRaw = CfgRaw
-  { majorregexp          :: Maybe String
-  , minorregexp          :: Maybe String
-  , patchregexp          :: Maybe String
-  , nochangeregexp       :: Maybe String
+  { majorregexp          :: Maybe Text
+  , minorregexp          :: Maybe Text
+  , patchregexp          :: Maybe Text
+  , nochangeregexp       :: Maybe Text
   , tagversioning        :: Bool
-  , defaultchangemaster  :: String
-  , defaultchangebranch  :: String
+  , defaultchangemaster  :: Text
+  , defaultchangebranch  :: Text
   , defaultchangerules   :: [ChangeRuleRaw]
   } deriving (Generic)
 

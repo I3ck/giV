@@ -2,6 +2,7 @@ module Instances where
 
 import           Types
 import           Data.Yaml
+import           Data.Text (unpack)
 
 --------------------------------------------------------------------------------
 
@@ -9,7 +10,7 @@ instance Show Version where
   show Version{..} = show major ++ "." ++ show minor ++ "." ++ show patch
 
 instance Semigroup Version where
-  v1 <> v2 = if v1 > v2 
+  v1 <> v2 = if v1 > v2
              then v1
              else v2
 
@@ -36,7 +37,7 @@ instance Applicative BranchMaster where
 --------------------------------------------------------------------------------
 
 instance Show ChangeRule where
-  show ChangeRule{..} = show change ++ " <- " ++ unRegexp rule
+  show ChangeRule{..} = show change ++ " <- " ++ (unpack . unRegexp $ rule)
 
 --------------------------------------------------------------------------------
 
@@ -57,12 +58,12 @@ instance Show DebugInfo where
     ++ (unlines . fmap show . master $ dLines)
     where
       mShow Nothing  = "NOT SET"
-      mShow (Just x) = unRegexp x
+      mShow (Just x) = unpack . unRegexp $ x
 
 --------------------------------------------------------------------------------
 
 instance Show DebugLine where
-  show DebugLine{..} = show dVersion ++ " -> " ++ showCh dChange ++ " " ++ showCo dCommit 
+  show DebugLine{..} = show dVersion ++ " -> " ++ showCh dChange ++ " " ++ showCo dCommit
     where
       showCh NoChange  = "[  N  ]"
       showCh Fix       = "[ FIX ]"
@@ -72,15 +73,15 @@ instance Show DebugLine where
 
       showCo c = showCo' (tag c) (subject c)
 
-      showCo' Nothing s  = unSubject s
-      showCo' (Just t) s = unSubject s ++ " [" ++ (show . unTag $ t) ++ "]"
+      showCo' Nothing s  = unpack . unSubject $ s
+      showCo' (Just t) s = (unpack . unSubject $ s) ++ " [" ++ (show . unTag $ t) ++ "]"
 
 --------------------------------------------------------------------------------
 
 instance Show GiVError where
-  show (YamlDecodeError s)             = "Unable to decode .yaml file: " ++ s
-  show (InvalidDefaultChangeBranch es) = "The default change given for a branch '" ++ unErrorSource es ++ "' is invalid"
-  show (InvalidDefaultChangeMaster es) = "The default change given for master '" ++ unErrorSource es ++ "' is invalid"
-  show (InvalidDefaultChange es)       = "The default change '" ++ unErrorSource es ++ "' is invalid"
-  show (UnableToParseCommitString s)   = "Unable to parse commit string: " ++ s
+  show (YamlDecodeError s)             = "Unable to decode .yaml file: " ++ unpack s
+  show (InvalidDefaultChangeBranch es) = "The default change given for a branch '" ++ (unpack . unErrorSource $ es) ++ "' is invalid"
+  show (InvalidDefaultChangeMaster es) = "The default change given for master '" ++ (unpack . unErrorSource $ es) ++ "' is invalid"
+  show (InvalidDefaultChange es)       = "The default change '" ++ (unpack . unErrorSource $ es) ++ "' is invalid"
+  show (UnableToParseCommitString s)   = "Unable to parse commit string: " ++ unpack s
 

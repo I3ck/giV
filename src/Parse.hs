@@ -6,21 +6,21 @@ import           Types
 
 import           Control.Applicative              (optional)
 import           Control.Monad.Except (throwError)
-import           Data.Attoparsec.ByteString.Char8
-import qualified Data.ByteString.Char8            as DText
+import           Data.Text
+import           Data.Attoparsec.Text
 import           Data.String.Conversions          (cs)
 
 --------------------------------------------------------------------------------
 
 parseCommitString :: CommitString -> Either GiVError [Commit]
 parseCommitString cs = case parseCommitString' cs of
-                         Left e  -> throwError . UnableToParseCommitString $ e
+                         Left e  -> throwError . UnableToParseCommitString . pack $ e
                          Right x -> pure x
 
 --------------------------------------------------------------------------------
 
 parseCommitString' :: CommitString -> Either String [Commit]
-parseCommitString' = parseOnly (parseCommits <* endOfInput) . cs . unCommitString
+parseCommitString' = parseOnly (parseCommits <* endOfInput) . unCommitString
 
 --------------------------------------------------------------------------------
 
@@ -55,5 +55,5 @@ parseSubject = Subject . cs <$> restOfLine
 
 --------------------------------------------------------------------------------
 
-restOfLine :: Parser DText.ByteString
+restOfLine :: Parser Text
 restOfLine = option "" $ takeTill (== '\n')

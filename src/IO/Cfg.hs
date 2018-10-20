@@ -6,6 +6,7 @@ import           Types
 import           Instances ()
 
 import qualified Data.Yaml           as Y
+import           Data.Text            (pack, unpack)
 import           Control.Monad.Except (throwError)
 import           Control.Monad.Trans  (liftIO)
 
@@ -13,8 +14,8 @@ import           Control.Monad.Trans  (liftIO)
 
 loadCfg :: CliArgs -> GiV CfgRaw
 loadCfg CliArgs{..} = do
-  decode <- liftIO . Y.decodeFileEither $ aCfg
+  decode <- liftIO . Y.decodeFileEither . unpack $ aCfg
   case decode of
-    Left e  -> throwError . YamlDecodeError . show $ e
+    Left e  -> throwError . YamlDecodeError . pack . show $ e
     Right x -> pure x
 

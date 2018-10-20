@@ -4,7 +4,7 @@ module Process
 
 import           Types
 import           Utils
-import           Data.List.Split                  (splitOn)
+import           Data.Text (splitOn, unpack)
 
 --------------------------------------------------------------------------------
 
@@ -36,7 +36,7 @@ tryReadVersion (Tag t) = do
                then pure $ splitOn "." $ vSplits !! 1
                else Nothing
   if length dotSplits == 3
-  then Version <$> maybeRead (dotSplits !! 0) <*> maybeRead (dotSplits !! 1) <*> maybeRead (dotSplits !! 2)
+  then Version <$> maybeRead (unpack $ dotSplits !! 0) <*> maybeRead (unpack $ dotSplits !! 1) <*> maybeRead (unpack $ dotSplits !! 2)
   else Nothing
 
 --------------------------------------------------------------------------------
