@@ -52,6 +52,7 @@ data GiVError
   | InvalidDefaultChangeMaster ErrorSource
   | InvalidDefaultChange       ErrorSource
   | UnableToParseCommitString  Text
+  | InvalidOutputMode          ErrorSource
 
 --------------------------------------------------------------------------------
 
@@ -62,10 +63,25 @@ data BranchMaster a = BranchMaster
 
 --------------------------------------------------------------------------------
 
-data CliArgs = CliArgs
+data OutputMode
+  = OutputVersion
+  deriving (Read)
+
+--------------------------------------------------------------------------------
+
+data ArgsRaw = ArgsRaw
+  { arRepo    :: Text
+  , arCfg     :: Text
+  , arBranch  :: Text
+  , arOutput  :: Text
+  , arVerbose :: Bool
+  }
+
+data Args = Args
   { aRepo    :: Text
   , aCfg     :: Text
   , aBranch  :: Text
+  , aOutput  :: OutputMode
   , aVerbose :: Bool
   }
 

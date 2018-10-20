@@ -8,7 +8,7 @@ import           Options.Applicative
 
 --------------------------------------------------------------------------------
 
-opts :: ParserInfo CliArgs
+opts :: ParserInfo ArgsRaw
 opts = info (helper <*> args)
     (  fullDesc
     <> progDesc "giV - Semantic versioning for Git repositories © Martin Buck"
@@ -17,8 +17,8 @@ opts = info (helper <*> args)
 
 --------------------------------------------------------------------------------
 
-args :: Parser CliArgs
-args = CliArgs
+args :: Parser ArgsRaw
+args = ArgsRaw
   <$> strOption
     (  long "repo"
     <> short 'r'
@@ -38,6 +38,13 @@ args = CliArgs
     <> help "The branch that should be versioned"
     <> metavar "STRING"
     <> value "master"
+    )
+  <*> strOption
+    (  long "outputmode"
+    <> short 'o'
+    <> help "The output mode [OutputVersion]"
+    <> metavar "STRING"
+    <> value "OutputVersion" 
     )
   <*> switch
     (  long "verbose"

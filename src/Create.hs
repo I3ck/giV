@@ -1,5 +1,6 @@
 module Create
   ( createCfg
+  , createArgs
   , createFallbacks
   ) where
 
@@ -31,7 +32,20 @@ createCfg CfgRaw{..} = do
 
 --------------------------------------------------------------------------------
 
-createFallbacks :: Cfg -> CliArgs -> [ChangeRule] -> BranchMaster Change
+createArgs :: ArgsRaw -> Either GiVError Args
+createArgs ArgsRaw{..} = do
+  output <- maybeToEither (InvalidOutputMode . ErrorSource $ arOutput) . maybeRead . unpack $ arOutput
+  pure Args
+    { aRepo    = arRepo
+    , aCfg     = arCfg
+    , aBranch  = arBranch
+    , aOutput  = output
+    , aVerbose = arVerbose
+    }
+
+--------------------------------------------------------------------------------
+
+createFallbacks :: Cfg -> Args -> [ChangeRule] -> BranchMaster Change
 createFallbacks cfg args changerules = BranchMaster fallbackB fallbackM
   where
     fallbackM   = master . cDefaultChanges $ cfg

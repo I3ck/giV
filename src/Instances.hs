@@ -84,4 +84,5 @@ instance Show GiVError where
   show (InvalidDefaultChangeMaster es) = "The default change given for master '" ++ (unpack . unErrorSource $ es) ++ "' is invalid"
   show (InvalidDefaultChange es)       = "The default change '" ++ (unpack . unErrorSource $ es) ++ "' is invalid"
   show (UnableToParseCommitString s)   = "Unable to parse commit string: " ++ unpack s
+  show (InvalidOutputMode es)          = "The provided OutputMode '" ++ (unpack . unErrorSource $ es) ++ "' is invalid"
 

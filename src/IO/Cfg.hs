@@ -12,8 +12,8 @@ import           Control.Monad.Trans  (liftIO)
 
 --------------------------------------------------------------------------------
 
-loadCfg :: CliArgs -> GiV CfgRaw
-loadCfg CliArgs{..} = do
+loadCfg :: Args -> GiV CfgRaw
+loadCfg Args{..} = do
   decode <- liftIO . Y.decodeFileEither . unpack $ aCfg
   case decode of
     Left e  -> throwError . YamlDecodeError . pack . show $ e

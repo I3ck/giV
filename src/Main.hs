@@ -34,8 +34,9 @@ main = do
 
 giV :: GiV ()
 giV = do
-  args  <- liftIO . execParser $ opts
-  rcfg <- loadCfg args
+  rargs <- liftIO . execParser $ opts
+  args  <- liftEither . createArgs $ rargs
+  rcfg  <- loadCfg args
 
   cfg <- liftEither . createCfg $ rcfg
   let gitdir      = aRepo args
@@ -53,5 +54,6 @@ giV = do
       changes  = process cfg <$> fallbacks <*> commits
       v        = version changes
   when dbg . liftIO $ print . makeDebug cfg fallbacks commits $ changes
-  liftIO . print $ v
+  case aOutput args of
+    OutputVersion -> liftIO . print $ v
 
