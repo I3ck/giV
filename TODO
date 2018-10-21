@@ -8,7 +8,7 @@ print version of program in cli help / desc text
 
 current parsing of version might result in false positives (some long tag text and thenv1.3.2this)  
 
-tests  
+extend tests  
 
 parse all regexp for validity (only create Regexp if valid)  
 precompile regular expressions (currently compiled on every use?)  

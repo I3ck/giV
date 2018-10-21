@@ -47,3 +47,50 @@ executable giV
                      , FlexibleContexts
                      , UndecidableInstances
                      , DeriveGeneric
+
+
+test-suite test
+  type:                exitcode-stdio-1.0
+  default-language:    Haskell2010
+  main-is:             Test.hs
+  other-modules:       Types
+                     , Utils
+                     , Args
+                     , IO.Fetch
+                     , IO.Cfg
+                     , Process
+                     , Parse
+                     , Version
+                     , Instances
+                     , Debugging
+                     , Create
+                     , Result
+  build-depends:       base >=4.11 && <4.12
+                     , process
+                     , directory
+                     , optparse-applicative
+                     , string-conversions
+                     , attoparsec
+                     , bytestring
+                     , containers
+                     , split
+                     , yaml
+                     , aeson
+                     , regex-tdfa
+                     , regex-tdfa-text
+                     , mtl
+                     , text
+
+                     , hspec
+                     , QuickCheck
+
+  hs-source-dirs:      src/
+  ghc-options:         -W -fwarn-incomplete-patterns -Werror
+  extensions:          DuplicateRecordFields
+                     , RecordWildCards
+                     , OverloadedStrings
+                     , StandaloneDeriving
+                     , FlexibleContexts
+                     , UndecidableInstances
+                     , DeriveGeneric
+
