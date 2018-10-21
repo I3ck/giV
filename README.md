@@ -98,7 +98,7 @@ Debugging
 
 `giV` with the `--verbose` flag makes it trivial to find issues caused by incorrect configurations.  
 The current configuration and both the version changes and resulting version per commit are displayed.  
-Below parts of the result of running `giV --verbose` on the Bitcoin repository  
+Below parts of the result of running `giV --verbose` on the Bitcoin repository (`...` -> shortened output)  
 
 ```
 Fetching...
@@ -117,15 +117,29 @@ Feature <- ^[fF]eature
 Fix <- ^[rR]elease
 
 MASTER CHANGES
-1.2401.0:0 -> [FEAT ] Merge #14385: depends: qt: avoid system harfbuzz and bz2 ["HEAD -> master, origin/master, origin/HEAD"]
-1.2400.0:0 -> [FEAT ] Merge #13649: test: allow arguments to be forwarded to flake8 in lint-python.sh
-1.2399.0:0 -> [FEAT ] Merge #14253: Build: during 'make clean', remove some files that are currently missed.
-1.2398.0:0 -> [FEAT ] Merge #14390: docs: release process: RPC documentation
-1.2397.1:0 -> [ FIX ] Merge #14428: docs: Fix macOS files description in qt/README.md
-1.2397.0:0 -> [FEAT ] Merge #14324: qa: Run more tests with wallet disabled
-1.2396.0:0 -> [FEAT ] Merge #14413: tests: Allow closed rpc handler in assert_start_raises_init_error
-1.2395.0:0 -> [FEAT ] Merge #14241: appveyor: script improvement
-1.2394.0:0 -> [FEAT ] Merge #14419: [tests] Remove rpc_zmq.py
+26.59.1:0 -> [FIX]   ("HEAD -> master, origin/master, origin/HEAD") Merge #14385: depends: qt: avoid system harfbuzz and bz2
+    f149e31ea2 depends: qt: avoid system harfbuzz and bz2 (Cory Fields)
+    ...
+
+26.59.0:0 -> [FEAT]  Merge #13649: test: allow arguments to be forwarded to flake8 in lint-python.sh
+    854c85ae90 test: allow arguments to be forwarded to flake8 in lint-python.sh (James O'Beirne)
+    ...
+
+26.58.0:0 -> [FEAT]  Merge #14253: Build: during 'make clean', remove some files that are currently missed.
+    3f5ac27205 Include some files currently missed by 'make distclean'. (murrayn)
+    ...
+
+26.57.2:0 -> [FIX]   Merge #14390: docs: release process: RPC documentation
+    3b706212ad doc: RPC documentation (Karel Bílek)
+    ...
+
+26.57.1:0 -> [FIX]   Merge #14428: docs: Fix macOS files description in qt/README.md
+    0bd64dc6d6 Fix macOS files description (Hennadii Stepanov)
+    ...
+
+26.57.0:0 -> [FEAT]  Merge #14324: qa: Run more tests with wallet disabled
+    faa4043c66 qa: Run more tests with wallet disabled (MarcoFalke)
+    ...
 ...
 ```
 
