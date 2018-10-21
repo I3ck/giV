@@ -8,7 +8,7 @@ import           Types
 import           Utils
 
 import           Data.List (find)
-import           Data.Text (unpack)
+import           Data.Text (unpack, splitOn)
 
 --------------------------------------------------------------------------------
 
@@ -18,17 +18,23 @@ createCfg CfgRaw{..} = do
    dcm <- maybeToEither (InvalidDefaultChangeMaster $ ErrorSource defaultchangemaster) . maybeRead . unpack $ defaultchangemaster
    crs <- changeRules
    pure Cfg
-     { cMajor           = Regexp <$> majorregexp
-     , cMinor           = Regexp <$> minorregexp
-     , cPatch           = Regexp <$> patchregexp
-     , cNoChange        = Regexp <$> nochangeregexp
-     , cTagVer          = tagversioning
+     { cMajor            = Regexp <$> majorregexp
+     , cMinor            = Regexp <$> minorregexp
+     , cPatch            = Regexp <$> patchregexp
+     , cNoChange         = Regexp <$> nochangeregexp
+     , cStart            = tryReadVersion =<< startversion
+     , cTagVer           = tagversioning
      , cDefaultChanges   = BranchMaster dcb dcm
      , cDefaultChangerls = crs
      }
   where
     changeRules = mapM fRules defaultchangerules
     fRules x    = ChangeRule <$> (maybeToEither (InvalidDefaultChange . ErrorSource . defaultchange $ x) . maybeRead . unpack $ defaultchange x) <*> (pure . Regexp . nameregexp $ x)
+    tryReadVersion v = do
+      let dotSplits = splitOn "." v
+      if length dotSplits == 3
+      then Version <$> maybeRead (unpack $ dotSplits !! 0) <*> maybeRead (unpack $ dotSplits !! 1) <*> maybeRead (unpack $ dotSplits !! 2) <*> pure 0
+      else Nothing
 
 --------------------------------------------------------------------------------
 

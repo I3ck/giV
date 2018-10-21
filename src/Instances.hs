@@ -53,6 +53,7 @@ instance Show DebugInfo where
     , "Minor change word: " ++ mShow dMinor
     , "Patch change word: " ++ mShow dPatch
     , "No change word: "    ++ mShow dNoChange
+    , "Start version: " ++ show dStart
     , "Default change rules: "
     ]
     ++ '\n' : (unlines . fmap show $ dRules)

@@ -8,10 +8,13 @@ import           Instances ()
 
 --------------------------------------------------------------------------------
 
-version :: BranchMaster [Change] -> Version
-version (BranchMaster csB csM) = foldl (flip applyChange) vM csB
+version :: Maybe Version -> BranchMaster [Change] -> Version
+version mstart (BranchMaster csB csM) = foldl (flip applyChange) vM csB
   where
-    vM = foldl (flip applyChange) mempty csM
+    startversion = case mstart of
+                     Nothing -> mempty
+                     Just x  -> x
+    vM = foldl (flip applyChange) startversion csM
 
 --------------------------------------------------------------------------------
 

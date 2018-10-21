@@ -12,3 +12,9 @@ tests
 
 parse all regexp for validity (only create Regexp if valid)  
 precompile regular expressions (currently compiled on every use?)  
+
+TryReadVersion should be Either  
+
+there's two different TryReadVersion impls now  
+
+split reference still needed?  

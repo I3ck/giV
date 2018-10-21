@@ -106,6 +106,7 @@ data CfgRaw = CfgRaw
   , minorregexp          :: Maybe Text
   , patchregexp          :: Maybe Text
   , nochangeregexp       :: Maybe Text
+  , startversion         :: Maybe Text
   , tagversioning        :: Bool
   , defaultchangemaster  :: Text
   , defaultchangebranch  :: Text
@@ -117,6 +118,7 @@ data Cfg = Cfg
   , cMinor            :: Maybe Regexp
   , cPatch            :: Maybe Regexp
   , cNoChange         :: Maybe Regexp
+  , cStart            :: Maybe Version
   , cTagVer           :: Bool
   , cDefaultChanges   :: BranchMaster Change
   , cDefaultChangerls :: [ChangeRule]
@@ -131,6 +133,7 @@ data DebugInfo = DebugInfo
   , dMinor    :: Maybe Regexp
   , dPatch    :: Maybe Regexp
   , dNoChange :: Maybe Regexp
+  , dStart    :: Version
   , dLines    :: BranchMaster [DebugLine]
   }
 

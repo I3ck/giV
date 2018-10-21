@@ -38,3 +38,4 @@ matches (Regexp r) x = x =~ r
 ifNotEmpty :: ([a] -> b) -> b -> [a] -> b
 ifNotEmpty _ fallback [] = fallback
 ifNotEmpty f _        xs = f xs
+

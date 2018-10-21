@@ -15,6 +15,7 @@ makeDebug Cfg{..} cdefault (BranchMaster commitsB commitsM) (BranchMaster change
   , dMinor    = cMinor
   , dPatch    = cPatch
   , dNoChange = cNoChange
+  , dStart    = start
   , dRules    = cDefaultChangerls
   , dLines    = BranchMaster{branch = linesB, master = linesM}
   }
@@ -25,7 +26,10 @@ makeDebug Cfg{..} cdefault (BranchMaster commitsB commitsM) (BranchMaster change
     scannedB  = scanl (flip applyChange) versionM changesB
     versionM  = ifNotEmpty last mempty versionsM
     versionsM = ifNotEmpty tail [] scannedM
-    scannedM  = scanl (flip applyChange) mempty changesM
+    scannedM  = scanl (flip applyChange) start changesM
+    start     = case cStart of
+                  Nothing -> mempty
+                  Just x  -> x
 
 --------------------------------------------------------------------------------
 

@@ -56,7 +56,7 @@ giV = do
   when dbg . liftIO $ putStrLn "Processing..."
   let commits  = BranchMaster commitsB commitsM
       changes  = process cfg <$> fallbacks <*> commits
-      v        = version changes
+      v        = version (cStart cfg) changes
       result   = createResult v
   when dbg . liftIO $ print . makeDebug cfg fallbacks commits $ changes
   case aOutput args of
