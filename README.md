@@ -8,7 +8,8 @@ giV - Semantic versioning for Git repositories
 State
 -----
 
-Getting close to the first, basic version
+v0.1  
+`giV` should work properly but is likely going to change in the future (see [TODO](TODO) or issue tracker for problems and missing features)
 
 
 
