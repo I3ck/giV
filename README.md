@@ -70,6 +70,28 @@ Settings that rather change per run can be adjusted via command line args passed
 ```
 
 
+Output
+------
+
+Depending on the `--outputformat` flag, there's several output options.  
+The default one just prints the basic version string, while the others provide more information
+```
+// default
+1.2401.0
+```
+```yaml
+# yaml
+major: 1
+minor: 2401
+patch: 0
+count: 0
+```
+
+```json
+// json
+{"major":1,"minor":2401,"patch":0,"count":0}
+```
+
 Debugging
 ---------
 
