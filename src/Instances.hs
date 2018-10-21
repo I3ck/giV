@@ -71,11 +71,11 @@ instance Show DebugInfo where
 instance Show DebugLine where
   show DebugLine{..} = show dVersion ++ " -> " ++ showCh dChange ++ " " ++ (indentedNewLines 4 . showCo $ dCommit)
     where
-      showCh NoChange  = "[NONE ]"
-      showCh Fix       = "[ FIX ]"
-      showCh Feature   = "[FEAT ]"
+      showCh NoChange  = "[NONE] "
+      showCh Fix       = "[FIX]  "
+      showCh Feature   = "[FEAT] "
       showCh Breaking  = "[BREAK]"
-      showCh (SetTo _) = "[ SET ]"
+      showCh (SetTo _) = "[SET]  "
 
       showCo c = showCo' (tag c) (message c)
 
