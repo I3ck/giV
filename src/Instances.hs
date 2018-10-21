@@ -76,10 +76,10 @@ instance Show DebugLine where
       showCh Breaking  = "[BREAK]"
       showCh (SetTo _) = "[ SET ]"
 
-      showCo c = showCo' (tag c) (subject c)
+      showCo c = showCo' (tag c) (message c)
 
-      showCo' Nothing s  = unpack . unSubject $ s
-      showCo' (Just t) s = (unpack . unSubject $ s) ++ " [" ++ (show . unTag $ t) ++ "]"
+      showCo' Nothing m  = unpack . unMessage $ m
+      showCo' (Just t) m = (unpack . unMessage $ m) ++ " [" ++ (show . unTag $ t) ++ "]"
 
 --------------------------------------------------------------------------------
 

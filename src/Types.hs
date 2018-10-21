@@ -10,8 +10,8 @@ type GiV = ExceptT GiVError IO
 
 --------------------------------------------------------------------------------
 
-newtype Subject = Subject
-  { unSubject :: Text
+newtype Message = Message
+  { unMessage :: Text
   }
 
 --------------------------------------------------------------------------------
@@ -161,7 +161,7 @@ deriving instance Show Version => Show Change
 
 data Commit = Commit
   { tag     :: Maybe Tag
-  , subject :: Subject
+  , message :: Message
   }
 
 --------------------------------------------------------------------------------

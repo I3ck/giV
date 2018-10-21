@@ -42,8 +42,8 @@ tryReadVersion (Tag t) = do
 --------------------------------------------------------------------------------
 
 cMatches :: Maybe Regexp -> Commit -> Bool
-cMatches mrgx Commit{..} = maybe False (`subjectMatches` subject) mrgx
+cMatches mrgx Commit{..} = maybe False (`messageMatches` message) mrgx
 
-subjectMatches :: Regexp -> Subject -> Bool
-subjectMatches rgx (Subject subj) = matches rgx subj
+messageMatches :: Regexp -> Message -> Bool
+messageMatches rgx (Message msg) = matches rgx msg
 

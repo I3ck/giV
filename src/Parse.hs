@@ -34,9 +34,9 @@ parseCommit = do
   skipSpace
   tag <- optional parseTag
   char '|'
-  subject <- parseSubject
+  message <- parseMessage
   skipWhile (== '\0')
-  pure Commit{tag = tag, subject = subject}
+  pure Commit{tag = tag, message = message}
 
 --------------------------------------------------------------------------------
 
@@ -50,8 +50,8 @@ parseTag = do
 
 --------------------------------------------------------------------------------
 
-parseSubject :: Parser Subject
-parseSubject = Subject . cs <$> restOfLine
+parseMessage :: Parser Message
+parseMessage = Message . cs <$> restOfLine
 
 --------------------------------------------------------------------------------
 
