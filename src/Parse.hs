@@ -20,7 +20,7 @@ parseCommitString cs = case parseCommitString' cs of
 --------------------------------------------------------------------------------
 
 parseCommitString' :: CommitString -> Either String [Commit]
-parseCommitString' = parseOnly (parseCommits <* endOfInput) . unCommitString
+parseCommitString' = parseOnly (parseCommits) . unCommitString
 
 --------------------------------------------------------------------------------
 
@@ -35,7 +35,7 @@ parseCommit = do
   tag <- optional parseTag
   char '|'
   subject <- parseSubject
-  skipSpace
+  skipWhile (== '\0')
   pure Commit{tag = tag, subject = subject}
 
 --------------------------------------------------------------------------------
@@ -56,4 +56,4 @@ parseSubject = Subject . cs <$> restOfLine
 --------------------------------------------------------------------------------
 
 restOfLine :: Parser Text
-restOfLine = option "" $ takeTill (== '\n')
+restOfLine = option "" $ takeTill (== '\0')
