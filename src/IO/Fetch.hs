@@ -23,4 +23,4 @@ fetchCommitString (Branch br) = do --TODO try and avoid duplicate call here (git
 --------------------------------------------------------------------------------
 
 sharedArgs:: [String]
-sharedArgs= ["-z", "--reverse", "--pretty=format:%d|%s", "--first-parent", "--"]
+sharedArgs= ["-z", "--reverse", "--pretty=format:%d|%B", "--first-parent", "--"]

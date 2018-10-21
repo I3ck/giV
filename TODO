@@ -1,10 +1,4 @@
-parse whole commit instead of just subject
-
-reading subject via %s might return newlines, resolve this issue  
-
 parseTag currently allows all sorts of non-user tags  
-
-print version of program in cli help / desc text  
 
 current parsing of version might result in false positives (some long tag text and thenv1.3.2this)  
 
