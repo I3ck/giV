@@ -167,6 +167,7 @@ data Version = Version
   { vmajor :: Int
   , vminor :: Int
   , vpatch :: Int
+  , vcount :: Int
   } deriving (Read, Eq, Ord)
 
 --------------------------------------------------------------------------------
@@ -175,4 +176,5 @@ data Result = Result
   { major :: Int
   , minor :: Int
   , patch :: Int
+  , count :: Int
   } deriving (Generic)

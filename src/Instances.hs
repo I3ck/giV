@@ -7,7 +7,7 @@ import           Data.Text (unpack)
 --------------------------------------------------------------------------------
 
 instance Show Version where
-  show Version{..} = show vmajor ++ "." ++ show vminor ++ "." ++ show vpatch
+  show Version{..} = show vmajor ++ "." ++ show vminor ++ "." ++ show vpatch ++ ":" ++ show vcount
 
 instance Semigroup Version where
   v1 <> v2 = if v1 > v2
@@ -15,7 +15,7 @@ instance Semigroup Version where
              else v2
 
 instance Monoid Version where
-  mempty = Version { vmajor = 0, vminor = 0, vpatch = 0}
+  mempty = Version { vmajor = 0, vminor = 0, vpatch = 0, vcount = 0}
 
 --------------------------------------------------------------------------------
 

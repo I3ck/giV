@@ -12,6 +12,7 @@ createResult Version{..} = Result
   { major = vmajor
   , minor = vminor
   , patch = vpatch
+  , count = vcount
   }
 
 --------------------------------------------------------------------------------
