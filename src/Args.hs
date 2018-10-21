@@ -40,9 +40,9 @@ args = ArgsRaw
     <> value "master"
     )
   <*> strOption
-    (  long "outputmode"
+    (  long "outputformat"
     <> short 'o'
-    <> help "The output mode [OutputVersion, OutputYAML, OutputJSON]"
+    <> help "The output format [OutputVersion, OutputYAML, OutputJSON]"
     <> metavar "STRING"
     <> value "OutputVersion" 
     )

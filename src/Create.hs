@@ -40,7 +40,7 @@ createCfg CfgRaw{..} = do
 
 createArgs :: ArgsRaw -> Either GiVError Args
 createArgs ArgsRaw{..} = do
-  output <- maybeToEither (InvalidOutputMode . ErrorSource $ arOutput) . maybeRead . unpack $ arOutput
+  output <- maybeToEither (InvalidOutputFormat . ErrorSource $ arOutput) . maybeRead . unpack $ arOutput
   pure Args
     { aRepo    = arRepo
     , aCfg     = arCfg

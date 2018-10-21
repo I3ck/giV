@@ -52,7 +52,7 @@ data GiVError
   | InvalidDefaultChangeMaster ErrorSource
   | InvalidDefaultChange       ErrorSource
   | UnableToParseCommitString  Text
-  | InvalidOutputMode          ErrorSource
+  | InvalidOutputFormat        ErrorSource
 
 --------------------------------------------------------------------------------
 
@@ -63,7 +63,7 @@ data BranchMaster a = BranchMaster
 
 --------------------------------------------------------------------------------
 
-data OutputMode
+data OutputFormat
   = OutputVersion
   | OutputYAML
   | OutputJSON
@@ -83,7 +83,7 @@ data Args = Args
   { aRepo    :: Text
   , aCfg     :: Text
   , aBranch  :: Text
-  , aOutput  :: OutputMode
+  , aOutput  :: OutputFormat
   , aVerbose :: Bool
   }
 
