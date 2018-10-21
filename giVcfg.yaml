@@ -36,7 +36,7 @@ tagversioning: True
 
 
 # Change type to be used on commits that don't contain a specific keyword
-# NoChange | Fix | Feature | Breaking
+# [NoChange | Fix | Feature | Breaking]
 # defaultchangemaster defines the default change to be used for commits of the master branch
 # defaultchangebranch defines the default change to be used for commits of the specified branch (excluding master commits)
 #                     only applied of none of the defaultchangerules were matched

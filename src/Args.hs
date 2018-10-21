@@ -42,7 +42,7 @@ args = ArgsRaw
   <*> strOption
     (  long "outputformat"
     <> short 'o'
-    <> help "The output format [OutputVersion, OutputYAML, OutputJSON]"
+    <> help "The output format [OutputVersion | OutputYAML | OutputJSON]"
     <> metavar "STRING"
     <> value "OutputVersion" 
     )
