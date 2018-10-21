@@ -2,8 +2,9 @@ module Utils where
 
 import           Types
 import           Data.Maybe (listToMaybe)
-import           Data.List (group, sort)
-import           Data.Text (Text)
+import           Data.List (group, sort, intercalate)
+import           Data.List.Split (splitOn)
+import qualified Data.Text as T
 import           Text.Regex.TDFA ((=~))
 import           Text.Regex.TDFA.Text ()
 
@@ -30,7 +31,7 @@ nchars = length . show
 
 --------------------------------------------------------------------------------
 
-matches :: Regexp -> Text -> Bool
+matches :: Regexp -> T.Text -> Bool
 matches (Regexp r) x = x =~ r
 
 --------------------------------------------------------------------------------
@@ -38,4 +39,16 @@ matches (Regexp r) x = x =~ r
 ifNotEmpty :: ([a] -> b) -> b -> [a] -> b
 ifNotEmpty _ fallback [] = fallback
 ifNotEmpty f _        xs = f xs
+
+--------------------------------------------------------------------------------
+
+indentedNewLines :: Int -> String -> String
+indentedNewLines n = replace "\n" ("\n" ++ spaces)
+  where
+    spaces = replicate n ' '
+
+--------------------------------------------------------------------------------
+
+replace :: (Eq a) => [a] -> [a] -> [a] -> [a]
+replace needle with target = intercalate with . splitOn needle $ target
 

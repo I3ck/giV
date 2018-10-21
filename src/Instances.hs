@@ -1,6 +1,7 @@
 module Instances where
 
 import           Types
+import           Utils
 import           Data.Yaml
 import           Data.Text (unpack)
 
@@ -68,7 +69,7 @@ instance Show DebugInfo where
 --------------------------------------------------------------------------------
 
 instance Show DebugLine where
-  show DebugLine{..} = show dVersion ++ " -> " ++ showCh dChange ++ " " ++ showCo dCommit
+  show DebugLine{..} = show dVersion ++ " -> " ++ showCh dChange ++ " " ++ (indentedNewLines 4 . showCo $ dCommit)
     where
       showCh NoChange  = "[NONE ]"
       showCh Fix       = "[ FIX ]"
@@ -78,8 +79,8 @@ instance Show DebugLine where
 
       showCo c = showCo' (tag c) (message c)
 
-      showCo' Nothing m  = unpack . unMessage $ m
-      showCo' (Just t) m = (unpack . unMessage $ m) ++ " [" ++ (show . unTag $ t) ++ "]"
+      showCo' Nothing m  =                                       unpack . unMessage $ m
+      showCo' (Just t) m = "[" ++ (show . unTag $ t) ++ "] " ++ (unpack . unMessage $ m)
 
 --------------------------------------------------------------------------------
 
