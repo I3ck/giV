@@ -80,7 +80,7 @@ instance Show DebugLine where
       showCo c = showCo' (tag c) (message c)
 
       showCo' Nothing m  =                                       unpack . unMessage $ m
-      showCo' (Just t) m = "[" ++ (show . unTag $ t) ++ "] " ++ (unpack . unMessage $ m)
+      showCo' (Just t) m = "(" ++ (show . unTag $ t) ++ ") " ++ (unpack . unMessage $ m)
 
 --------------------------------------------------------------------------------
 
