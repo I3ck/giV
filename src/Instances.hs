@@ -70,7 +70,7 @@ instance Show DebugInfo where
 instance Show DebugLine where
   show DebugLine{..} = show dVersion ++ " -> " ++ showCh dChange ++ " " ++ showCo dCommit
     where
-      showCh NoChange  = "[  N  ]"
+      showCh NoChange  = "[NONE ]"
       showCh Fix       = "[ FIX ]"
       showCh Feature   = "[FEAT ]"
       showCh Breaking  = "[BREAK]"
