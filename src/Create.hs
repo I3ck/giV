@@ -45,6 +45,7 @@ createArgs ArgsRaw{..} = do
     { aRepo    = arRepo
     , aCfg     = arCfg
     , aBranch  = arBranch
+    , aLabel   = Label arLabel
     , aOutput  = output
     , aVerbose = arVerbose
     }

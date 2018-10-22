@@ -40,6 +40,13 @@ args = ArgsRaw
     <> value "master"
     )
   <*> strOption
+    (  long "label"
+    <> short 'l'
+    <> help "The label to be used for the semver"
+    <> metavar "STRING"
+    <> value "alpha"
+    )
+  <*> strOption
     (  long "outputformat"
     <> short 'o'
     <> help "The output format [OutputVersion | OutputYAML | OutputJSON]"

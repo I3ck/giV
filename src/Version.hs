@@ -1,10 +1,26 @@
 module Version
   ( version
+  , semVerOf
   , applyChange
   ) where
 
 import           Types
 import           Instances ()
+import           Data.Text (pack, unpack)
+
+--------------------------------------------------------------------------------
+
+semVerOf :: Label -> Version -> SemVer
+semVerOf (Label l) Version{..} = SemVer . pack $
+     (show vmajor)
+  ++ "."
+  ++ (show vminor)
+  ++ "."
+  ++ (show vpatch)
+  ++ "-"
+  ++ unpack l
+  ++ "+"
+  ++ (show vcount)
 
 --------------------------------------------------------------------------------
 

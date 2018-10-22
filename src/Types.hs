@@ -41,6 +41,18 @@ newtype CommitHash = CommitHash
 
 --------------------------------------------------------------------------------
 
+newtype Label = Label
+  { unLabel :: Text
+  }
+
+--------------------------------------------------------------------------------
+
+newtype SemVer = SemVer
+  { unSemVer :: Text
+  }
+
+--------------------------------------------------------------------------------
+
 newtype Regexp = Regexp
  { unRegexp :: Text
  }
@@ -82,6 +94,7 @@ data ArgsRaw = ArgsRaw
   { arRepo    :: Text
   , arCfg     :: Text
   , arBranch  :: Text
+  , arLabel   :: Text
   , arOutput  :: Text
   , arVerbose :: Bool
   }
@@ -90,6 +103,7 @@ data Args = Args
   { aRepo    :: Text
   , aCfg     :: Text
   , aBranch  :: Text
+  , aLabel   :: Label
   , aOutput  :: OutputFormat
   , aVerbose :: Bool
   }
@@ -188,4 +202,5 @@ data Result = Result
   , patch      :: Int
   , count      :: Int
   , commithash :: Text
+  , semver     :: Text
   } deriving (Generic)

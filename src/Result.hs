@@ -7,12 +7,13 @@ import Types
 
 --------------------------------------------------------------------------------
 
-createResult :: Version -> CommitHash -> Result
-createResult Version{..} hash = Result
+createResult :: SemVer -> Version -> CommitHash -> Result
+createResult (SemVer s) Version{..} hash = Result
   { major      = vmajor
   , minor      = vminor
   , patch      = vpatch
   , count      = vcount
+  , semver     = s
   , commithash = unCommitHash hash
   }
 

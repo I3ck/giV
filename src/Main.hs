@@ -58,7 +58,8 @@ giV = do
   let commits  = BranchMaster commitsB commitsM
       changes  = process cfg <$> fallbacks <*> commits
       v        = version (cStart cfg) changes
-      result   = createResult v hash
+      sv       = semVerOf (aLabel args) v 
+      result   = createResult sv v hash
   when dbg . liftIO $ print . makeDebug cfg fallbacks commits $ changes
   case aOutput args of
     OutputVersion -> liftIO . putStrLn . asVersion $ result

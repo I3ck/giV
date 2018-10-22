@@ -64,6 +64,7 @@ Settings that rather change per run can be adjusted via command line args passed
 --repo         path to the git repository that should be versioned
 --cfg          path to the configuration file (explained above)
 --branch       the branch that should be versioned, default being master
+--label        label to be used in the output semver, default being alpha
 --outputformat the format of the final output
                [OutputVersion, OutputYAML, OutputJSON]
                OutputVersion being the default
@@ -86,17 +87,19 @@ major: 1
 minor: 2401
 patch: 0
 count: 0
+semver: 26.59.1-beta+0
 commithash: 4de0b5f39cc35636d499ad29ee3c63384b13fc76
 ```
 
 ```json
 // json
 {
-    "major":1,
-    "minor":2401,
-    "patch":0,
-    "count":0,
-    "commithash":"4de0b5f39cc35636d499ad29ee3c63384b13fc76"
+    "major": 1,
+    "minor": 2401,
+    "patch": 0,
+    "count": 0,
+    "semver": "26.59.1-beta+0",
+    "commithash": "4de0b5f39cc35636d499ad29ee3c63384b13fc76"
 }
 ```
 
