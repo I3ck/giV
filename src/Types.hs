@@ -1,8 +1,9 @@
 module Types where
 
-import Data.Text
-import GHC.Generics
-import Control.Monad.Except
+import           Data.Text
+import qualified Data.Text.Lazy as TL
+import           GHC.Generics
+import           Control.Monad.Except
 
 --------------------------------------------------------------------------------
 
@@ -29,7 +30,7 @@ newtype Branch = Branch
 --------------------------------------------------------------------------------
 
 newtype CommitString = CommitString
-  { unCommitString :: Text
+  { unCommitString :: TL.Text
   }
 
 --------------------------------------------------------------------------------

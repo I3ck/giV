@@ -7,20 +7,20 @@ import           Types
 import           Control.Applicative              (optional)
 import           Control.Monad.Except (throwError)
 import           Data.Text
-import           Data.Attoparsec.Text
+import           Data.Attoparsec.Text.Lazy as A
 import           Data.String.Conversions          (cs)
 
 --------------------------------------------------------------------------------
 
 parseCommitString :: CommitString -> Either GiVError [Commit]
 parseCommitString cs = case parseCommitString' cs of
-                         Left e  -> throwError . UnableToParseCommitString . pack $ e
-                         Right x -> pure x
+                         (Fail _ _ e) -> throwError . UnableToParseCommitString . pack $ e
+                         (Done _ x)   -> pure x
 
 --------------------------------------------------------------------------------
 
-parseCommitString' :: CommitString -> Either String [Commit]
-parseCommitString' = parseOnly (parseCommits) . unCommitString
+parseCommitString' :: CommitString -> A.Result [Commit]
+parseCommitString' = parse parseCommits . unCommitString
 
 --------------------------------------------------------------------------------
 
@@ -46,7 +46,7 @@ parseTag = do
   tag <- takeWhile1 (/= ')')
   char ')'
   skipSpace
-  pure . Tag . cs $ tag
+  pure $ Tag tag
 
 --------------------------------------------------------------------------------
 
