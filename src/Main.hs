@@ -48,7 +48,8 @@ giV = do
       dbg         = aVerbose args
 
   when dbg . liftIO $ putStrLn "Fetching..."
-  cs <- liftIO . withCurrentDirectory (unpack gitdir) . fetchCommitString . Branch $ aBranch args
+  cs   <- liftIO . withCurrentDirectory (unpack gitdir) . fetchCommitStrings . Branch $ aBranch args
+  hash <- liftIO . withCurrentDirectory (unpack gitdir) . fetchCommitHash    . Branch $ aBranch args
 
   when dbg . liftIO $ putStrLn "Parsing..."
   commitsB <- liftEither . parseCommitString $ branch cs
@@ -57,7 +58,7 @@ giV = do
   let commits  = BranchMaster commitsB commitsM
       changes  = process cfg <$> fallbacks <*> commits
       v        = version (cStart cfg) changes
-      result   = createResult v
+      result   = createResult v hash
   when dbg . liftIO $ print . makeDebug cfg fallbacks commits $ changes
   case aOutput args of
     OutputVersion -> liftIO . putStrLn . asVersion $ result

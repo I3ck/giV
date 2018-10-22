@@ -1,5 +1,6 @@
 module IO.Fetch
-  ( fetchCommitString
+  ( fetchCommitStrings
+  , fetchCommitHash
   ) where
 
 import           Types
@@ -9,22 +10,29 @@ import qualified Data.Text.Lazy as TL
 
 --------------------------------------------------------------------------------
 
-fetchCommitString :: Branch -> IO (BranchMaster CommitString)
+fetchCommitStrings :: Branch -> IO (BranchMaster CommitString)
 
-fetchCommitString (Branch "master") = do
-  result <- readProcess "git" (["log", "master"] ++ sharedArgs)
+fetchCommitStrings (Branch "master") = do
+  result <- readProcess "git" (["log", "master"] ++ logArgs)
   pure BranchMaster{master = CommitString result, branch = CommitString TL.empty}
 
-fetchCommitString (Branch br) = do --TODO try and avoid duplicate call here (git command which does all at once?)
-  resultOnlyBranch <- readProcess "git" (["log", "master.." ++ unpack br] ++ sharedArgs)
-  resultTotal      <- readProcess "git" (["log", unpack br] ++ sharedArgs)
+fetchCommitStrings (Branch br) = do --TODO try and avoid duplicate call here (git command which does all at once?)
+  resultOnlyBranch <- readProcess "git" (["log", "master.." ++ unpack br] ++ logArgs)
+  resultTotal      <- readProcess "git" (["log", unpack br] ++ logArgs)
   let resultMaster = TL.take (fromIntegral $ TL.length resultTotal - TL.length resultOnlyBranch) resultTotal
   pure BranchMaster{master = CommitString resultMaster, branch = CommitString resultOnlyBranch}
 
 --------------------------------------------------------------------------------
 
-sharedArgs:: [String]
-sharedArgs = ["-z", "--reverse", "--pretty=format:%d|%B", "--first-parent", "--"]
+fetchCommitHash :: Branch -> IO CommitHash
+fetchCommitHash (Branch br) = do
+  result <- readProcess "git" ["rev-parse", unpack br]
+  pure . CommitHash . TL.toStrict . TL.filter (/= '\n') $ result
+
+--------------------------------------------------------------------------------
+
+logArgs:: [String]
+logArgs = ["-z", "--reverse", "--pretty=format:%d|%B", "--first-parent", "--"]
 
 --------------------------------------------------------------------------------
 

@@ -35,6 +35,12 @@ newtype CommitString = CommitString
 
 --------------------------------------------------------------------------------
 
+newtype CommitHash = CommitHash
+  { unCommitHash :: Text
+  } deriving (Generic)
+
+--------------------------------------------------------------------------------
+
 newtype Regexp = Regexp
  { unRegexp :: Text
  }
@@ -177,8 +183,9 @@ data Version = Version
 --------------------------------------------------------------------------------
 
 data Result = Result
-  { major :: Int
-  , minor :: Int
-  , patch :: Int
-  , count :: Int
+  { major      :: Int
+  , minor      :: Int
+  , patch      :: Int
+  , count      :: Int
+  , commithash :: Text
   } deriving (Generic)

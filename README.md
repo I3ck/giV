@@ -86,11 +86,18 @@ major: 1
 minor: 2401
 patch: 0
 count: 0
+commithash: 4de0b5f39cc35636d499ad29ee3c63384b13fc76
 ```
 
 ```json
 // json
-{"major":1,"minor":2401,"patch":0,"count":0}
+{
+    "major":1,
+    "minor":2401,
+    "patch":0,
+    "count":0,
+    "commithash":"4de0b5f39cc35636d499ad29ee3c63384b13fc76"
+}
 ```
 
 Debugging
