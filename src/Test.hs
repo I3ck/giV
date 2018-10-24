@@ -2,6 +2,7 @@ module Main where
 
 import Types
 import Instances ()
+import Process (tryReadVersion)
 import Version (applyChange, version)
 
 import Test.Hspec
@@ -10,6 +11,44 @@ import Test.Hspec
 
 main :: IO ()
 main = hspec $ do
+  describe "Process" $ do
+    it "tryReadVersion" $ do
+      tryReadVersion (Tag "a")
+        `shouldBe`
+        Nothing
+
+      tryReadVersion (Tag "")
+        `shouldBe`
+        Nothing
+
+      tryReadVersion (Tag "1.2.3")
+        `shouldBe`
+        Nothing
+
+      tryReadVersion (Tag "v1.2")
+        `shouldBe`
+        Nothing
+
+      tryReadVersion (Tag "v1.2.3.4")
+        `shouldBe`
+        Nothing
+
+      tryReadVersion (Tag "av1.2.3") --TODO false positive
+        `shouldBe`
+        Nothing
+
+      tryReadVersion (Tag "v1.2.3a") --TODO false positive
+        `shouldBe`
+        Nothing
+
+      tryReadVersion (Tag "vv1.2.3")
+        `shouldBe`
+        Nothing
+
+      tryReadVersion (Tag "v1.2.3")
+        `shouldBe`
+        (Just $ Version{vmajor = 1, vminor = 2, vpatch = 3, vcount = 0})
+
   describe "Version" $ do
     it "Default" $ do
       mempty `shouldBe` Version{vmajor = 0, vminor = 0, vpatch = 0, vcount = 0}

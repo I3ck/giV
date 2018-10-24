@@ -1,5 +1,6 @@
 module Process
   ( process
+  , tryReadVersion
   ) where
 
 import           Types
