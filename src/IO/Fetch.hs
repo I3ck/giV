@@ -32,7 +32,7 @@ fetchCommitHash (Branch br) = do
 --------------------------------------------------------------------------------
 
 logArgs:: [String]
-logArgs = ["-z", "--reverse", "--pretty=format:%d|%B", "--first-parent", "--"]
+logArgs = ["-z", "--reverse", "--pretty=format:%d|%B", "--first-parent", "--decorate-refs='refs/tags/*'", "--"]
 
 --------------------------------------------------------------------------------
 
