@@ -37,7 +37,11 @@ tryReadVersion (Tag t) = do
                then pure $ T.splitOn "." $ vSplits !! 1
                else Nothing
   if length dotSplits == 3
-  then Version <$> maybeRead (T.unpack $ dotSplits !! 0) <*> maybeRead (T.unpack $ dotSplits !! 1) <*> maybeRead (T.unpack $ dotSplits !! 2) <*> pure 0
+  then Version 
+    <$> maybeRead (T.unpack $ dotSplits !! 0) 
+    <*> maybeRead (T.unpack $ dotSplits !! 1) 
+    <*> maybeRead (T.unpack $ dotSplits !! 2) 
+    <*> pure 0
   else Nothing
 
 --------------------------------------------------------------------------------
