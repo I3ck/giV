@@ -51,9 +51,9 @@ parseTag = do
 --------------------------------------------------------------------------------
 
 parseMessage :: Parser Message
-parseMessage = Message . cs <$> restOfLine
+parseMessage = Message . cs <$> restTillNull
 
 --------------------------------------------------------------------------------
 
-restOfLine :: Parser Text
-restOfLine = option "" $ takeTill (== '\0')
+restTillNull :: Parser Text
+restTillNull = option "" $ takeTill (== '\0')
