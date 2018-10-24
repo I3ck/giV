@@ -11,8 +11,8 @@ import           Options.Applicative
 opts :: ParserInfo ArgsRaw
 opts = info (helper <*> args)
     (  fullDesc
-    <> progDesc "giV 0.4.0 - Semantic versioning for Git repositories © Martin Buck"
-    <> header "giV 0.4.0 © Martin Buck"
+    <> progDesc "giV 0.5.0 - Semantic versioning for Git repositories © Martin Buck"
+    <> header "giV 0.5.0 © Martin Buck"
     )
 
 --------------------------------------------------------------------------------
