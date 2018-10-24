@@ -4,6 +4,7 @@ import Types
 import Instances ()
 import Process (tryReadVersionTag)
 import Version (applyChange, version)
+import Utils (tryReadVersion)
 
 import Test.Hspec
 
@@ -11,6 +12,44 @@ import Test.Hspec
 
 main :: IO ()
 main = hspec $ do
+  describe "Utils" $ do
+    it "tryReadVersion" $ do
+      tryReadVersion "a"
+        `shouldBe`
+        Nothing
+
+      tryReadVersion ""
+        `shouldBe`
+        Nothing
+
+      tryReadVersion "1.2.3"
+        `shouldBe`
+        (Just $ Version{vmajor = 1, vminor = 2, vpatch = 3, vcount = 0})
+
+      tryReadVersion "v1.2"
+        `shouldBe`
+        Nothing
+
+      tryReadVersion "v1.2.3.4"
+        `shouldBe`
+        Nothing
+
+      tryReadVersion "av1.2.3"
+        `shouldBe`
+        Nothing
+
+      tryReadVersion "v1.2.3a"
+        `shouldBe`
+        Nothing
+
+      tryReadVersion "vv1.2.3"
+        `shouldBe`
+        Nothing
+
+      tryReadVersion "v1.2.3"
+        `shouldBe`
+        Nothing
+
   describe "Process" $ do
     it "tryReadVersionTag" $ do
       tryReadVersionTag (Tag "a")
