@@ -8,7 +8,7 @@ import           Types
 import           Utils
 
 import           Data.List (find)
-import           Data.Text (unpack, splitOn)
+import           Data.Text (splitOn, unpack)
 
 --------------------------------------------------------------------------------
 

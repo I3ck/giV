@@ -1,9 +1,9 @@
 module Instances where
 
+import           Data.Text (unpack)
+import           Data.Yaml
 import           Types
 import           Utils
-import           Data.Yaml
-import           Data.Text (unpack)
 
 --------------------------------------------------------------------------------
 

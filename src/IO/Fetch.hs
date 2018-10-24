@@ -3,10 +3,10 @@ module IO.Fetch
   , fetchCommitHash
   ) where
 
-import           Types
-import           System.Process.Text.Lazy
 import           Data.Text
-import qualified Data.Text.Lazy as TL
+import qualified Data.Text.Lazy           as TL
+import           System.Process.Text.Lazy
+import           Types
 
 --------------------------------------------------------------------------------
 

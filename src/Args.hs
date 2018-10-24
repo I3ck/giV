@@ -51,7 +51,7 @@ args = ArgsRaw
     <> short 'o'
     <> help "The output format [OutputVersion | OutputYAML | OutputJSON]"
     <> metavar "STRING"
-    <> value "OutputVersion" 
+    <> value "OutputVersion"
     )
   <*> switch
     (  long "verbose"

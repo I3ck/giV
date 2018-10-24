@@ -1,11 +1,11 @@
 module Debugging
-  ( makeDebug 
+  ( makeDebug
   ) where
 
-import           Types
-import           Version
-import           Utils
 import           Data.Maybe (fromMaybe)
+import           Types
+import           Utils
+import           Version
 
 --------------------------------------------------------------------------------
 

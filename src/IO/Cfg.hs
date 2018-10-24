@@ -1,14 +1,14 @@
-module IO.Cfg 
+module IO.Cfg
   ( loadCfg
   ) where
 
+import           Instances            ()
 import           Types
-import           Instances ()
 
-import qualified Data.Yaml           as Y
-import           Data.Text            (pack, unpack)
 import           Control.Monad.Except (throwError)
 import           Control.Monad.Trans  (liftIO)
+import           Data.Text            (pack, unpack)
+import qualified Data.Yaml            as Y
 
 --------------------------------------------------------------------------------
 
