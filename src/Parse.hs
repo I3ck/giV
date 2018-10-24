@@ -32,7 +32,8 @@ parseCommit = do
 
 parseTag :: Parser Tag
 parseTag = do
-  char '('
+  string "(tag:"
+  skipSpace
   tag <- takeWhile1 (/= ')')
   char ')'
   skipSpace
