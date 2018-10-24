@@ -1,7 +1,3 @@
-parseTag currently allows all sorts of non-user tags  
-
-current parsing of version might result in false positives (some long tag text and thenv1.3.2this)  
-
 extend tests  
 
 parse all regexp for validity (only create Regexp if valid)  
