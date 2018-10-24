@@ -53,5 +53,5 @@ indentedNewLines n = replace "\n" ("\n" ++ spaces)
 --------------------------------------------------------------------------------
 
 replace :: (Eq a) => [a] -> [a] -> [a] -> [a]
-replace needle with target = intercalate with . splitOn needle $ target
+replace needle with = intercalate with . splitOn needle
 

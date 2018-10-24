@@ -5,6 +5,7 @@ module Debugging
 import           Types
 import           Version
 import           Utils
+import           Data.Maybe (fromMaybe)
 
 --------------------------------------------------------------------------------
 
@@ -27,9 +28,7 @@ makeDebug Cfg{..} cdefault (BranchMaster commitsB commitsM) (BranchMaster change
     versionM  = ifNotEmpty last mempty versionsM
     versionsM = ifNotEmpty tail [] scannedM
     scannedM  = scanl (flip applyChange) start changesM
-    start     = case cStart of
-                  Nothing -> mempty
-                  Just x  -> x
+    start     = fromMaybe mempty cStart
 
 --------------------------------------------------------------------------------
 

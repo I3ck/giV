@@ -7,6 +7,7 @@ module Version
 import           Types
 import           Instances ()
 import           Data.Text (pack, unpack)
+import           Data.Maybe (fromMaybe)
 
 --------------------------------------------------------------------------------
 
@@ -27,9 +28,7 @@ semVerOf (Label l) Version{..} = SemVer . pack $
 version :: Maybe Version -> BranchMaster [Change] -> Version
 version mstart (BranchMaster csB csM) = foldl (flip applyChange) vM csB
   where
-    startversion = case mstart of
-                     Nothing -> mempty
-                     Just x  -> x
+    startversion = fromMaybe mempty mstart
     vM = foldl (flip applyChange) startversion csM
 
 --------------------------------------------------------------------------------
