@@ -23,7 +23,7 @@ parseCommit :: Parser Commit
 parseCommit = do
   skipSpace
   tag <- optional parseTag
-  char '|'
+  char '*'
   message <- parseMessage
   skipWhile (== '\0')
   pure Commit{tag = tag, message = message}
