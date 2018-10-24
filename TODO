@@ -2,5 +2,3 @@ extend tests
 
 parse all regexp for validity (only create Regexp if valid)  
 precompile regular expressions (currently compiled on every use?)  
-
-there's two different TryReadVersion impls now  

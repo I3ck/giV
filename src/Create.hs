@@ -8,7 +8,7 @@ import           Types
 import           Utils
 
 import           Data.List (find)
-import           Data.Text (splitOn, unpack)
+import           Data.Text (unpack)
 
 --------------------------------------------------------------------------------
 
@@ -30,11 +30,6 @@ createCfg CfgRaw{..} = do
   where
     changeRules = mapM fRules defaultchangerules
     fRules x    = ChangeRule <$> (maybeToEither (InvalidDefaultChange . ErrorSource . defaultchange $ x) . maybeRead . unpack $ defaultchange x) <*> (pure . Regexp . nameregexp $ x)
-    tryReadVersion v = do
-      let dotSplits = splitOn "." v
-      if length dotSplits == 3
-      then Version <$> maybeRead (unpack $ dotSplits !! 0) <*> maybeRead (unpack $ dotSplits !! 1) <*> maybeRead (unpack $ dotSplits !! 2) <*> pure 0
-      else Nothing
 
 --------------------------------------------------------------------------------
 

@@ -2,7 +2,7 @@ module Main where
 
 import Types
 import Instances ()
-import Process (tryReadVersion)
+import Process (tryReadVersionTag)
 import Version (applyChange, version)
 
 import Test.Hspec
@@ -12,40 +12,40 @@ import Test.Hspec
 main :: IO ()
 main = hspec $ do
   describe "Process" $ do
-    it "tryReadVersion" $ do
-      tryReadVersion (Tag "a")
+    it "tryReadVersionTag" $ do
+      tryReadVersionTag (Tag "a")
         `shouldBe`
         Nothing
 
-      tryReadVersion (Tag "")
+      tryReadVersionTag (Tag "")
         `shouldBe`
         Nothing
 
-      tryReadVersion (Tag "1.2.3")
+      tryReadVersionTag (Tag "1.2.3")
         `shouldBe`
         Nothing
 
-      tryReadVersion (Tag "v1.2")
+      tryReadVersionTag (Tag "v1.2")
         `shouldBe`
         Nothing
 
-      tryReadVersion (Tag "v1.2.3.4")
+      tryReadVersionTag (Tag "v1.2.3.4")
         `shouldBe`
         Nothing
 
-      tryReadVersion (Tag "av1.2.3")
+      tryReadVersionTag (Tag "av1.2.3")
         `shouldBe`
         Nothing
 
-      tryReadVersion (Tag "v1.2.3a")
+      tryReadVersionTag (Tag "v1.2.3a")
         `shouldBe`
         Nothing
 
-      tryReadVersion (Tag "vv1.2.3")
+      tryReadVersionTag (Tag "vv1.2.3")
         `shouldBe`
         Nothing
 
-      tryReadVersion (Tag "v1.2.3")
+      tryReadVersionTag (Tag "v1.2.3")
         `shouldBe`
         (Just $ Version{vmajor = 1, vminor = 2, vpatch = 3, vcount = 0})
 
@@ -53,51 +53,51 @@ main = hspec $ do
     it "Default" $ do
       mempty `shouldBe` Version{vmajor = 0, vminor = 0, vpatch = 0, vcount = 0}
     it "Ordering" $ do
-      (   Version{vmajor = 0, vminor = 0, vpatch = 0, vcount = 0} 
+      (   Version{vmajor = 0, vminor = 0, vpatch = 0, vcount = 0}
         < Version{vmajor = 0, vminor = 0, vpatch = 0, vcount = 0}
         `shouldBe` False)
 
-      (   Version{vmajor = 0, vminor = 0, vpatch = 0, vcount = 0} 
+      (   Version{vmajor = 0, vminor = 0, vpatch = 0, vcount = 0}
         < Version{vmajor = 0, vminor = 0, vpatch = 0, vcount = 1}
         `shouldBe` True)
 
-      (   Version{vmajor = 0, vminor = 0, vpatch = 0, vcount = 50} 
+      (   Version{vmajor = 0, vminor = 0, vpatch = 0, vcount = 50}
         < Version{vmajor = 0, vminor = 0, vpatch = 1, vcount = 0}
         `shouldBe` True)
 
-      (   Version{vmajor = 0, vminor = 0, vpatch = 13, vcount = 0} 
+      (   Version{vmajor = 0, vminor = 0, vpatch = 13, vcount = 0}
         < Version{vmajor = 0, vminor = 1, vpatch = 0,  vcount = 0}
         `shouldBe` True)
 
-      (   Version{vmajor = 0, vminor = 12, vpatch = 0, vcount = 0} 
+      (   Version{vmajor = 0, vminor = 12, vpatch = 0, vcount = 0}
         < Version{vmajor = 1, vminor = 0,  vpatch = 0,  vcount = 0}
         `shouldBe` True)
 
-      (   Version{vmajor = 1, vminor = 0, vpatch = 0, vcount = 0} 
+      (   Version{vmajor = 1, vminor = 0, vpatch = 0, vcount = 0}
         < Version{vmajor = 1, vminor = 0, vpatch = 0, vcount = 1}
         `shouldBe` True)
 
-      (   Version{vmajor = 1, vminor = 0, vpatch = 0, vcount = 0} 
+      (   Version{vmajor = 1, vminor = 0, vpatch = 0, vcount = 0}
         < Version{vmajor = 2, vminor = 0, vpatch = 0, vcount = 0}
         `shouldBe` True)
 
     it "Merging" $ do
-      (    Version{vmajor = 0, vminor = 0, vpatch = 0, vcount = 0} 
+      (    Version{vmajor = 0, vminor = 0, vpatch = 0, vcount = 0}
         <> Version{vmajor = 0, vminor = 0, vpatch = 0, vcount = 0}
         `shouldBe`
            Version{vmajor = 0, vminor = 0, vpatch = 0, vcount = 0})
 
-      (    Version{vmajor = 0, vminor = 0, vpatch = 0, vcount = 1} 
+      (    Version{vmajor = 0, vminor = 0, vpatch = 0, vcount = 1}
         <> Version{vmajor = 0, vminor = 0, vpatch = 0, vcount = 0}
         `shouldBe`
            Version{vmajor = 0, vminor = 0, vpatch = 0, vcount = 1})
 
-      (    Version{vmajor = 0, vminor = 0, vpatch = 0, vcount = 1} 
+      (    Version{vmajor = 0, vminor = 0, vpatch = 0, vcount = 1}
         <> Version{vmajor = 0, vminor = 1, vpatch = 0, vcount = 0}
         `shouldBe`
            Version{vmajor = 0, vminor = 1, vpatch = 0, vcount = 0})
 
-      (    Version{vmajor = 2, vminor = 0, vpatch = 0, vcount = 1} 
+      (    Version{vmajor = 2, vminor = 0, vpatch = 0, vcount = 1}
         <> Version{vmajor = 3, vminor = 1, vpatch = 0, vcount = 0}
         `shouldBe`
            Version{vmajor = 3, vminor = 1, vpatch = 0, vcount = 0})
@@ -154,7 +154,4 @@ main = hspec $ do
       (version (Just Version{vmajor = 1, vminor = 2, vpatch = 3, vcount = 4}) BranchMaster{branch = [Fix, Feature, Feature], master = [Breaking, Fix, NoChange]}
         `shouldBe`
         Version{vmajor = 2, vminor = 2, vpatch = 0, vcount = 0})
-       
-      
-
 

@@ -55,3 +55,17 @@ indentedNewLines n = replace "\n" ("\n" ++ spaces)
 replace :: (Eq a) => [a] -> [a] -> [a] -> [a]
 replace needle with = intercalate with . splitOn needle
 
+--------------------------------------------------------------------------------
+
+tryReadVersion :: T.Text -> Maybe Version
+tryReadVersion x = do
+  let dotSplits = T.splitOn "." x
+  if length dotSplits == 3
+  then Version
+    <$> maybeRead (T.unpack $ dotSplits !! 0)
+    <*> maybeRead (T.unpack $ dotSplits !! 1)
+    <*> maybeRead (T.unpack $ dotSplits !! 2)
+    <*> pure 0
+  else Nothing
+
+
