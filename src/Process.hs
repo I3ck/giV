@@ -5,7 +5,7 @@ module Process
 
 import           Types
 import           Utils
-import           Data.Text (splitOn, unpack)
+import qualified Data.Text as T
 
 --------------------------------------------------------------------------------
 
@@ -32,12 +32,12 @@ processCommit Cfg{..} fallback c
 
 tryReadVersion :: Tag -> Maybe Version
 tryReadVersion (Tag t) = do
-  let vSplits = splitOn "v" t --TODO pass "v" via cfg / cmdline
-  dotSplits <- if length vSplits == 2
-               then pure $ splitOn "." $ vSplits !! 1
+  let vSplits = T.splitOn "v" t --TODO pass "v" via cfg / cmdline
+  dotSplits <- if (length vSplits == 2) && (T.null . head $ vSplits)
+               then pure $ T.splitOn "." $ vSplits !! 1
                else Nothing
   if length dotSplits == 3
-  then Version <$> maybeRead (unpack $ dotSplits !! 0) <*> maybeRead (unpack $ dotSplits !! 1) <*> maybeRead (unpack $ dotSplits !! 2) <*> pure 0
+  then Version <$> maybeRead (T.unpack $ dotSplits !! 0) <*> maybeRead (T.unpack $ dotSplits !! 1) <*> maybeRead (T.unpack $ dotSplits !! 2) <*> pure 0
   else Nothing
 
 --------------------------------------------------------------------------------

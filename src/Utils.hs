@@ -16,7 +16,10 @@ frequency list = map (\l -> (length l, head l)) (group (sort list))
 --------------------------------------------------------------------------------
 
 maybeRead :: (Read a) => String -> Maybe a
-maybeRead = fmap fst . listToMaybe . reads
+maybeRead s = valueIfNoRemainder =<< (listToMaybe . reads $ s)
+  where
+    valueIfNoRemainder (x, rem) | null rem  = Just x
+                                | otherwise = Nothing
 
 --------------------------------------------------------------------------------
 

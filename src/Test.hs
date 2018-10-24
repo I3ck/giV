@@ -33,11 +33,11 @@ main = hspec $ do
         `shouldBe`
         Nothing
 
-      tryReadVersion (Tag "av1.2.3") --TODO false positive
+      tryReadVersion (Tag "av1.2.3")
         `shouldBe`
         Nothing
 
-      tryReadVersion (Tag "v1.2.3a") --TODO false positive
+      tryReadVersion (Tag "v1.2.3a")
         `shouldBe`
         Nothing
 
