@@ -8,15 +8,16 @@ module Create
 import           Types
 import           Utils
 
+import           Data.Maybe (listToMaybe, mapMaybe)
 import           Data.List (find)
-import           Data.Text (unpack)
+import qualified Data.Text as T
 
 --------------------------------------------------------------------------------
 
 createCfg :: CfgRaw -> Either GiVError Cfg
 createCfg CfgRaw{..} = do
-   dcb <- maybeToEither (InvalidDefaultChangeBranch $ ErrorSource defaultchangebranch) . maybeRead . unpack $ defaultchangebranch
-   dcm <- maybeToEither (InvalidDefaultChangeMaster $ ErrorSource defaultchangemaster) . maybeRead . unpack $ defaultchangemaster
+   dcb <- maybeToEither (InvalidDefaultChangeBranch $ ErrorSource defaultchangebranch) . maybeRead . T.unpack $ defaultchangebranch
+   dcm <- maybeToEither (InvalidDefaultChangeMaster $ ErrorSource defaultchangemaster) . maybeRead . T.unpack $ defaultchangemaster
    crs <- changeRules
    pure Cfg
      { cMajor            = Regexp <$> majorregexp
@@ -30,13 +31,13 @@ createCfg CfgRaw{..} = do
      }
   where
     changeRules = mapM fRules defaultchangerules
-    fRules x    = ChangeRule <$> (maybeToEither (InvalidDefaultChange . ErrorSource . defaultchange $ x) . maybeRead . unpack $ defaultchange x) <*> (pure . Regexp . nameregexp $ x)
+    fRules x    = ChangeRule <$> (maybeToEither (InvalidDefaultChange . ErrorSource . defaultchange $ x) . maybeRead . T.unpack $ defaultchange x) <*> (pure . Regexp . nameregexp $ x)
 
 --------------------------------------------------------------------------------
 
 createArgs :: ArgsRaw -> Either GiVError Args
 createArgs ArgsRaw{..} = do
-  output <- maybeToEither (InvalidOutputFormat . ErrorSource $ arOutput) . maybeRead . unpack $ arOutput
+  output <- maybeToEither (InvalidOutputFormat . ErrorSource $ arOutput) . maybeRead . T.unpack $ arOutput
   pure Args
     { aRepo    = arRepo
     , aCfg     = arCfg
@@ -49,10 +50,19 @@ createArgs ArgsRaw{..} = do
 --------------------------------------------------------------------------------
 
 createCommits :: [CommitRaw] -> [Commit]
-createCommits = ---TODO use createTag
+createCommits = fmap (\cr -> Commit{tag = tagOfRefs =<< refs cr, message = rmessage cr})
 
-createTag :: [Ref] -> Maybe Tag
-createTag =
+--------------------------------------------------------------------------------
+
+tagOfRefs :: [Ref] -> Maybe Tag
+tagOfRefs = listToMaybe .  mapMaybe tagOfRef
+
+tagOfRef :: Ref -> Maybe Tag
+tagOfRef x = if length splits == 2
+             then pure . Tag $ splits !! 1
+             else Nothing
+  where
+    splits = T.splitOn "tag: " $ unRef x
 
 --------------------------------------------------------------------------------
 
