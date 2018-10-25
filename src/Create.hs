@@ -2,6 +2,7 @@ module Create
   ( createCfg
   , createArgs
   , createFallbacks
+  , createCommits
   ) where
 
 import           Types
@@ -44,6 +45,14 @@ createArgs ArgsRaw{..} = do
     , aOutput  = output
     , aVerbose = arVerbose
     }
+
+--------------------------------------------------------------------------------
+
+createCommits :: [CommitRaw] -> [Commit]
+createCommits = ---TODO use createTag
+
+createTag :: [Ref] -> Maybe Tag
+createTag =
 
 --------------------------------------------------------------------------------
 

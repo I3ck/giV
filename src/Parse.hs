@@ -12,32 +12,30 @@ import           Data.String.Conversions          (cs)
 
 --------------------------------------------------------------------------------
 
-parseCommitString :: CommitString -> Either GiVError [Commit]
+parseCommitString :: CommitString -> Either GiVError [CommitRaw]
 parseCommitString cs = case parse ((many' parseCommit) <* endOfInput) . unCommitString $ cs of
                          (Fail _ _ e) -> throwError . UnableToParseCommitString . pack $ e
                          (Done _ x)   -> pure x
 
 --------------------------------------------------------------------------------
 
-parseCommit :: Parser Commit
+parseCommit :: Parser CommitRaw
 parseCommit = do
   skipSpace
-  tag <- optional parseTag
+  refs <- optional parseRefs
   char '*'
   message <- parseMessage
   skipWhile (== '\0')
-  pure Commit{tag = tag, message = message}
+  pure CommitRaw{refs = refs, rmessage = message}
 
 --------------------------------------------------------------------------------
 
-parseTag :: Parser Tag
-parseTag = do
-  string "(tag:"
+parseRefs :: Parser [Ref]
+parseRefs = many1 $ do
   skipSpace
-  tag <- takeWhile1 (/= ')')
-  char ')'
-  skipSpace
-  pure $ Tag tag
+  ref <- takeWhile1 (\c -> c /= ',' && c /= '*')
+  optional $ char ','
+  pure . Ref $ ref
 
 --------------------------------------------------------------------------------
 

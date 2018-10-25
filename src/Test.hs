@@ -199,20 +199,13 @@ main = hspec $ do
     it "parseCommitString" $ do
       parseCommitString (CommitString "*hello world")
         `shouldBe`
-        (pure [Commit{tag = Nothing, message = Message "hello world"}])
+        (pure [CommitRaw{refs = Nothing, rmessage = Message "hello world"}])
 
-      parseCommitString (CommitString " (tag: abc)*hello world")
+      parseCommitString (CommitString "tag: abc*hello world")
         `shouldBe`
-        (pure [Commit{tag = Just . Tag $ "abc", message = Message "hello world"}])
+        (pure [CommitRaw{refs = Just [Ref "tag: abc"], rmessage = Message "hello world"}])
 
-      parseCommitString (CommitString " (tag: abc)*hello world\0*two")
+      parseCommitString (CommitString "tag: abc, HEAD -> foo*hello world")
         `shouldBe`
-        (pure [ Commit{tag = Just . Tag $ "abc", message = Message "hello world"}
-              , Commit{tag = Nothing, message = Message "two"}
-              ])
+        (pure [CommitRaw{refs = Just [Ref "tag: abc", Ref "HEAD -> foo"], rmessage = Message "hello world"}])
 
-      parseCommitString (CommitString " (tag: abc)*hello world\0(HEAD -> someFeature)*two") --TODO currently failing and caused by faulty git output
-        `shouldBe`
-        (pure [ Commit{tag = Just . Tag $ "abc", message = Message "hello world"}
-              , Commit{tag = Nothing, message = Message "two"}
-              ])

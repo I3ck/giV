@@ -23,6 +23,12 @@ newtype Tag = Tag
 
 --------------------------------------------------------------------------------
 
+newtype Ref = Ref
+  { unRef :: Text
+  } deriving (Show, Eq)
+
+--------------------------------------------------------------------------------
+
 newtype Branch = Branch
   { unBranch :: Text
   }
@@ -180,6 +186,11 @@ data Change
 deriving instance Show Version => Show Change
 
 --------------------------------------------------------------------------------
+
+data CommitRaw = CommitRaw
+  { refs    :: Maybe [Ref]
+  , rmessage :: Message
+  } deriving (Show, Eq)
 
 data Commit = Commit
   { tag     :: Maybe Tag

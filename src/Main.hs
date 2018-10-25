@@ -52,14 +52,14 @@ giV = do
   hash <- liftIO . withCurrentDirectory (unpack gitdir) . fetchCommitHash    . Branch $ aBranch args
 
   when dbg . liftIO $ putStrLn "Parsing..."
-  commitsB <- liftEither . parseCommitString $ branch cs
-  commitsM <- liftEither . parseCommitString $ master cs
+  commitsRB <- liftEither . parseCommitString $ branch cs
+  commitsRM <- liftEither . parseCommitString $ master cs
   when dbg . liftIO $ putStrLn "Processing..."
-  let commits  = BranchMaster commitsB commitsM
-      changes  = process cfg <$> fallbacks <*> commits
-      v        = version (cStart cfg) changes
-      sv       = semVerOf (aLabel args) v
-      result   = createResult sv v hash
+  let commits = createCommits <$> BranchMaster commitsRB commitsRM
+      changes = process cfg <$> fallbacks <*> commits
+      v       = version (cStart cfg) changes
+      sv      = semVerOf (aLabel args) v
+      result  = createResult sv v hash
   when dbg . liftIO $ print . makeDebug cfg fallbacks commits $ changes
   case aOutput args of
     OutputVersion -> liftIO . putStrLn . asVersion $ result
