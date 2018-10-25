@@ -2,3 +2,5 @@ extend tests
 
 parse all regexp for validity (only create Regexp if valid)  
 precompile regular expressions (currently compiled on every use?)  
+
+parser not always consuming all input (reproduce in tests)  

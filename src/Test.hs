@@ -5,6 +5,7 @@ import Instances ()
 import Process (tryReadVersionTag)
 import Version (applyChange, version)
 import Utils (tryReadVersion)
+import Parse
 
 import Test.Hspec
 
@@ -194,3 +195,18 @@ main = hspec $ do
         `shouldBe`
         Version{vmajor = 2, vminor = 2, vpatch = 0, vcount = 0}
 
+  describe "Parse" $ do
+    it "parseCommitString" $ do
+      parseCommitString (CommitString "*hello world")
+        `shouldBe`
+        (pure [Commit{tag = Nothing, message = Message "hello world"}])
+
+      parseCommitString (CommitString "(tag: abc)*hello world")
+        `shouldBe`
+        (pure [Commit{tag = Just . Tag $ "abc", message = Message "hello world"}])
+
+      parseCommitString (CommitString "(tag: abc)*hello world\0*two")
+        `shouldBe`
+        (pure [ Commit{tag = Just . Tag $ "abc", message = Message "hello world"}
+              , Commit{tag = Nothing, message = Message "two"}
+              ])
