@@ -8,9 +8,9 @@ module Create
 import           Types
 import           Utils
 
+import           Data.List  (find)
 import           Data.Maybe (listToMaybe, mapMaybe)
-import           Data.List (find)
-import qualified Data.Text as T
+import qualified Data.Text  as T
 
 --------------------------------------------------------------------------------
 
