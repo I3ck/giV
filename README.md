@@ -8,7 +8,7 @@ giV - Semantic versioning for Git repositories
 State
 -----
 
-`v0.5.0`  
+`v0.6.0`  
 `giV` should work properly but is likely going to change in the future (see [TODO](TODO) or issue tracker for problems and missing features)
 
 
