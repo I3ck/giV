@@ -13,7 +13,7 @@ import           Data.String.Conversions          (cs)
 --------------------------------------------------------------------------------
 
 parseCommitString :: CommitString -> Either GiVError [Commit]
-parseCommitString cs = case parse (many' parseCommit) . unCommitString $ cs of
+parseCommitString cs = case parse ((many' parseCommit) <* endOfInput) . unCommitString $ cs of
                          (Fail _ _ e) -> throwError . UnableToParseCommitString . pack $ e
                          (Done _ x)   -> pure x
 
