@@ -173,27 +173,27 @@ main = hspec $ do
 
       version (Just Version{vmajor = 1, vminor = 2, vpatch = 3, vcount = 4}) BranchMaster{branch = [], master = [Breaking]}
         `shouldBe`
-        Version{vmajor = 2, vminor = 0, vpatch = 0, vcount = 0}
+        Version{vmajor = 1, vminor = 2, vpatch = 3, vcount = 4}
 
       version (Just Version{vmajor = 1, vminor = 2, vpatch = 3, vcount = 4}) BranchMaster{branch = [], master = [Breaking, Fix]}
         `shouldBe`
-        Version{vmajor = 2, vminor = 0, vpatch = 1, vcount = 0}
+        Version{vmajor = 1, vminor = 2, vpatch = 4, vcount = 0}
 
       version (Just Version{vmajor = 1, vminor = 2, vpatch = 3, vcount = 4}) BranchMaster{branch = [], master = [Breaking, Fix, NoChange]}
         `shouldBe`
-        Version{vmajor = 2, vminor = 0, vpatch = 1, vcount = 1}
+        Version{vmajor = 1, vminor = 2, vpatch = 4, vcount = 1}
 
       version (Just Version{vmajor = 1, vminor = 2, vpatch = 3, vcount = 4}) BranchMaster{branch = [Fix], master = [Breaking, Fix, NoChange]}
         `shouldBe`
-        Version{vmajor = 2, vminor = 0, vpatch = 2, vcount = 0}
+        Version{vmajor = 1, vminor = 2, vpatch = 5, vcount = 0}
 
       version (Just Version{vmajor = 1, vminor = 2, vpatch = 3, vcount = 4}) BranchMaster{branch = [Fix, Feature], master = [Breaking, Fix, NoChange]}
         `shouldBe`
-        Version{vmajor = 2, vminor = 1, vpatch = 0, vcount = 0}
+        Version{vmajor = 1, vminor = 3, vpatch = 0, vcount = 0}
 
       version (Just Version{vmajor = 1, vminor = 2, vpatch = 3, vcount = 4}) BranchMaster{branch = [Fix, Feature, Feature], master = [Breaking, Fix, NoChange]}
         `shouldBe`
-        Version{vmajor = 2, vminor = 2, vpatch = 0, vcount = 0}
+        Version{vmajor = 1, vminor = 4, vpatch = 0, vcount = 0}
 
   describe "Parse" $ do
     it "parseCommitString" $ do

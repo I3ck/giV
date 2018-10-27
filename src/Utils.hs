@@ -68,4 +68,13 @@ tryReadVersion x = do
     <*> pure 0
   else Nothing
 
+--------------------------------------------------------------------------------
+
+ignoreFirstIncrement :: [Change] -> [Change]
+ignoreFirstIncrement []              = []
+ignoreFirstIncrement (NoChange : xs) = xs
+ignoreFirstIncrement (Fix      : xs) = xs
+ignoreFirstIncrement (Feature  : xs) = xs
+ignoreFirstIncrement (Breaking : xs) = xs
+ignoreFirstIncrement (SetTo v  : xs) = (SetTo v) : xs
 

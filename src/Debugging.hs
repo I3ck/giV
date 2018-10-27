@@ -24,11 +24,13 @@ makeDebug Cfg{..} cdefault (BranchMaster commitsB commitsM) (BranchMaster change
     linesM    = reverse $ makeLine <$> zip3 versionsM changesM commitsM
     linesB    = reverse $ makeLine <$> zip3 versionsB changesB commitsB
     versionsB = ifNotEmpty tail [] scannedB
-    scannedB  = scanl (flip applyChange) versionM changesB
-    versionM  = ifNotEmpty last mempty versionsM
-    versionsM = ifNotEmpty tail [] scannedM
-    scannedM  = scanl (flip applyChange) start changesM
+    scannedB  = scanl (flip applyChange) versionM csBIgnore
+    versionM  = ifNotEmpty last start versionsM
+    versionsM = scanl (flip applyChange) start (ignoreFirstIncrement changesM)
     start     = fromMaybe mempty cStart
+
+    csBIgnore | null changesM = ignoreFirstIncrement changesB
+              | otherwise     = changesB
 
 --------------------------------------------------------------------------------
 
