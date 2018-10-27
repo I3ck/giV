@@ -195,6 +195,36 @@ main = hspec $ do
         `shouldBe`
         Version{vmajor = 1, vminor = 4, vpatch = 0, vcount = 0}
 
+
+      version (Just Version{vmajor = 1, vminor = 2, vpatch = 3, vcount = 4}) BranchMaster{branch = [Breaking], master = []}
+        `shouldBe`
+        Version{vmajor = 1, vminor = 2, vpatch = 3, vcount = 4}
+
+      version (Just Version{vmajor = 1, vminor = 2, vpatch = 3, vcount = 4}) BranchMaster{branch = [Breaking, Feature], master = []}
+        `shouldBe`
+        Version{vmajor = 1, vminor = 3, vpatch = 0, vcount = 0}
+
+      version (Just Version{vmajor = 1, vminor = 2, vpatch = 3, vcount = 4}) BranchMaster{branch = [Breaking, Feature, Feature], master = []}
+        `shouldBe`
+        Version{vmajor = 1, vminor = 4, vpatch = 0, vcount = 0}
+
+      version (Just Version{vmajor = 1, vminor = 2, vpatch = 3, vcount = 4}) BranchMaster{branch = [Breaking, Feature, Feature, Fix], master = []}
+        `shouldBe`
+        Version{vmajor = 1, vminor = 4, vpatch = 1, vcount = 0}
+
+
+      version (Just Version{vmajor = 1, vminor = 2, vpatch = 3, vcount = 4}) BranchMaster{branch = [], master = [SetTo $ Version{vmajor = 2, vminor = 3, vpatch = 4, vcount = 5}]}
+        `shouldBe`
+        Version{vmajor = 2, vminor = 3, vpatch = 4, vcount = 5}
+
+      version (Just Version{vmajor = 1, vminor = 2, vpatch = 3, vcount = 4}) BranchMaster{branch = [], master = [SetTo $ Version{vmajor = 2, vminor = 3, vpatch = 4, vcount = 5}, Feature]}
+        `shouldBe`
+        Version{vmajor = 2, vminor = 4, vpatch = 0, vcount = 0}
+
+      version (Just Version{vmajor = 1, vminor = 2, vpatch = 3, vcount = 4}) BranchMaster{branch = [Fix], master = [SetTo $ Version{vmajor = 2, vminor = 3, vpatch = 4, vcount = 5}, Feature]}
+        `shouldBe`
+        Version{vmajor = 2, vminor = 4, vpatch = 1, vcount = 0}
+
   describe "Parse" $ do
     it "parseCommitString" $ do
       parseCommitString (CommitString "*hello world")
