@@ -10,8 +10,8 @@ import           Types
 opts :: ParserInfo ArgsRaw
 opts = info (helper <*> args)
     (  fullDesc
-    <> progDesc "giV 0.6.0 - Semantic versioning for Git repositories © Martin Buck"
-    <> header "giV 0.6.0 © Martin Buck"
+    <> progDesc "giV 0.7.0 - Semantic versioning for Git repositories © Martin Buck"
+    <> header "giV 0.7.0 © Martin Buck"
     )
 
 --------------------------------------------------------------------------------
