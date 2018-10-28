@@ -181,7 +181,7 @@ data Change
   | Feature
   | Breaking
   | SetTo Version
-  deriving (Read)
+  deriving (Read, Eq)
 
 deriving instance Show Version => Show Change
 

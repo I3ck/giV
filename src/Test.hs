@@ -2,9 +2,9 @@ module Main where
 
 import Types
 import Instances ()
-import Process (tryReadVersionTag)
-import Version (applyChange, version)
-import Utils (tryReadVersion)
+import Process   (tryReadVersionTag)
+import Version   (applyChange, version)
+import Utils     (maybeRead, replace, ignoreFirstIncrement, tryReadVersion)
 import Parse
 
 import Test.Hspec
@@ -14,6 +14,54 @@ import Test.Hspec
 main :: IO ()
 main = hspec $ do
   describe "Utils" $ do
+    it "maybeRead" $ do
+      (maybeRead "a" :: Maybe Int)
+        `shouldBe`
+        Nothing
+
+      (maybeRead "a12" :: Maybe Int)
+        `shouldBe`
+        Nothing
+
+      (maybeRead "12a" :: Maybe Int)
+        `shouldBe`
+        Nothing
+
+      (maybeRead "12a12" :: Maybe Int)
+        `shouldBe`
+        Nothing
+
+      (maybeRead "12" :: Maybe Int)
+        `shouldBe`
+        Just 12
+
+      (maybeRead "1212" :: Maybe Int)
+        `shouldBe`
+        Just 1212
+
+      (maybeRead "1212.4" :: Maybe Double)
+        `shouldBe`
+        Just 1212.4
+
+      (maybeRead "1212" :: Maybe Double)
+        `shouldBe`
+        Just 1212.0
+
+
+    it "replace" $ do
+      replace "aa" "bb" "cataab"
+        `shouldBe`
+        "catbbb"
+
+      replace "aa" "bb" "cataabaa"
+        `shouldBe`
+        "catbbbbb"
+
+      replace "aa" "bb" ""
+        `shouldBe`
+        ""
+
+
     it "tryReadVersion" $ do
       tryReadVersion "a"
         `shouldBe`
@@ -50,6 +98,32 @@ main = hspec $ do
       tryReadVersion "v1.2.3"
         `shouldBe`
         Nothing
+
+
+    it "ignoreFirstIncrement" $ do
+      ignoreFirstIncrement []
+        `shouldBe`
+        []
+
+      ignoreFirstIncrement [Fix, Fix]
+        `shouldBe`
+        [Fix]
+
+      ignoreFirstIncrement [Fix, Breaking]
+        `shouldBe`
+        [Breaking]
+
+      ignoreFirstIncrement [Fix]
+        `shouldBe`
+        []
+
+      ignoreFirstIncrement [Fix, Feature, SetTo mempty]
+        `shouldBe`
+        [Feature, SetTo mempty]
+
+      ignoreFirstIncrement [SetTo mempty, Fix, Feature]
+        `shouldBe`
+        [SetTo mempty, Fix, Feature]
 
   describe "Process" $ do
     it "tryReadVersionTag" $ do
