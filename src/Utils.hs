@@ -1,17 +1,17 @@
 module Utils where
 
 import           Types
-import           Data.Maybe (listToMaybe)
-import           Data.List (intercalate)
-import           Data.List.Split (splitOn)
-import qualified Data.Text as T
+import qualified Data.Maybe      as M
+import qualified Data.List       as L
+import qualified Data.List.Split as S
+import qualified Data.Text       as T
 import           Text.Regex.TDFA ((=~))
 import           Text.Regex.TDFA.Text ()
 
 --------------------------------------------------------------------------------
 
 maybeRead :: (Read a) => String -> Maybe a
-maybeRead s = valueIfNoRemainder =<< (listToMaybe . reads $ s)
+maybeRead s = valueIfNoRemainder =<< (M.listToMaybe . reads $ s)
   where
     valueIfNoRemainder (x, rem) | null rem  = Just x
                                 | otherwise = Nothing
@@ -43,7 +43,7 @@ indentedNewLines n = replace "\n" ("\n" ++ spaces)
 --------------------------------------------------------------------------------
 
 replace :: (Eq a) => [a] -> [a] -> [a] -> [a]
-replace needle with = intercalate with . splitOn needle
+replace needle with = L.intercalate with . S.splitOn needle
 
 --------------------------------------------------------------------------------
 
@@ -66,5 +66,5 @@ ignoreFirstIncrement (NoChange : xs) = xs
 ignoreFirstIncrement (Fix      : xs) = xs
 ignoreFirstIncrement (Feature  : xs) = xs
 ignoreFirstIncrement (Breaking : xs) = xs
-ignoreFirstIncrement (SetTo v  : xs) = (SetTo v) : xs
+ignoreFirstIncrement (SetTo v  : xs) = SetTo v : xs
 

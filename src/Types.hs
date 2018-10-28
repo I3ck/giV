@@ -1,6 +1,6 @@
 module Types where
 
-import           Data.Text
+import qualified Data.Text      as T
 import qualified Data.Text.Lazy as TL
 import           GHC.Generics
 import           Control.Monad.Except
@@ -12,25 +12,25 @@ type GiV = ExceptT GiVError IO
 --------------------------------------------------------------------------------
 
 newtype Message = Message
-  { unMessage :: Text
+  { unMessage :: T.Text
   } deriving (Show, Eq)
 
 --------------------------------------------------------------------------------
 
 newtype Tag = Tag
-  { unTag :: Text
+  { unTag :: T.Text
   } deriving (Show, Eq)
 
 --------------------------------------------------------------------------------
 
 newtype Ref = Ref
-  { unRef :: Text
+  { unRef :: T.Text
   } deriving (Show, Eq)
 
 --------------------------------------------------------------------------------
 
 newtype Branch = Branch
-  { unBranch :: Text
+  { unBranch :: T.Text
   }
 
 --------------------------------------------------------------------------------
@@ -42,41 +42,41 @@ newtype CommitString = CommitString
 --------------------------------------------------------------------------------
 
 newtype CommitHash = CommitHash
-  { unCommitHash :: Text
+  { unCommitHash :: T.Text
   } deriving (Generic)
 
 --------------------------------------------------------------------------------
 
 newtype Label = Label
-  { unLabel :: Text
+  { unLabel :: T.Text
   }
 
 --------------------------------------------------------------------------------
 
 newtype SemVer = SemVer
-  { unSemVer :: Text
+  { unSemVer :: T.Text
   }
 
 --------------------------------------------------------------------------------
 
 newtype Regexp = Regexp
- { unRegexp :: Text
+ { unRegexp :: T.Text
  }
 
 --------------------------------------------------------------------------------
 
 newtype ErrorSource = ErrorSource
-  { unErrorSource :: Text
+  { unErrorSource :: T.Text
   } deriving (Eq)
 
 --------------------------------------------------------------------------------
 
 data GiVError
-  = YamlDecodeError            Text
+  = YamlDecodeError            T.Text
   | InvalidDefaultChangeBranch ErrorSource
   | InvalidDefaultChangeMaster ErrorSource
   | InvalidDefaultChange       ErrorSource
-  | UnableToParseCommitString  Text
+  | UnableToParseCommitString  T.Text
   | InvalidOutputFormat        ErrorSource
   deriving (Eq)
 
@@ -98,18 +98,18 @@ data OutputFormat
 --------------------------------------------------------------------------------
 
 data ArgsRaw = ArgsRaw
-  { arRepo    :: Text
-  , arCfg     :: Text
-  , arBranch  :: Text
-  , arLabel   :: Text
-  , arOutput  :: Text
+  { arRepo    :: T.Text
+  , arCfg     :: T.Text
+  , arBranch  :: T.Text
+  , arLabel   :: T.Text
+  , arOutput  :: T.Text
   , arVerbose :: Bool
   }
 
 data Args = Args
-  { aRepo    :: Text
-  , aCfg     :: Text
-  , aBranch  :: Text
+  { aRepo    :: T.Text
+  , aCfg     :: T.Text
+  , aBranch  :: T.Text
   , aLabel   :: Label
   , aOutput  :: OutputFormat
   , aVerbose :: Bool
@@ -123,21 +123,21 @@ data ChangeRule = ChangeRule
   }
 
 data ChangeRuleRaw = ChangeRuleRaw
-  { nameregexp    :: Text
-  , defaultchange :: Text
+  { nameregexp    :: T.Text
+  , defaultchange :: T.Text
   } deriving (Generic)
 
 --------------------------------------------------------------------------------
 
 data CfgRaw = CfgRaw
-  { majorregexp          :: Maybe Text
-  , minorregexp          :: Maybe Text
-  , patchregexp          :: Maybe Text
-  , nochangeregexp       :: Maybe Text
-  , startversion         :: Maybe Text
+  { majorregexp          :: Maybe T.Text
+  , minorregexp          :: Maybe T.Text
+  , patchregexp          :: Maybe T.Text
+  , nochangeregexp       :: Maybe T.Text
+  , startversion         :: Maybe T.Text
   , tagversioning        :: Bool
-  , defaultchangemaster  :: Text
-  , defaultchangebranch  :: Text
+  , defaultchangemaster  :: T.Text
+  , defaultchangebranch  :: T.Text
   , defaultchangerules   :: [ChangeRuleRaw]
   } deriving (Generic)
 
@@ -213,6 +213,6 @@ data Result = Result
   , minor      :: Int
   , patch      :: Int
   , count      :: Int
-  , commithash :: Text
-  , semver     :: Text
+  , commithash :: T.Text
+  , semver     :: T.Text
   } deriving (Generic)

@@ -1,7 +1,7 @@
 module Instances where
 
-import           Data.Text (unpack)
-import           Data.Yaml
+import qualified Data.Text as T
+import qualified Data.Yaml as Y
 import           Types
 import           Utils
 
@@ -20,19 +20,19 @@ instance Monoid Version where
 
 --------------------------------------------------------------------------------
 
-instance FromJSON ChangeRuleRaw where
+instance Y.FromJSON ChangeRuleRaw where
 
 --------------------------------------------------------------------------------
 
-instance FromJSON CfgRaw where
+instance Y.FromJSON CfgRaw where
 
 --------------------------------------------------------------------------------
 
-instance ToJSON CommitHash where
+instance Y.ToJSON CommitHash where
 
 --------------------------------------------------------------------------------
 
-instance ToJSON Result where
+instance Y.ToJSON Result where
 
 --------------------------------------------------------------------------------
 
@@ -46,7 +46,7 @@ instance Applicative BranchMaster where
 --------------------------------------------------------------------------------
 
 instance Show ChangeRule where
-  show ChangeRule{..} = show change ++ " <- " ++ (unpack . unRegexp $ rule)
+  show ChangeRule{..} = show change ++ " <- " ++ (T.unpack . unRegexp $ rule)
 
 --------------------------------------------------------------------------------
 
@@ -68,7 +68,7 @@ instance Show DebugInfo where
     ++ (unlines . fmap show . master $ dLines)
     where
       mShow Nothing  = "NOT SET"
-      mShow (Just x) = unpack . unRegexp $ x
+      mShow (Just x) = T.unpack . unRegexp $ x
 
 --------------------------------------------------------------------------------
 
@@ -83,16 +83,16 @@ instance Show DebugLine where
 
       showCo c = showCo' (tag c) (message c)
 
-      showCo' Nothing m  =                                       unpack . unMessage $ m
-      showCo' (Just t) m = "(" ++ (show . unTag $ t) ++ ") " ++ (unpack . unMessage $ m)
+      showCo' Nothing m  =                                       T.unpack . unMessage $ m
+      showCo' (Just t) m = "(" ++ (show . unTag $ t) ++ ") " ++ (T.unpack . unMessage $ m)
 
 --------------------------------------------------------------------------------
 
 instance Show GiVError where
-  show (YamlDecodeError s)             = "Unable to decode .yaml file: " ++ unpack s
-  show (InvalidDefaultChangeBranch es) = "The default change given for a branch '" ++ (unpack . unErrorSource $ es) ++ "' is invalid"
-  show (InvalidDefaultChangeMaster es) = "The default change given for master '" ++ (unpack . unErrorSource $ es) ++ "' is invalid"
-  show (InvalidDefaultChange es)       = "The default change '" ++ (unpack . unErrorSource $ es) ++ "' is invalid"
-  show (UnableToParseCommitString s)   = "Unable to parse commit string: " ++ unpack s
-  show (InvalidOutputFormat es)        = "The provided OutputFormat '" ++ (unpack . unErrorSource $ es) ++ "' is invalid"
+  show (YamlDecodeError s)             = "Unable to decode .yaml file: " ++ T.unpack s
+  show (InvalidDefaultChangeBranch es) = "The default change given for a branch '" ++ (T.unpack . unErrorSource $ es) ++ "' is invalid"
+  show (InvalidDefaultChangeMaster es) = "The default change given for master '" ++ (T.unpack . unErrorSource $ es) ++ "' is invalid"
+  show (InvalidDefaultChange es)       = "The default change '" ++ (T.unpack . unErrorSource $ es) ++ "' is invalid"
+  show (UnableToParseCommitString s)   = "Unable to parse commit string: " ++ T.unpack s
+  show (InvalidOutputFormat es)        = "The provided OutputFormat '" ++ (T.unpack . unErrorSource $ es) ++ "' is invalid"
 

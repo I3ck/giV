@@ -6,21 +6,21 @@ module Version
 
 import           Types
 import           Utils
-import           Instances ()
-import           Data.Text (pack, unpack)
-import           Data.Maybe (fromMaybe)
+import           Instances  ()
+import qualified Data.Text  as T
+import qualified Data.Maybe as M
 
 --------------------------------------------------------------------------------
 
 semVerOf :: Label -> Version -> SemVer
-semVerOf (Label l) Version{..} = SemVer . pack $
+semVerOf (Label l) Version{..} = SemVer . T.pack $
      (show vmajor)
   ++ "."
   ++ (show vminor)
   ++ "."
   ++ (show vpatch)
   ++ "-"
-  ++ unpack l
+  ++ T.unpack l
   ++ "+"
   ++ (show vcount)
 
@@ -29,7 +29,7 @@ semVerOf (Label l) Version{..} = SemVer . pack $
 version :: Maybe Version -> BranchMaster [Change] -> Version
 version mstart (BranchMaster csB csM) = foldl (flip applyChange) vM csBIgnored
   where
-    startversion = fromMaybe mempty mstart
+    startversion = M.fromMaybe mempty mstart
     vM = foldl (flip applyChange) startversion (ignoreFirstIncrement csM)
 
     csBIgnored | null csM = ignoreFirstIncrement csB

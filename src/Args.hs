@@ -2,9 +2,8 @@ module Args
   ( opts
   ) where
 
-import           Types
-
 import           Options.Applicative
+import           Types
 
 --------------------------------------------------------------------------------
 

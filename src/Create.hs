@@ -8,8 +8,8 @@ module Create
 import           Types
 import           Utils
 
-import           Data.List  (find)
-import           Data.Maybe (listToMaybe, mapMaybe)
+import qualified Data.List  as L
+import qualified Data.Maybe as M
 import qualified Data.Text  as T
 
 --------------------------------------------------------------------------------
@@ -55,7 +55,7 @@ createCommits = fmap (\cr -> Commit{tag = tagOfRefs =<< refs cr, message = rmess
 --------------------------------------------------------------------------------
 
 tagOfRefs :: [Ref] -> Maybe Tag
-tagOfRefs = listToMaybe .  mapMaybe tagOfRef
+tagOfRefs = M.listToMaybe . M.mapMaybe tagOfRef
 
 tagOfRef :: Ref -> Maybe Tag
 tagOfRef x = if length splits == 2
@@ -70,6 +70,6 @@ createFallbacks :: Cfg -> Args -> [ChangeRule] -> BranchMaster Change
 createFallbacks cfg args changerules = BranchMaster fallbackB fallbackM
   where
     fallbackM   = master . cDefaultChanges $ cfg
-    fallbackB   = case find (\cr -> matches (rule cr) (aBranch args)) changerules of
+    fallbackB   = case L.find (\cr -> matches (rule cr) (aBranch args)) changerules of
                   Just r  -> change r
                   Nothing -> branch . cDefaultChanges $ cfg

@@ -2,7 +2,7 @@ module Debugging
   ( makeDebug
   ) where
 
-import           Data.Maybe (fromMaybe)
+import qualified Data.Maybe as M
 import           Types
 import           Utils
 import           Version
@@ -27,7 +27,7 @@ makeDebug Cfg{..} cdefault (BranchMaster commitsB commitsM) (BranchMaster change
     scannedB  = scanl (flip applyChange) versionM csBIgnore
     versionM  = ifNotEmpty last start versionsM
     versionsM = scanl (flip applyChange) start (ignoreFirstIncrement changesM)
-    start     = fromMaybe mempty cStart
+    start     = M.fromMaybe mempty cStart
 
     csBIgnore | null changesM = ignoreFirstIncrement changesB
               | otherwise     = changesB

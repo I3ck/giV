@@ -5,16 +5,16 @@ module Parse
 import           Types
 
 import           Control.Applicative              (optional)
-import           Control.Monad.Except (throwError)
-import           Data.Text
-import           Data.Attoparsec.Text.Lazy as A
-import           Data.String.Conversions          (cs)
+import           Control.Monad.Except             (throwError)
+import qualified Data.Text                        as T
+import           Data.Attoparsec.Text.Lazy        as A
+import qualified Data.String.Conversions          as CV
 
 --------------------------------------------------------------------------------
 
 parseCommitString :: CommitString -> Either GiVError [CommitRaw]
 parseCommitString cs = case parse (many' parseCommit <* endOfInput) . unCommitString $ cs of
-                         (Fail _ _ e) -> throwError . UnableToParseCommitString . pack $ e
+                         (Fail _ _ e) -> throwError . UnableToParseCommitString . T.pack $ e
                          (Done _ x)   -> pure x
 
 --------------------------------------------------------------------------------
@@ -40,9 +40,9 @@ parseRefs = many1 $ do
 --------------------------------------------------------------------------------
 
 parseMessage :: Parser Message
-parseMessage = Message . cs <$> restTillNull
+parseMessage = Message . CV.cs <$> restTillNull
 
 --------------------------------------------------------------------------------
 
-restTillNull :: Parser Text
+restTillNull :: Parser T.Text
 restTillNull = option "" $ takeTill (== '\0')

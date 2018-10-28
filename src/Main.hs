@@ -12,15 +12,15 @@ import           Version
 import           Result
 import           Instances ()
 
-import           Control.Monad        (when)
-import           Control.Monad.Except (runExceptT, liftEither)
-import           Control.Monad.Trans  (liftIO)
-import           Data.Text            (unpack)
-import qualified Data.Yaml  as Y
-import qualified Data.Aeson as J
+import           Control.Monad           (when)
+import           Control.Monad.Except    (runExceptT, liftEither)
+import           Control.Monad.Trans     (liftIO)
+import qualified Data.Text               as T
+import qualified Data.Yaml               as Y
+import qualified Data.Aeson              as J
 import           Options.Applicative
-import           System.Directory     (withCurrentDirectory)
-import           System.Exit          (exitFailure)
+import qualified System.Directory        as SD
+import qualified System.Exit             as SE
 import qualified Data.String.Conversions as CV
 
 --------------------------------------------------------------------------------
@@ -32,7 +32,7 @@ main = do
     Right () -> pure ()
     Left e -> do
       print e
-      exitFailure
+      SE.exitFailure
 
 --------------------------------------------------------------------------------
 
@@ -48,8 +48,8 @@ giV = do
       dbg         = aVerbose args
 
   when dbg . liftIO $ putStrLn "Fetching..."
-  cs   <- liftIO . withCurrentDirectory (unpack gitdir) . fetchCommitStrings . Branch $ aBranch args
-  hash <- liftIO . withCurrentDirectory (unpack gitdir) . fetchCommitHash    . Branch $ aBranch args
+  cs   <- liftIO . SD.withCurrentDirectory (T.unpack gitdir) . fetchCommitStrings . Branch $ aBranch args
+  hash <- liftIO . SD.withCurrentDirectory (T.unpack gitdir) . fetchCommitHash    . Branch $ aBranch args
 
   when dbg . liftIO $ putStrLn "Parsing..."
   commitsRB <- liftEither . parseCommitString $ branch cs
