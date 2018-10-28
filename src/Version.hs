@@ -44,5 +44,3 @@ applyChange Feature v   = v{                       vminor = vminor v + 1, vpatch
 applyChange Breaking v  = v{vmajor = vmajor v + 1, vminor = 0,            vpatch = 0,            vcount = 0}
 applyChange (SetTo x) _ = x
 
---------------------------------------------------------------------------------
-

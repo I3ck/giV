@@ -2,16 +2,11 @@ module Utils where
 
 import           Types
 import           Data.Maybe (listToMaybe)
-import           Data.List (group, sort, intercalate)
+import           Data.List (intercalate)
 import           Data.List.Split (splitOn)
 import qualified Data.Text as T
 import           Text.Regex.TDFA ((=~))
 import           Text.Regex.TDFA.Text ()
-
---------------------------------------------------------------------------------
-
-frequency :: Ord a => [a] -> [(Int,a)]
-frequency list = map (\l -> (length l, head l)) (group (sort list))
 
 --------------------------------------------------------------------------------
 
@@ -26,11 +21,6 @@ maybeRead s = valueIfNoRemainder =<< (listToMaybe . reads $ s)
 maybeToEither :: e -> Maybe a -> Either e a
 maybeToEither _   (Just x) = Right x
 maybeToEither err Nothing  = Left err
-
---------------------------------------------------------------------------------
-
-nchars :: (Show a) => a -> Int
-nchars = length . show
 
 --------------------------------------------------------------------------------
 
